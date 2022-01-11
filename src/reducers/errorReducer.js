@@ -1,5 +1,4 @@
-import { GET_ERRORS } from "./types";
-
+import { GET_ERRORS } from "../actions/types";
 const initialState = {};
 
 const errorReducer = (state = initialState, action) => {

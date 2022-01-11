@@ -15,10 +15,9 @@ import { userActions } from "../../actions/userActions";
 
 const Navigation = props => {
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log(props);
-    return () => {};
-  }, [props]);
+  // useEffect(() => {
+  //   return () => {};
+  // }, [props]);
   const handleOnClick = e => {
     navigate(e.target.name);
   };
