@@ -1,9 +1,6 @@
 // Errors
 export const GET_ERRORS = "GET_ERRORS";
 
-// Home Page
-export const GET_HOME_SUCCESS = "GET_HOME_SUCCESS";
-
 // Get user session
 export const GET_SESSION_SUCCESS = "GET_SESSION_SUCCESS";
 
