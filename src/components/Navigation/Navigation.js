@@ -10,7 +10,6 @@ import AppBar from "@mui/material/AppBar";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUserSelector } from "../../selectors/userSelectors";
-import { getErrorsSelector } from "../../selectors/errorSelectors";
 import { userActions } from "../../actions/userActions";
 
 const Navigation = props => {
@@ -63,19 +62,15 @@ const Navigation = props => {
 
 Navigation.propTypes = {
   signOut: PropTypes.func.isRequired,
-  errors: PropTypes.shape({
-    message: PropTypes.string
-  }),
   user: PropTypes.shape({
     message: PropTypes.string,
     loggedIn: PropTypes.bool,
     userData: PropTypes.object
-  })
+  }).isRequired
 };
 
 const mapStateToProps = state => ({
-  user: getUserSelector(state),
-  errors: getErrorsSelector(state)
+  user: getUserSelector(state)
 });
 
 const actionCreators = {
