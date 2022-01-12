@@ -5,11 +5,11 @@ import {
   GET_SIGNOUT_SUCCESS
 } from "./types";
 import { getError } from "./errorActions";
+import { snackbarActions } from "./snackbarActions";
 import { userService } from "../services/user.service";
-import {
-  saveToLocalStorage,
-  loadFromLocalStorage
-} from "../helpers/localStorageHelpers";
+import { saveToLocalStorage } from "../helpers/localStorageHelpers";
+
+const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 
 const getUserSession = () => async dispatch => {
   const getSessionSuccess = data => ({
@@ -34,8 +34,10 @@ const signUp = formData => async dispatch => {
   try {
     const { data } = await userService.signUp(formData);
     dispatch(getSignUpSuccess(data));
+    setSnackbarSuccess(data, dispatch);
   } catch (err) {
     dispatch(getError(err.response.data));
+    setSnackbarError(err.response.data, dispatch);
   }
 };
 
@@ -48,8 +50,10 @@ const signIn = formData => async dispatch => {
     const { data } = await userService.signIn(formData);
     saveToLocalStorage({ userState: { user: data } });
     dispatch(getSignInSuccess(data));
+    setSnackbarSuccess(data, dispatch);
   } catch (err) {
     dispatch(getError(err.response.data));
+    setSnackbarError(err.response.data, dispatch);
   }
 };
 
@@ -62,8 +66,10 @@ const signOut = () => async dispatch => {
     const { data } = await userService.signOut();
     saveToLocalStorage({ userState: { user: data } });
     dispatch(getSignOutSuccess(data));
+    setSnackbarSuccess(data, dispatch);
   } catch (err) {
     dispatch(getError(err.response.data));
+    setSnackbarError(err.response.data, dispatch);
   }
 };
 

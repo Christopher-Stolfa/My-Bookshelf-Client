@@ -9,6 +9,7 @@ const initialState = {
 };
 
 const snackbarReducer = (state = initialState, action) => {
+  // debugger
   switch (action.type) {
     case ENQUEUE_SNACKBAR:
       return {
@@ -16,8 +17,8 @@ const snackbarReducer = (state = initialState, action) => {
         notifications: [
           ...state.notifications,
           {
-            key: action.key,
-            ...action.notification
+            key: action.payload.key,
+            ...action.payload.notification
           }
         ]
       };
@@ -26,7 +27,7 @@ const snackbarReducer = (state = initialState, action) => {
       return {
         ...state,
         notifications: state.notifications.map(notification =>
-          action.dismissAll || notification.key === action.key
+          action.payload.dismissAll || notification.key === action.payload.key
             ? { ...notification, dismissed: true }
             : { ...notification }
         )
@@ -36,7 +37,7 @@ const snackbarReducer = (state = initialState, action) => {
       return {
         ...state,
         notifications: state.notifications.filter(
-          notification => notification.key !== action.key
+          notification => notification.key !== action.payload.key
         )
       };
 

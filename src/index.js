@@ -9,7 +9,7 @@ import store from "./store";
 
 ReactDOM.render(
   <Provider store={store}>
-    <SnackbarProvider maxSnack={6}>
+    <SnackbarProvider maxSnack={4}>
       <SnackbarNotifier>
         <RouterComponent />
       </SnackbarNotifier>

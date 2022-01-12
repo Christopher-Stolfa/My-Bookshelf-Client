@@ -12,15 +12,14 @@ import Navigation from "../components/Navigation/Navigation";
 import HomePage from "../pages/HomePage/HomePage";
 import { routes } from "../config";
 import { connect } from "react-redux";
-import { getUserSelector } from "../selectors/userSelectors";
-import { getErrorsSelector } from "../selectors/errorSelectors";
 import { userActions } from "../actions/userActions";
 
-const RouterComponent = props => {
+const RouterComponent = ({ getUserSession }) => {
   useEffect(() => {
     // This is a temporary fix, but this checks if there is an active session.
-    props.getUserSession();
-  }, []);
+    getUserSession();
+    return () => {};
+  }, [getUserSession]);
   return (
     <Router>
       <Navigation />
@@ -34,13 +33,12 @@ const RouterComponent = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  user: getUserSelector(state),
-  errors: getErrorsSelector(state)
-});
+RouterComponent.propTypes = {
+  getUserSession: PropTypes.func.isRequired
+};
 
 const actionCreators = {
   getUserSession: userActions.getUserSession
 };
 
-export default connect(mapStateToProps, actionCreators)(RouterComponent);
+export default connect(null, actionCreators)(RouterComponent);
