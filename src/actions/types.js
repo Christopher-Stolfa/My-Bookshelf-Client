@@ -12,3 +12,12 @@ export const GET_SIGNIN_SUCCESS = "GET_SIGNIN_SUCCESS";
 
 // Sign out
 export const GET_SIGNOUT_SUCCESS = "GET_SIGNOUT_SUCCESS";
+
+// Initiate the snackbar
+export const ENQUEUE_SNACKBAR = "ENQUEUE_SNACKBAR";
+
+// Close the snackbar
+export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
+
+// Remove the snackbar
+export const REMOVE_SNACKBAR = "REMOVE_SNACKBAR";

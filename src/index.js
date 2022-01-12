@@ -1,13 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { SnackbarProvider } from "notistack";
 import "./index.css";
 import RouterComponent from "./router/router";
 import { Provider } from "react-redux";
+import SnackbarNotifier from "./components/SnackbarNotifier/SnackbarNotifier";
 import store from "./store";
 
 ReactDOM.render(
   <Provider store={store}>
-    <RouterComponent />
+    <SnackbarProvider maxSnack={6}>
+      <SnackbarNotifier>
+        <RouterComponent />
+      </SnackbarNotifier>
+    </SnackbarProvider>
   </Provider>,
   document.getElementById("root")
 );
