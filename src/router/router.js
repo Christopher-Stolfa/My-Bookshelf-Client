@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import SignupPage from "../pages/SignupPage/SignupPage";
 import SigninPage from "../pages/SigninPage/SigninPage";
-import Navigation from "../components/Navigation/Navigation";
+import ElevateAppBar from "../components/ElevateAppBar/ElevateAppBar";
 import HomePage from "../pages/HomePage/HomePage";
 import { routes } from "../config";
 import { connect } from "react-redux";
@@ -22,13 +22,14 @@ const RouterComponent = ({ getUserSession }) => {
   }, [getUserSession]);
   return (
     <Router>
-      <Navigation />
-      <Routes>
-        <Route exact path={"/"} element={<Navigate to={routes.home} />} />
-        <Route path={routes.home} element={<HomePage />} />
-        <Route path={routes.signIn} element={<SigninPage />} />
-        <Route path={routes.signUp} element={<SignupPage />} />
-      </Routes>
+      <ElevateAppBar>
+        <Routes>
+          <Route exact path={"/"} element={<Navigate to={routes.home} />} />
+          <Route path={routes.home} element={<HomePage />} />
+          <Route path={routes.signIn} element={<SigninPage />} />
+          <Route path={routes.signUp} element={<SignupPage />} />
+        </Routes>
+      </ElevateAppBar>
     </Router>
   );
 };
