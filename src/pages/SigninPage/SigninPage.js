@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -15,7 +16,6 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
-import { connect } from "react-redux";
 import { routes } from "../../config";
 
 const theme = createTheme();
@@ -41,8 +41,12 @@ const SigninPage = ({ user: { loggedIn }, signIn }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    signIn(data);
+    const formData = new FormData(event.currentTarget);
+    const inputData = {
+      email: formData.get("email"),
+      password: formData.get("password")
+    };
+    signIn(inputData);
   };
 
   return (
@@ -131,7 +135,7 @@ SigninPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: getUserSelector(state),
+  user: getUserSelector(state)
 });
 
 const actionCreators = {

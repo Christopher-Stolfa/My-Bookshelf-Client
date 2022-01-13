@@ -39,8 +39,15 @@ const SignupPage = ({ user: { loggedIn }, signUp }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    signUp(data);
+    const formData = new FormData(event.currentTarget);
+    const inputData = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      displayName: formData.get("displayName")
+    };
+    signUp(inputData);
   };
 
   return (

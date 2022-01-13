@@ -1,28 +1,19 @@
 import Axios from "axios";
 import { endPoints, controllers } from "../config";
 
-const signIn = async formData => {
+const signIn = async inputData => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
     `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signIn}`,
-    {
-      email: formData.get("email"),
-      password: formData.get("password")
-    }
+    inputData
   );
 };
 
-const signUp = async formData => {
+const signUp = async inputData => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
     `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signUp}`,
-    {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      displayName: formData.get("displayName")
-    }
+    inputData
   );
 };
 

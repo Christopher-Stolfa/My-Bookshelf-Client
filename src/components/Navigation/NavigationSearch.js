@@ -1,8 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
+import { bookActions } from "../../actions/bookActions";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -44,10 +47,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavigationSearch = props => {
-  const handleSubmit = ({ currentTarget }) => {
-    const data = new FormData(currentTarget);
-    const searchQuery = data.get("navigationSearch");
+const NavigationSearch = ({ searchBook }) => {
+  const handleSubmit = e => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const inputData = {
+      searchQuery: formData.get("navigationSearch"),
+      maxResults: 10,
+      startIndex: 1
+    };
+    searchBook(inputData);
   };
   return (
     <Search>
@@ -71,4 +80,8 @@ const NavigationSearch = props => {
   );
 };
 
-export default NavigationSearch;
+const actionCreators = {
+  searchBook: bookActions.searchBook
+};
+
+export default connect(null, actionCreators)(NavigationSearch);

@@ -21,3 +21,6 @@ export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
 
 // Remove the snackbar
 export const REMOVE_SNACKBAR = "REMOVE_SNACKBAR";
+
+// Search for books
+export const GET_SEARCH_BOOK_SUCCESS = "GET_SEARCH_BOOK_SUCCESS";

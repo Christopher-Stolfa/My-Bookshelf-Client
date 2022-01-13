@@ -26,13 +26,13 @@ const getUserSession = () => async dispatch => {
   }
 };
 
-const signUp = formData => async dispatch => {
+const signUp = inputData => async dispatch => {
   const getSignUpSuccess = data => ({
     type: GET_SIGNUP_SUCCESS,
     payload: data
   });
   try {
-    const { data } = await userService.signUp(formData);
+    const { data } = await userService.signUp(inputData);
     dispatch(getSignUpSuccess(data));
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
@@ -41,13 +41,14 @@ const signUp = formData => async dispatch => {
   }
 };
 
-const signIn = formData => async dispatch => {
+const signIn = inputData => async dispatch => {
+
   const getSignInSuccess = data => ({
     type: GET_SIGNIN_SUCCESS,
     payload: data
   });
   try {
-    const { data } = await userService.signIn(formData);
+    const { data } = await userService.signIn(inputData);
     saveToLocalStorage({ userState: { user: data } });
     dispatch(getSignInSuccess(data));
     setSnackbarSuccess(data, dispatch);
