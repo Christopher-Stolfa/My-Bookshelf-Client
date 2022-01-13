@@ -10,21 +10,20 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { getErrorsSelector } from "../../selectors/errorSelectors";
 import { userActions } from "../../actions/userActions";
 import { connect } from "react-redux";
+import { routes } from "../../config";
 
 const theme = createTheme();
 
 const Copyright = props => (
   <Typography variant="body2" color="text.secondary" align="center" {...props}>
     {"Copyright © "}
-    <Link color="inherit" to="/home">
-      Ebay Item Tracker
+    <Link color="inherit" to={routes.home}>
+      My Bookshelf
     </Link>{" "}
     {new Date().getFullYear()}
     {"."}
@@ -132,26 +131,9 @@ const SignupPage = props => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to="/sign-in" variant="body2">
+                <Link to={routes.signIn} variant="body2">
                   Already have an account? Sign in
                 </Link>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Stack spacing={2}>
-                  {message.length > 0 && (
-                    <Alert key={"success-msg"} severity="success">
-                      {message}
-                    </Alert>
-                  )}
-                  {errors.length > 0 &&
-                    errors.map((error, i) => (
-                      <Alert key={"error-msg-" + i} severity="error">
-                        {error}
-                      </Alert>
-                    ))}
-                </Stack>
               </Grid>
             </Grid>
           </Box>

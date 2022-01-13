@@ -36,7 +36,9 @@ const Navigation = props => {
         >
           <MenuIcon />
         </IconButton>
+
         <Typography
+          name="home"
           variant="h6"
           noWrap
           component="div"

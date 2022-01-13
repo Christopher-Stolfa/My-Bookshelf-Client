@@ -27,8 +27,8 @@ const theme = createTheme();
 const Copyright = props => (
   <Typography variant="body2" color="text.secondary" align="center" {...props}>
     {"Copyright © "}
-    <Link color="inherit" to="/home">
-      Ebay Item Tracker
+    <Link color="inherit" to={routes.home}>
+      My Bookshelf
     </Link>{" "}
     {new Date().getFullYear()}
     {"."}
@@ -110,7 +110,7 @@ const SigninPage = props => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link to="/sign-up" variant="body2">
+                <Link to={routes.signUp} variant="body2">
                   "Don't have an account? Sign Up"
                 </Link>
               </Grid>
