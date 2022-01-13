@@ -10,6 +10,7 @@ import SignupPage from "../pages/SignupPage/SignupPage";
 import SigninPage from "../pages/SigninPage/SigninPage";
 import ElevateAppBar from "../components/ElevateAppBar/ElevateAppBar";
 import HomePage from "../pages/HomePage/HomePage";
+import Error404Page from "../pages/Error404Page/Error404Page";
 import { routes } from "../config";
 import { connect } from "react-redux";
 import { userActions } from "../actions/userActions";
@@ -28,6 +29,7 @@ const RouterComponent = ({ getUserSession }) => {
           <Route path={routes.home} element={<HomePage />} />
           <Route path={routes.signIn} element={<SigninPage />} />
           <Route path={routes.signUp} element={<SignupPage />} />
+          <Route path="*" element={<Error404Page />} />
         </Routes>
       </ElevateAppBar>
     </Router>
