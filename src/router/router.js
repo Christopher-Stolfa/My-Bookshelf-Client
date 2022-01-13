@@ -6,14 +6,15 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
-import SignupPage from "../pages/SignupPage/SignupPage";
-import SigninPage from "../pages/SigninPage/SigninPage";
-import ElevateAppBar from "../components/ElevateAppBar/ElevateAppBar";
-import HomePage from "../pages/HomePage/HomePage";
-import Error404Page from "../pages/Error404Page/Error404Page";
 import { routes } from "../config";
 import { connect } from "react-redux";
 import { userActions } from "../actions/userActions";
+import SignUpPage from "../pages/SignUpPage/SignUpPage";
+import SignInPage from "../pages/SignInPage/SignInPage";
+import ElevateAppBar from "../components/ElevateAppBar/ElevateAppBar";
+import HomePage from "../pages/HomePage/HomePage";
+import Error404Page from "../pages/Error404Page/Error404Page";
+import SearchResultsPage from "../pages/SearchResultsPage/SearchResultsPage";
 
 const RouterComponent = ({ getUserSession }) => {
   useEffect(() => {
@@ -27,8 +28,9 @@ const RouterComponent = ({ getUserSession }) => {
         <Routes>
           <Route exact path={"/"} element={<Navigate to={routes.home} />} />
           <Route path={routes.home} element={<HomePage />} />
-          <Route path={routes.signIn} element={<SigninPage />} />
-          <Route path={routes.signUp} element={<SignupPage />} />
+          <Route path={routes.signIn} element={<SignInPage />} />
+          <Route path={routes.signUp} element={<SignUpPage />} />
+          <Route path={routes.searchResults} element={<SearchResultsPage />} />
           <Route path="*" element={<Error404Page />} />
         </Routes>
       </ElevateAppBar>

@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Link, useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
 import { bookActions } from "../../actions/bookActions";
+import { routes } from "../../config";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -48,15 +50,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavigationSearch = ({ searchBook }) => {
+  const navigate = useNavigate();
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const inputData = {
       searchQuery: formData.get("navigationSearch"),
       maxResults: 10,
-      startIndex: 1
+      startIndex: 1,
+      orderBy: "relevance"
     };
     searchBook(inputData);
+    navigate(routes.searchResults);
   };
   return (
     <Search>

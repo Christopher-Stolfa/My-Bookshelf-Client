@@ -31,7 +31,7 @@ const Copyright = props => (
   </Typography>
 );
 
-const SigninPage = ({ user: { loggedIn }, signIn }) => {
+const SignInPage = ({ user: { loggedIn }, signIn }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const SigninPage = ({ user: { loggedIn }, signIn }) => {
   );
 };
 
-SigninPage.propTypes = {
+SignInPage.propTypes = {
   signIn: PropTypes.func.isRequired,
   user: PropTypes.shape({
     message: PropTypes.string,
@@ -142,4 +142,4 @@ const actionCreators = {
   signIn: userActions.signIn
 };
 
-export default connect(mapStateToProps, actionCreators)(SigninPage);
+export default connect(mapStateToProps, actionCreators)(SignInPage);

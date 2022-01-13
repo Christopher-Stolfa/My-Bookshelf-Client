@@ -1,6 +1,6 @@
 import { GET_SEARCH_BOOK_SUCCESS } from "../actions/types";
 
-const initialState = { bookSearchData: [] };
+const initialState = { books: { bookSearchData: [] } };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
