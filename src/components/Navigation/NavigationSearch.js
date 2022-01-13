@@ -2,6 +2,7 @@ import React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
+import Box from "@mui/material/Box";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -44,15 +45,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavigationSearch = props => {
+  const handleSubmit = ({ currentTarget }) => {
+    const data = new FormData(currentTarget);
+    const searchQuery = data.get("navigationSearch");
+  };
   return (
     <Search>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ "aria-label": "search" }}
-      />
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit} /*sx={{ mt: 3 }}*/
+      >
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search for books…"
+          label="Navigation Search"
+          id="navigationSearch"
+          name="navigationSearch"
+          inputProps={{ "aria-label": "search" }}
+        />
+      </Box>
     </Search>
   );
 };
