@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -31,7 +30,6 @@ const Copyright = props => (
 );
 
 const SignupPage = ({ user: { loggedIn }, signUp }) => {
-  Axios.defaults.withCredentials = true;
   const navigate = useNavigate();
 
   useEffect(() => {
