@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import Axios from "axios";
 import Avatar from "@mui/material/Avatar";
@@ -13,14 +13,11 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { getUserSelector } from "../../selectors/userSelectors";
-import { getErrorsSelector } from "../../selectors/errorSelectors";
 import { userActions } from "../../actions/userActions";
 import { connect } from "react-redux";
-import { endPoints, controllers, routes } from "../../config";
+import { routes } from "../../config";
 
 const theme = createTheme();
 
@@ -35,16 +32,19 @@ const Copyright = props => (
   </Typography>
 );
 
-const SigninPage = props => {
+const SigninPage = ({ user: { loggedIn }, signIn }) => {
   Axios.defaults.withCredentials = true;
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (loggedIn) navigate(routes.home);
+    return () => {};
+  }, [loggedIn]);
 
   const handleSubmit = event => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    props.signIn(data);
+    signIn(data);
   };
 
   return (
@@ -114,22 +114,6 @@ const SigninPage = props => {
                   "Don't have an account? Sign Up"
                 </Link>
               </Grid>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Stack spacing={2}>
-                    {message.length > 0 && (
-                      <Alert key={"success-msg"} severity="success">
-                        {message}
-                      </Alert>
-                    )}
-                    {error.length > 0 && (
-                      <Alert key={"Error-msg"} severity="error">
-                        {error}
-                      </Alert>
-                    )}
-                  </Stack>
-                </Grid>
-              </Grid>
             </Grid>
           </Box>
         </Box>
@@ -141,19 +125,15 @@ const SigninPage = props => {
 
 SigninPage.propTypes = {
   signIn: PropTypes.func.isRequired,
-  errors: PropTypes.shape({
-    message: PropTypes.string
-  }),
   user: PropTypes.shape({
     message: PropTypes.string,
-    loggedIn: PropTypes.bool,
+    loggedIn: PropTypes.bool.isRequired,
     userData: PropTypes.object
   })
 };
 
 const mapStateToProps = state => ({
   user: getUserSelector(state),
-  errors: getErrorsSelector(state)
 });
 
 const actionCreators = {

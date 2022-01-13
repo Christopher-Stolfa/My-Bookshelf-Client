@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,7 +13,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { getUserSelector } from "../../selectors/userSelectors";
-import { getErrorsSelector } from "../../selectors/errorSelectors";
 import { userActions } from "../../actions/userActions";
 import { connect } from "react-redux";
 import { routes } from "../../config";
@@ -30,17 +30,19 @@ const Copyright = props => (
   </Typography>
 );
 
-const SignupPage = props => {
+const SignupPage = ({ user: { loggedIn }, signUp }) => {
   Axios.defaults.withCredentials = true;
-  const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loggedIn) navigate(routes.home);
+    return () => {};
+  }, [loggedIn]);
 
   const handleSubmit = event => {
     event.preventDefault();
-    setMessage("");
-    setErrors([]);
     const data = new FormData(event.currentTarget);
-    props.signUp(data);
+    signUp(data);
   };
 
   return (
@@ -143,9 +145,18 @@ const SignupPage = props => {
     </ThemeProvider>
   );
 };
+
+SignupPage.propTypes = {
+  signUp: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    message: PropTypes.string,
+    loggedIn: PropTypes.bool.isRequired,
+    userData: PropTypes.object
+  })
+};
+
 const mapStateToProps = state => ({
-  user: getUserSelector(state),
-  errors: getErrorsSelector(state)
+  user: getUserSelector(state)
 });
 
 const actionCreators = {
