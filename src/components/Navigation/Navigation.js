@@ -38,7 +38,6 @@ const Navigation = props => {
         </IconButton>
 
         <Typography
-          name="home"
           variant="h6"
           noWrap
           component="div"
