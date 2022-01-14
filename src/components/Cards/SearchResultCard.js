@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, createRef, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -6,12 +6,25 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
+import WatchLaterIcon from "@mui/icons-material/WatchLater";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import BookIcon from "@mui/icons-material/Book";
+import Chip from "@mui/material/Chip";
 
 const SearchResultCard = ({ book }) => {
-  const theme = useTheme();
+  const ref = createRef();
+  const [showMore, setShowMore] = useState(false);
+  const [showLink, setShowLink] = useState(false);
+
+  useLayoutEffect(() => {
+    if (ref.current.clientWidth < ref.current.scrollWidth) {
+      setShowLink(true);
+    }
+  }, [ref]);
+
+  const onClickMore = () => {
+    setShowMore(!showMore);
+  };
 
   return (
     <Card variant="none" sx={{ display: "flex" }}>
@@ -22,7 +35,19 @@ const SearchResultCard = ({ book }) => {
         alt={book.volumeInfo.title}
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <CardContent sx={{ flex: "1 0 auto" }}>
+        <CardContent
+          ref={ref}
+          sx={
+            showMore
+              ? { flex: "1 0 auto" }
+              : {
+                  flex: "1 0 auto",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }
+          }
+        >
           <Typography component="div" variant="h5">
             {book.volumeInfo.title}
           </Typography>
@@ -40,15 +65,28 @@ const SearchResultCard = ({ book }) => {
             variant="subtitle2"
             color="text.secondary"
             component="div"
-            sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
+            sx={{}}
           >
             {book.volumeInfo.description}
           </Typography>
+          {showLink && (
+            <span
+              style={{
+                cursor: "pointer",
+                color: "#0d6aa8",
+                textDecoration: "underline",
+              }}
+              onClick={onClickMore}
+            >
+              {showMore ? "show less" : "show more"}
+            </span>
+          )}
         </CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}></Box>
+        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
+          <Chip icon={<WatchLaterIcon />} label="Add to watch list" />
+          <Chip icon={<AutoStoriesIcon />} label="Mark as currently reading" />
+          <Chip icon={<BookIcon />} label="Mark finished reading" />
+        </Box>
       </Box>
     </Card>
   );
