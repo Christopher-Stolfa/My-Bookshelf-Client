@@ -15,7 +15,6 @@ const SearchResultCard = ({ book }) => {
   const ref = createRef();
   const [showMore, setShowMore] = useState(false);
   const [showLink, setShowLink] = useState(false);
-
   useLayoutEffect(() => {
     if (ref.current.clientWidth < ref.current.scrollWidth) {
       setShowLink(true);
@@ -31,27 +30,30 @@ const SearchResultCard = ({ book }) => {
       <CardMedia
         component="img"
         sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
-        image={book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail}
+        image={
+          book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail
+        }
         alt={book.volumeInfo.title}
       />
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <CardContent
-          ref={ref}
-          sx={
-            showMore
-              ? { flex: "1 0 auto" }
-              : {
-                  flex: "1 0 auto",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }
-          }
-        >
+      <Box
+        ref={ref}
+        sx={
+          showMore
+            ? { display: "flex", flexDirection: "column" }
+            : {
+                display: "flex",
+                flexDirection: "column",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis"
+              }
+        }
+      >
+        <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
             {book.volumeInfo.title}
           </Typography>
-          {book.volumeInfo.authors.map((author) => (
+          {book.volumeInfo.authors.map(author => (
             <Typography
               key={author}
               variant="subtitle1"
@@ -61,19 +63,22 @@ const SearchResultCard = ({ book }) => {
               {author}
             </Typography>
           ))}
-          <Typography
-            variant="subtitle2"
-            color="text.secondary"
-            component="div"
-          >
-            {book.volumeInfo.description}
-          </Typography>
+          <span>
+            <Typography
+              variant="subtitle2"
+              color="text.secondary"
+              component="div"
+            >
+              {book.volumeInfo.description}
+            </Typography>
+          </span>
+
           {showLink && (
             <span
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline",
+                textDecoration: "underline"
               }}
               onClick={onClickMore}
             >
