@@ -65,7 +65,6 @@ const SearchResultCard = ({ book }) => {
             variant="subtitle2"
             color="text.secondary"
             component="div"
-            sx={{}}
           >
             {book.volumeInfo.description}
           </Typography>
