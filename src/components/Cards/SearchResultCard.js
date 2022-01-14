@@ -18,7 +18,7 @@ const SearchResultCard = ({ book }) => {
       <CardMedia
         component="img"
         sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
-        image={book.volumeInfo.imageLinks.thumbnail}
+        image={book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail}
         alt={book.volumeInfo.title}
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
