@@ -12,6 +12,9 @@ export const libraryTheme = createTheme({
     },
     error: {
       main: colors.cherryRed
+    },
+    success: {
+      main: "#9AB219"
     }
   }
 });
