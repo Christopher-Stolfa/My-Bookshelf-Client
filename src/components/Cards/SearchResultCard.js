@@ -63,7 +63,7 @@ const SearchResultCard = ({ book, user }) => {
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis",
+                textOverflow: "ellipsis"
               }
         }
       >
@@ -71,23 +71,24 @@ const SearchResultCard = ({ book, user }) => {
           <Typography component="div" variant="h5">
             {book.volumeInfo.title}
           </Typography>
-          {book.volumeInfo.authors.map((author) => (
-            <Typography
-              key={author}
-              variant="subtitle1"
-              color="text.secondary"
-              component="div"
-            >
-              {author}
-            </Typography>
-          ))}
+          {book.volumeInfo.authors &&
+            book.volumeInfo.authors.map(author => (
+              <Typography
+                key={author}
+                variant="subtitle1"
+                color="text.secondary"
+                component="div"
+              >
+                {author}
+              </Typography>
+            ))}
           <span>
             <Typography
               variant="subtitle2"
               color="text.secondary"
               component="div"
             >
-              {book.volumeInfo.description}
+              {book.volumeInfo.description && book.volumeInfo.description}
             </Typography>
           </span>
 
@@ -96,7 +97,7 @@ const SearchResultCard = ({ book, user }) => {
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline",
+                textDecoration: "underline"
               }}
               onClick={handleOnClickMore}
             >
@@ -128,12 +129,12 @@ const SearchResultCard = ({ book, user }) => {
 
 SearchResultCard.propTypes = {
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
+    loggedIn: PropTypes.bool.isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
-  user: getUserSelector(state),
+const mapStateToProps = state => ({
+  user: getUserSelector(state)
 });
 
 const actionCreators = {};
