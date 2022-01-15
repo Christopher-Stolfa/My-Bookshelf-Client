@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -6,10 +6,14 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import { bookActions } from "../../actions/bookActions";
 import { getBookSelector } from "../../selectors/bookSelector";
+import { checkIfLoading } from "../../selectors/uiSelectors";
 import SearchResultCard from "../../components/Cards/SearchResultCard";
+import { GET_SEARCH_BOOK_FETCH } from "../../actions/types";
 
-const SearchResultsPage = ({ books: { bookSearchData } }) => {
-  if (bookSearchData.length < 1) {
+const SearchResultsPage = ({ books: { bookSearchData }, isLoading }) => {
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  } else if (bookSearchData.length < 1) {
     return <h1>No search results.</h1>;
   } else {
     return (
@@ -43,6 +47,7 @@ SearchResultsPage.propTypes = {
 
 const mapStateToProps = (state) => ({
   books: getBookSelector(state),
+  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_FETCH),
 });
 
 const actionCreators = {
