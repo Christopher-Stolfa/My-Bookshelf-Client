@@ -1,18 +1,23 @@
 import React from "react";
+import { styled, alpha } from "@mui/material/styles";
 
-const HomePage = props => {
-  return (
-    <div>
-      {[...new Array(12)]
-        .map(
-          () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-        )
-        .join("\n")}
-    </div>
-  );
+const Background = styled("div")(({ theme }) => ({
+  position: "absolute",
+  backgroundImage: `url(${process.env.PUBLIC_URL}/library.svg)`,
+  backgroundPosition: "center center",
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  backgroundAttachment: "fixed",
+  height: "100%",
+  width: "100%",
+  overflow: "hidden",
+  bottom: "0px",
+  left: "0px",
+  right: "0px"
+}));
+
+const HomePage = (props) => {
+  return <Background />;
 };
 
 export default HomePage;

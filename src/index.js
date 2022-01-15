@@ -6,6 +6,8 @@ import RouterComponent from "./router/router";
 import { Provider } from "react-redux";
 import SnackbarNotifier from "./components/SnackbarNotifier/SnackbarNotifier";
 import store from "./store";
+const iconPath = process.env.PUBLIC_URL + "/library.svg";
+document.body.style = "backgroundUrl: " + iconPath;
 
 ReactDOM.render(
   <Provider store={store}>

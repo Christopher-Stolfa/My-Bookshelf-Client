@@ -45,7 +45,7 @@ const SearchResultCard = ({ book }) => {
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis"
+                textOverflow: "ellipsis",
               }
         }
       >
@@ -53,7 +53,7 @@ const SearchResultCard = ({ book }) => {
           <Typography component="div" variant="h5">
             {book.volumeInfo.title}
           </Typography>
-          {book.volumeInfo.authors.map(author => (
+          {book.volumeInfo.authors.map((author) => (
             <Typography
               key={author}
               variant="subtitle1"
@@ -78,7 +78,7 @@ const SearchResultCard = ({ book }) => {
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline"
+                textDecoration: "underline",
               }}
               onClick={onClickMore}
             >
@@ -87,9 +87,15 @@ const SearchResultCard = ({ book }) => {
           )}
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <Chip icon={<WatchLaterIcon />} label="Add to watch list" />
-          <Chip icon={<AutoStoriesIcon />} label="Mark as currently reading" />
-          <Chip icon={<BookIcon />} label="Mark finished reading" />
+          <IconButton component="span">
+            <WatchLaterIcon />
+          </IconButton>
+          <IconButton>
+            <AutoStoriesIcon />
+          </IconButton>
+          <IconButton>
+            <BookIcon />
+          </IconButton>
         </Box>
       </Box>
     </Card>
