@@ -1,5 +1,8 @@
 import React, { useLayoutEffect, createRef, useState } from "react";
-import { useTheme } from "@mui/material/styles";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { routes } from "../../config";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -9,20 +12,35 @@ import Typography from "@mui/material/Typography";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BookIcon from "@mui/icons-material/Book";
-import Chip from "@mui/material/Chip";
+import { userActions } from "../../actions/userActions";
+import { getUserSelector } from "../../selectors/userSelectors";
 
-const SearchResultCard = ({ book }) => {
+const SearchResultCard = ({ book, user }) => {
   const ref = createRef();
+  const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
   const [showLink, setShowLink] = useState(false);
   useLayoutEffect(() => {
-    if (ref.current.clientWidth < ref.current.scrollWidth) {
+    const { clientWidth, scrollWidth } = ref.current;
+    if (clientWidth < scrollWidth) {
       setShowLink(true);
     }
   }, [ref]);
 
-  const onClickMore = () => {
+  const handleOnClickMore = () => {
     setShowMore(!showMore);
+  };
+
+  const handleOnClickWatch = () => {
+    if (!user.loggedIn) navigate(routes.signIn);
+  };
+
+  const handleOnClickReading = () => {
+    if (!user.loggedIn) navigate(routes.signIn);
+  };
+
+  const handleOnClickFinished = () => {
+    if (!user.loggedIn) navigate(routes.signIn);
   };
 
   return (
@@ -80,20 +98,26 @@ const SearchResultCard = ({ book }) => {
                 color: "#0d6aa8",
                 textDecoration: "underline",
               }}
-              onClick={onClickMore}
+              onClick={handleOnClickMore}
             >
               {showMore ? "show less" : "show more"}
             </span>
           )}
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton component="span">
+          <IconButton onClick={handleOnClickWatch} aria-label="watch-later">
             <WatchLaterIcon />
           </IconButton>
-          <IconButton>
+          <IconButton
+            onClick={handleOnClickReading}
+            aria-label="currently-reading"
+          >
             <AutoStoriesIcon />
           </IconButton>
-          <IconButton>
+          <IconButton
+            onClick={handleOnClickFinished}
+            aria-label="finished-reading"
+          >
             <BookIcon />
           </IconButton>
         </Box>
@@ -102,4 +126,16 @@ const SearchResultCard = ({ book }) => {
   );
 };
 
-export default SearchResultCard;
+SearchResultCard.propTypes = {
+  user: PropTypes.shape({
+    loggedIn: PropTypes.bool.isRequired,
+  }).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: getUserSelector(state),
+});
+
+const actionCreators = {};
+
+export default connect(mapStateToProps, actionCreators)(SearchResultCard);
