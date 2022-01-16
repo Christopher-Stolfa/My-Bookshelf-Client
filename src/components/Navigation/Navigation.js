@@ -12,15 +12,12 @@ import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import NavigationSearch from "./NavigationSearch";
 
-const Navigation = props => {
+const Navigation = (props) => {
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   return () => {};
-  // }, [props]);
-  const handleOnClick = e => {
+  const handleOnClick = (e) => {
     navigate(e.target.name);
   };
-  const handleSignout = e => {
+  const handleSignout = (e) => {
     props.signOut();
   };
 
@@ -73,16 +70,16 @@ Navigation.propTypes = {
   user: PropTypes.shape({
     message: PropTypes.string,
     loggedIn: PropTypes.bool,
-    userData: PropTypes.object
-  }).isRequired
+    userData: PropTypes.object,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: getUserSelector(state)
+const mapStateToProps = (state) => ({
+  user: getUserSelector(state),
 });
 
 const actionCreators = {
-  signOut: userActions.signOut
+  signOut: userActions.signOut,
 };
 
 export default connect(mapStateToProps, actionCreators)(Navigation);

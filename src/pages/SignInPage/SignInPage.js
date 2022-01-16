@@ -17,7 +17,7 @@ import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import { routes } from "../../config";
 
-const Copyright = props => (
+const Copyright = (props) => (
   <Typography variant="body2" color="text.secondary" align="center" {...props}>
     {"Copyright © "}
     <Link color="inherit" to={routes.home}>
@@ -36,12 +36,14 @@ const SignInPage = ({ user: { loggedIn }, signIn }) => {
     return () => {};
   }, [loggedIn]);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const inputData = {
-      email: formData.get("email"),
-      password: formData.get("password")
+      data: JSON.stringify({
+        email: formData.get("email"),
+        password: formData.get("password"),
+      }),
     };
     signIn(inputData);
   };
@@ -54,7 +56,7 @@ const SignInPage = ({ user: { loggedIn }, signIn }) => {
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -121,16 +123,16 @@ SignInPage.propTypes = {
   user: PropTypes.shape({
     message: PropTypes.string,
     loggedIn: PropTypes.bool.isRequired,
-    userData: PropTypes.object
-  })
+    userData: PropTypes.object,
+  }),
 };
 
-const mapStateToProps = state => ({
-  user: getUserSelector(state)
+const mapStateToProps = (state) => ({
+  user: getUserSelector(state),
 });
 
 const actionCreators = {
-  signIn: userActions.signIn
+  signIn: userActions.signIn,
 };
 
 export default connect(mapStateToProps, actionCreators)(SignInPage);

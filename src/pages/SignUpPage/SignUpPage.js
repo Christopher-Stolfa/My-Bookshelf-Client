@@ -15,7 +15,7 @@ import { userActions } from "../../actions/userActions";
 import { connect } from "react-redux";
 import { routes } from "../../config";
 
-const Copyright = props => (
+const Copyright = (props) => (
   <Typography variant="body2" color="text.secondary" align="center" {...props}>
     {"Copyright © "}
     <Link color="inherit" to={routes.home}>
@@ -34,15 +34,17 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
     return () => {};
   }, [loggedIn]);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const inputData = {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      displayName: formData.get("displayName")
+      data: JSON.stringify({
+        email: formData.get("email"),
+        password: formData.get("password"),
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
+        displayName: formData.get("displayName"),
+      }),
     };
     signUp(inputData);
   };
@@ -55,7 +57,7 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -146,16 +148,16 @@ SignUpPage.propTypes = {
   user: PropTypes.shape({
     message: PropTypes.string,
     loggedIn: PropTypes.bool.isRequired,
-    userData: PropTypes.object
-  })
+    userData: PropTypes.object,
+  }),
 };
 
-const mapStateToProps = state => ({
-  user: getUserSelector(state)
+const mapStateToProps = (state) => ({
+  user: getUserSelector(state),
 });
 
 const actionCreators = {
-  signUp: userActions.signUp
+  signUp: userActions.signUp,
 };
 
 export default connect(mapStateToProps, actionCreators)(SignUpPage);

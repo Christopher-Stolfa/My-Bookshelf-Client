@@ -2,7 +2,7 @@ import {
   GET_SESSION_SUCCESS,
   GET_SIGNUP_SUCCESS,
   GET_SIGNIN_SUCCESS,
-  GET_SIGNOUT_SUCCESS
+  GET_SIGNOUT_SUCCESS,
 } from "./types";
 import { getError } from "./errorActions";
 import { snackbarActions } from "./snackbarActions";
@@ -11,10 +11,10 @@ import { saveToLocalStorage } from "../helpers/localStorageHelpers";
 
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 
-const getUserSession = () => async dispatch => {
-  const getSessionSuccess = data => ({
+const getUserSession = () => async (dispatch) => {
+  const getSessionSuccess = (data) => ({
     type: GET_SESSION_SUCCESS,
-    payload: data
+    payload: data,
   });
   try {
     const { data } = await userService.getSession();
@@ -26,10 +26,10 @@ const getUserSession = () => async dispatch => {
   }
 };
 
-const signUp = inputData => async dispatch => {
-  const getSignUpSuccess = data => ({
+const signUp = (inputData) => async (dispatch) => {
+  const getSignUpSuccess = (data) => ({
     type: GET_SIGNUP_SUCCESS,
-    payload: data
+    payload: data,
   });
   try {
     const { data } = await userService.signUp(inputData);
@@ -41,11 +41,10 @@ const signUp = inputData => async dispatch => {
   }
 };
 
-const signIn = inputData => async dispatch => {
-
-  const getSignInSuccess = data => ({
+const signIn = (inputData) => async (dispatch) => {
+  const getSignInSuccess = (data) => ({
     type: GET_SIGNIN_SUCCESS,
-    payload: data
+    payload: data,
   });
   try {
     const { data } = await userService.signIn(inputData);
@@ -58,10 +57,10 @@ const signIn = inputData => async dispatch => {
   }
 };
 
-const signOut = () => async dispatch => {
-  const getSignOutSuccess = data => ({
+const signOut = () => async (dispatch) => {
+  const getSignOutSuccess = (data) => ({
     type: GET_SIGNOUT_SUCCESS,
-    payload: data
+    payload: data,
   });
   try {
     const { data } = await userService.signOut();
@@ -78,5 +77,5 @@ export const userActions = {
   getUserSession,
   signUp,
   signIn,
-  signOut
+  signOut,
 };
