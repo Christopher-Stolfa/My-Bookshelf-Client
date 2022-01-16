@@ -28,9 +28,9 @@ const SearchResultCard = ({
     ratingsCount,
     imageLinks,
     language,
-    categories
+    categories,
   },
-  user
+  user: { loggedIn },
 }) => {
   const ref = createRef();
   const navigate = useNavigate();
@@ -47,16 +47,16 @@ const SearchResultCard = ({
     setShowMore(!showMore);
   };
 
-  const handleOnClickWatch = () => {
-    if (!user.loggedIn) navigate(routes.signIn);
+  const handleOnClickFavorite = () => {
+    if (!loggedIn) navigate(routes.signIn);
   };
 
   const handleOnClickReading = () => {
-    if (!user.loggedIn) navigate(routes.signIn);
+    if (!loggedIn) navigate(routes.signIn);
   };
 
   const handleOnClickFinished = () => {
-    if (!user.loggedIn) navigate(routes.signIn);
+    if (!loggedIn) navigate(routes.signIn);
   };
 
   return (
@@ -77,7 +77,7 @@ const SearchResultCard = ({
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis"
+                textOverflow: "ellipsis",
               }
         }
       >
@@ -86,7 +86,7 @@ const SearchResultCard = ({
             {title}
           </Typography>
           {authors &&
-            authors.map(author => (
+            authors.map((author) => (
               <Typography
                 key={author}
                 variant="subtitle1"
@@ -111,7 +111,7 @@ const SearchResultCard = ({
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline"
+                textDecoration: "underline",
               }}
               onClick={handleOnClickMore}
             >
@@ -120,7 +120,10 @@ const SearchResultCard = ({
           )}
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton onClick={handleOnClickWatch} aria-label="save-item">
+          <IconButton
+            onClick={handleOnClickFavorite}
+            aria-label="favorite-item"
+          >
             <StarBorderIcon />
           </IconButton>
           <IconButton
@@ -143,7 +146,7 @@ const SearchResultCard = ({
 
 SearchResultCard.propTypes = {
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired
+    loggedIn: PropTypes.bool.isRequired,
   }).isRequired,
   book: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -157,12 +160,12 @@ SearchResultCard.propTypes = {
     ratingsCount: PropTypes.number.isRequired,
     imageLinks: PropTypes.objectOf(PropTypes.string).isRequired,
     language: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired
-  }).isRequired
+    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: getUserSelector(state)
+const mapStateToProps = (state) => ({
+  user: getUserSelector(state),
 });
 
 const actionCreators = {};

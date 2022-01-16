@@ -146,10 +146,8 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
 SignUpPage.propTypes = {
   signUp: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    message: PropTypes.string,
     loggedIn: PropTypes.bool.isRequired,
-    userData: PropTypes.object,
-  }),
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
