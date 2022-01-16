@@ -9,7 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import WatchLaterIcon from "@mui/icons-material/WatchLater";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BookIcon from "@mui/icons-material/Book";
 import { userActions } from "../../actions/userActions";
@@ -63,7 +63,7 @@ const SearchResultCard = ({ book, user }) => {
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis"
+                textOverflow: "ellipsis",
               }
         }
       >
@@ -72,7 +72,7 @@ const SearchResultCard = ({ book, user }) => {
             {book.volumeInfo.title}
           </Typography>
           {book.volumeInfo.authors &&
-            book.volumeInfo.authors.map(author => (
+            book.volumeInfo.authors.map((author) => (
               <Typography
                 key={author}
                 variant="subtitle1"
@@ -97,7 +97,7 @@ const SearchResultCard = ({ book, user }) => {
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline"
+                textDecoration: "underline",
               }}
               onClick={handleOnClickMore}
             >
@@ -106,8 +106,8 @@ const SearchResultCard = ({ book, user }) => {
           )}
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton onClick={handleOnClickWatch} aria-label="watch-later">
-            <WatchLaterIcon />
+          <IconButton onClick={handleOnClickWatch} aria-label="save-item">
+            <StarBorderIcon />
           </IconButton>
           <IconButton
             onClick={handleOnClickReading}
@@ -129,12 +129,12 @@ const SearchResultCard = ({ book, user }) => {
 
 SearchResultCard.propTypes = {
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired
-  }).isRequired
+    loggedIn: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: getUserSelector(state)
+const mapStateToProps = (state) => ({
+  user: getUserSelector(state),
 });
 
 const actionCreators = {};
