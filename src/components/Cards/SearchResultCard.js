@@ -15,7 +15,23 @@ import BookIcon from "@mui/icons-material/Book";
 import { userActions } from "../../actions/userActions";
 import { getUserSelector } from "../../selectors/userSelectors";
 
-const SearchResultCard = ({ book, user }) => {
+const SearchResultCard = ({
+  book: {
+    id,
+    title,
+    description,
+    authors,
+    publisher,
+    publishedDate,
+    pageCount,
+    averageRating,
+    ratingsCount,
+    imageLinks,
+    language,
+    categories
+  },
+  user
+}) => {
   const ref = createRef();
   const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
@@ -48,10 +64,8 @@ const SearchResultCard = ({ book, user }) => {
       <CardMedia
         component="img"
         sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
-        image={
-          book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail
-        }
-        alt={book.volumeInfo.title}
+        image={imageLinks && imageLinks.thumbnail}
+        alt={title}
       />
       <Box
         ref={ref}
@@ -63,16 +77,16 @@ const SearchResultCard = ({ book, user }) => {
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis",
+                textOverflow: "ellipsis"
               }
         }
       >
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            {book.volumeInfo.title}
+            {title}
           </Typography>
-          {book.volumeInfo.authors &&
-            book.volumeInfo.authors.map((author) => (
+          {authors &&
+            authors.map(author => (
               <Typography
                 key={author}
                 variant="subtitle1"
@@ -88,7 +102,7 @@ const SearchResultCard = ({ book, user }) => {
               color="text.secondary"
               component="div"
             >
-              {book.volumeInfo.description && book.volumeInfo.description}
+              {description && description}
             </Typography>
           </span>
 
@@ -97,7 +111,7 @@ const SearchResultCard = ({ book, user }) => {
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline",
+                textDecoration: "underline"
               }}
               onClick={handleOnClickMore}
             >
@@ -129,12 +143,26 @@ const SearchResultCard = ({ book, user }) => {
 
 SearchResultCard.propTypes = {
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
+    loggedIn: PropTypes.bool.isRequired
   }).isRequired,
+  book: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    authors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    publisher: PropTypes.string.isRequired,
+    publishedDate: PropTypes.string.isRequired,
+    pageCount: PropTypes.number.isRequired,
+    averageRating: PropTypes.number.isRequired,
+    ratingsCount: PropTypes.number.isRequired,
+    imageLinks: PropTypes.objectOf(PropTypes.string).isRequired,
+    language: PropTypes.string.isRequired,
+    categories: PropTypes.arrayOf(PropTypes.string).isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
-  user: getUserSelector(state),
+const mapStateToProps = state => ({
+  user: getUserSelector(state)
 });
 
 const actionCreators = {};
