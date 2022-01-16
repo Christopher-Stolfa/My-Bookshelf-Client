@@ -85,6 +85,10 @@ const NavigationSearch = ({ searchBook }) => {
   );
 };
 
+NavigationSearch.propTypes = {
+  searchBook: PropTypes.func.isRequired
+};
+
 const actionCreators = {
   searchBook: bookActions.searchBook
 };
