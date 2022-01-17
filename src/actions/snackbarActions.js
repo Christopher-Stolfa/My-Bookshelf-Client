@@ -11,7 +11,7 @@ const setSnackbarError = (error, dispatch) => {
           variant: "error",
           action: (key) => (
             <Button onClick={() => dispatch(closeSnackbar(key))}>
-              dismiss me
+              dismiss
             </Button>
           ),
         },
@@ -30,7 +30,7 @@ const setSnackbarSuccess = (data, dispatch) => {
           variant: "success",
           action: (key) => (
             <Button onClick={() => dispatch(closeSnackbar(key))}>
-              dismiss me
+              dismiss
             </Button>
           ),
         },
