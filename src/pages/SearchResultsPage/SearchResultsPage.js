@@ -9,9 +9,12 @@ import { getSearchSelector } from "../../selectors/searchSelector";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import SearchResultCard from "../../components/Cards/SearchResultCard";
 import SearchResultLoading from "../../components/Loaders/SearchResultLoading";
-import { GET_SEARCH_BOOK_FETCH } from "../../actions/types";
+import { searchTypes } from "../../types/searchTypes";
 
-const SearchResultsPage = ({ searchResults: { bookSearchData }, isLoading }) => {
+const SearchResultsPage = ({
+  searchResults: { bookSearchData },
+  isLoading,
+}) => {
   if (isLoading) {
     return (
       <>
@@ -66,7 +69,7 @@ SearchResultsPage.propTypes = {
 
 const mapStateToProps = (state) => ({
   searchResults: getSearchSelector(state),
-  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_FETCH),
+  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
 });
 
 const actionCreators = {

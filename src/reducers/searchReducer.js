@@ -1,10 +1,10 @@
-import { GET_SEARCH_BOOK_SUCCESS } from "../actions/types";
+import { searchTypes } from "../types/searchTypes";
 
 const initialState = { searchResults: { bookSearchData: [] } };
 
 const searchReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case GET_SEARCH_BOOK_SUCCESS:
+    case searchTypes.GET_SEARCH_BOOK_SUCCESS:
       return {
         ...state,
         searchResults: {

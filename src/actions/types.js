@@ -10,12 +10,6 @@ export const CLOSE_SNACKBAR = "CLOSE_SNACKBAR";
 // Remove the snackbar
 export const REMOVE_SNACKBAR = "REMOVE_SNACKBAR";
 
-// Fetch book from search bar term
-export const GET_SEARCH_BOOK_FETCH = "GET_SEARCH_BOOK_FETCH";
-
-// Book search receives data successfully
-export const GET_SEARCH_BOOK_SUCCESS = "GET_SEARCH_BOOK_SUCCESS";
-
 // Action starts
 export const START_ACTION = "START_ACTION";
 
