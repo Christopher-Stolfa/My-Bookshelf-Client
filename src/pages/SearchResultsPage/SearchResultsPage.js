@@ -4,14 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
-import { bookActions } from "../../actions/bookActions";
-import { getBookSelector } from "../../selectors/bookSelector";
+import { searchActions } from "../../actions/searchActions";
+import { getSearchSelector } from "../../selectors/searchSelector";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import SearchResultCard from "../../components/Cards/SearchResultCard";
 import SearchResultLoading from "../../components/Loaders/SearchResultLoading";
 import { GET_SEARCH_BOOK_FETCH } from "../../actions/types";
 
-const SearchResultsPage = ({ books: { bookSearchData }, isLoading }) => {
+const SearchResultsPage = ({ searchResults: { bookSearchData }, isLoading }) => {
   if (isLoading) {
     return (
       <>
@@ -20,7 +20,7 @@ const SearchResultsPage = ({ books: { bookSearchData }, isLoading }) => {
           {Array.from(
             { length: 10 },
             () => new Date().getTime() + Math.random()
-          ).map(key => (
+          ).map((key) => (
             <div key={key}>
               <SearchResultLoading key={`${key}-search-result-card`} />
               <Divider
@@ -39,7 +39,7 @@ const SearchResultsPage = ({ books: { bookSearchData }, isLoading }) => {
       <>
         <h1>Search results:</h1>
         <Stack spacing={2}>
-          {bookSearchData.map(book => (
+          {bookSearchData.map((book) => (
             <div key={`${book.id}-search-result-div`}>
               <SearchResultCard
                 key={`${book.id}-search-result-card`}
@@ -59,18 +59,18 @@ const SearchResultsPage = ({ books: { bookSearchData }, isLoading }) => {
 
 SearchResultsPage.propTypes = {
   searchBook: PropTypes.func.isRequired,
-  books: PropTypes.shape({
-    bookSearchData: PropTypes.array.isRequired
-  }).isRequired
+  searchResults: PropTypes.shape({
+    bookSearchData: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
-  books: getBookSelector(state),
-  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_FETCH)
+const mapStateToProps = (state) => ({
+  searchResults: getSearchSelector(state),
+  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_FETCH),
 });
 
 const actionCreators = {
-  searchBook: bookActions.searchBook
+  searchBook: searchActions.searchBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultsPage);

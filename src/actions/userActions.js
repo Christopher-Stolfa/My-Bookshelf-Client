@@ -1,9 +1,4 @@
-import {
-  GET_SESSION_SUCCESS,
-  GET_SIGNUP_SUCCESS,
-  GET_SIGNIN_SUCCESS,
-  GET_SIGNOUT_SUCCESS,
-} from "./types";
+import { userTypes } from "../types/userTypes";
 import { getError } from "./errorActions";
 import { snackbarActions } from "./snackbarActions";
 import { userService } from "../services/user.service";
@@ -11,9 +6,18 @@ import { saveToLocalStorage } from "../helpers/localStorageHelpers";
 
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 
+const userSaveFavoritedBook = (inputData) => async (dispatch) => {
+  const getFavoritedBookSuccess = (data) => ({
+    type: userTypes.GET_SAVE_FAVORITED_BOOK_SUCCESS,
+    payload: {},
+  });
+  try {
+  } catch (err) {}
+};
+
 const getUserSession = () => async (dispatch) => {
   const getSessionSuccess = (data) => ({
-    type: GET_SESSION_SUCCESS,
+    type: userTypes.GET_SESSION_SUCCESS,
     payload: data,
   });
   try {
@@ -28,7 +32,7 @@ const getUserSession = () => async (dispatch) => {
 
 const signUp = (inputData) => async (dispatch) => {
   const getSignUpSuccess = (data) => ({
-    type: GET_SIGNUP_SUCCESS,
+    type: userTypes.GET_SIGNUP_SUCCESS,
     payload: data,
   });
   try {
@@ -43,7 +47,7 @@ const signUp = (inputData) => async (dispatch) => {
 
 const signIn = (inputData) => async (dispatch) => {
   const getSignInSuccess = (data) => ({
-    type: GET_SIGNIN_SUCCESS,
+    type: userTypes.GET_SIGNIN_SUCCESS,
     payload: data,
   });
   try {
@@ -59,7 +63,7 @@ const signIn = (inputData) => async (dispatch) => {
 
 const signOut = () => async (dispatch) => {
   const getSignOutSuccess = (data) => ({
-    type: GET_SIGNOUT_SUCCESS,
+    type: userTypes.GET_SIGNOUT_SUCCESS,
     payload: data,
   });
   try {

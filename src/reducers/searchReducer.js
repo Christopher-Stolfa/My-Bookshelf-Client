@@ -1,13 +1,13 @@
 import { GET_SEARCH_BOOK_SUCCESS } from "../actions/types";
 
-const initialState = { books: { bookSearchData: [] } };
+const initialState = { searchResults: { bookSearchData: [] } };
 
-const userReducer = (state = initialState, { type, payload }) => {
+const searchReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_SEARCH_BOOK_SUCCESS:
       return {
         ...state,
-        books: {
+        searchResults: {
           message: payload.message,
           bookSearchData: payload.bookSearchData,
         },
@@ -17,4 +17,4 @@ const userReducer = (state = initialState, { type, payload }) => {
   }
 };
 
-export default userReducer;
+export default searchReducer;

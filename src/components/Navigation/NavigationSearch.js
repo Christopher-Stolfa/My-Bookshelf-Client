@@ -6,7 +6,7 @@ import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
-import { bookActions } from "../../actions/bookActions";
+import { searchActions } from "../../actions/searchActions";
 import { routes } from "../../config";
 
 const Search = styled("div")(({ theme }) => ({
@@ -92,7 +92,7 @@ NavigationSearch.propTypes = {
 };
 
 const actionCreators = {
-  searchBook: bookActions.searchBook,
+  searchBook: searchActions.searchBook,
 };
 
 export default connect(null, actionCreators)(NavigationSearch);

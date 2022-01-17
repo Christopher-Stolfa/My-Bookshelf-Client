@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { endPoints, controllers } from "../config";
 
-const signIn = async inputData => {
+const signIn = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
     `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signIn}`,
@@ -9,7 +9,7 @@ const signIn = async inputData => {
   );
 };
 
-const signUp = async inputData => {
+const signUp = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
     `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signUp}`,
@@ -31,9 +31,18 @@ const getSession = async () => {
   );
 };
 
+const saveFavoritedBook = async (inputData) => {
+  Axios.defaults.withCredentials = true;
+  return await Axios.post(
+    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.saveFavoritedBook}`,
+    inputData
+  );
+};
+
 export const userService = {
   signOut,
   signUp,
   signIn,
-  getSession
+  getSession,
+  saveFavoritedBook
 };

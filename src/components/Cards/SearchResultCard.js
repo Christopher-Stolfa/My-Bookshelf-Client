@@ -15,23 +15,7 @@ import BookIcon from "@mui/icons-material/Book";
 import { userActions } from "../../actions/userActions";
 import { getUserSelector } from "../../selectors/userSelectors";
 
-const SearchResultCard = ({
-  book: {
-    id,
-    title,
-    description,
-    authors,
-    publisher,
-    publishedDate,
-    pageCount,
-    averageRating,
-    ratingsCount,
-    imageLink,
-    language,
-    categories,
-  },
-  user: { loggedIn },
-}) => {
+const SearchResultCard = ({ book, user: { loggedIn } }) => {
   const ref = createRef();
   const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
@@ -48,7 +32,11 @@ const SearchResultCard = ({
   };
 
   const handleOnClickFavorite = () => {
-    if (!loggedIn) navigate(routes.signIn);
+    if (!loggedIn) {
+      navigate(routes.signIn);
+    } else {
+      
+    }
   };
 
   const handleOnClickReading = () => {
@@ -64,8 +52,8 @@ const SearchResultCard = ({
       <CardMedia
         component="img"
         sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
-        image={imageLink}
-        alt={title}
+        image={book.imageLink}
+        alt={book.title}
       />
       <Box
         ref={ref}
@@ -83,10 +71,10 @@ const SearchResultCard = ({
       >
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            {title}
+            {book.title}
           </Typography>
-          {authors &&
-            authors.map((author) => (
+          {book.authors &&
+            book.authors.map((author) => (
               <Typography
                 key={author}
                 variant="subtitle1"
@@ -102,7 +90,7 @@ const SearchResultCard = ({
               color="text.secondary"
               component="div"
             >
-              {description && description}
+              {book.description && book.description}
             </Typography>
           </span>
 

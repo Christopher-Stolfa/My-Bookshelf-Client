@@ -21,4 +21,4 @@ const searchBook = (inputData) => async (dispatch) => {
   }
 };
 
-export const bookActions = { searchBook };
+export const searchActions = { searchBook };
