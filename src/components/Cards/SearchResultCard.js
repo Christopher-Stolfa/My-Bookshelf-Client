@@ -26,7 +26,7 @@ const SearchResultCard = ({
     pageCount,
     averageRating,
     ratingsCount,
-    imageLinks,
+    imageLink,
     language,
     categories,
   },
@@ -64,7 +64,7 @@ const SearchResultCard = ({
       <CardMedia
         component="img"
         sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
-        image={imageLinks && imageLinks.thumbnail}
+        image={imageLink}
         alt={title}
       />
       <Box
@@ -158,7 +158,7 @@ SearchResultCard.propTypes = {
     pageCount: PropTypes.number.isRequired,
     averageRating: PropTypes.number.isRequired,
     ratingsCount: PropTypes.number.isRequired,
-    imageLinks: PropTypes.objectOf(PropTypes.string).isRequired,
+    imageLink: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
