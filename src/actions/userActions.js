@@ -1,5 +1,4 @@
 import { userTypes } from "../types/userTypes";
-import { getError } from "./errorActions";
 import { snackbarActions } from "./snackbarActions";
 import { userService } from "../services/user.service";
 import { saveToLocalStorage } from "../helpers/localStorageHelpers";
@@ -26,7 +25,6 @@ const getUserSession = () => async (dispatch) => {
     dispatch(getSessionSuccess(data));
   } catch (err) {
     console.log(err);
-    dispatch(getError(err.response.data));
   }
 };
 
@@ -40,7 +38,6 @@ const signUp = (inputData) => async (dispatch) => {
     dispatch(getSignUpSuccess(data));
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
-    dispatch(getError(err.response.data));
     setSnackbarError(err.response.data, dispatch);
   }
 };
@@ -56,7 +53,6 @@ const signIn = (inputData) => async (dispatch) => {
     dispatch(getSignInSuccess(data));
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
-    dispatch(getError(err.response.data));
     setSnackbarError(err.response.data, dispatch);
   }
 };
@@ -72,7 +68,6 @@ const signOut = () => async (dispatch) => {
     dispatch(getSignOutSuccess(data));
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
-    dispatch(getError(err.response.data));
     setSnackbarError(err.response.data, dispatch);
   }
 };
