@@ -7,41 +7,18 @@ import {
 
 const initialState = {};
 
-const userReducer = (state = initialState, action) => {
-  switch (action.type) {
+const userReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
     case GET_SESSION_SUCCESS:
-      return {
-        ...state,
-        user: {
-          message: action.payload.message,
-          loggedIn: action.payload.loggedIn,
-          userData: action.payload.userData,
-        },
-      };
     case GET_SIGNUP_SUCCESS:
-      return {
-        ...state,
-        user: {
-          message: action.payload.message,
-          loggedIn: action.payload.loggedIn,
-          userData: action.payload.userData,
-        },
-      };
     case GET_SIGNOUT_SUCCESS:
-      return {
-        ...state,
-        user: {
-          message: action.payload.message,
-          loggedIn: action.payload.loggedIn,
-        },
-      };
     case GET_SIGNIN_SUCCESS:
       return {
         ...state,
         user: {
-          message: action.payload.message,
-          userData: action.payload.userData,
-          loggedIn: action.payload.loggedIn,
+          message: payload.message,
+          loggedIn: payload.loggedIn,
+          userData: payload.userData,
         },
       };
     default:
