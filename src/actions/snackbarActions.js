@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "./types";
+import { snackbarTypes } from "../types/snackbarTypes";
 
 const setSnackbarError = (error, dispatch) => {
   return dispatch(
@@ -9,13 +9,13 @@ const setSnackbarError = (error, dispatch) => {
         options: {
           key: new Date().getTime() + Math.random(),
           variant: "error",
-          action: key => (
+          action: (key) => (
             <Button onClick={() => dispatch(closeSnackbar(key))}>
               dismiss me
             </Button>
-          )
-        }
-      }
+          ),
+        },
+      },
     })
   );
 };
@@ -28,38 +28,38 @@ const setSnackbarSuccess = (data, dispatch) => {
         options: {
           key: new Date().getTime() + Math.random(),
           variant: "success",
-          action: key => (
+          action: (key) => (
             <Button onClick={() => dispatch(closeSnackbar(key))}>
               dismiss me
             </Button>
-          )
-        }
-      }
+          ),
+        },
+      },
     })
   );
 };
 
-const enqueueSnackbar = data => {
+const enqueueSnackbar = (data) => {
   const key = data.notification.options && data.notification.options.key;
   return {
-    type: ENQUEUE_SNACKBAR,
+    type: snackbarTypes.ENQUEUE_SNACKBAR,
     payload: {
       ...data,
-      key: key
-    }
+      key: key,
+    },
   };
 };
 
-const closeSnackbar = key => ({
-  type: CLOSE_SNACKBAR,
+const closeSnackbar = (key) => ({
+  type: snackbarTypes.CLOSE_SNACKBAR,
   payload: {
     dismissAll: !key, // dismiss all if no key has been defined
-    key
-  }
+    key,
+  },
 });
 
-const removeSnackbar = key => {
-  return { type: REMOVE_SNACKBAR, payload: { key: key } };
+const removeSnackbar = (key) => {
+  return { type: snackbarTypes.REMOVE_SNACKBAR, payload: { key: key } };
 };
 
 export const snackbarActions = {
@@ -67,5 +67,5 @@ export const snackbarActions = {
   setSnackbarError,
   enqueueSnackbar,
   closeSnackbar,
-  removeSnackbar
+  removeSnackbar,
 };
