@@ -22,6 +22,18 @@ const userReducer = (state = initialState, { type, payload }) => {
           favorites: [...state.user.favorites, payload.favoritedBook]
         }
       };
+    case userTypes.GET_REMOVE_FAVORITED_BOOK_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          favorites: [
+            ...state.user.favorites.filter(
+              book => book.googleBooksId !== payload.favoritedBook.googleBooksId
+            )
+          ]
+        }
+      };
     default:
       return state;
   }

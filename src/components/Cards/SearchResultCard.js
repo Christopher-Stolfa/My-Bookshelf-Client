@@ -19,7 +19,8 @@ import { getUserSelector } from "../../selectors/userSelectors";
 const SearchResultCard = ({
   book,
   user: { loggedIn, favorites },
-  userSaveFavoritedBook
+  userSaveFavoritedBook,
+  userRemoveFavoritedBook
 }) => {
   const ref = createRef();
   const navigate = useNavigate();
@@ -28,9 +29,11 @@ const SearchResultCard = ({
   const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
-    favorites.some(
-      favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
-    ) && setIsFavorited(true);
+    setIsFavorited(
+      favorites.some(
+        favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
+      )
+    );
   }, [favorites]);
 
   useLayoutEffect(() => {
@@ -57,8 +60,8 @@ const SearchResultCard = ({
     if (!loggedIn) {
       navigate(routes.signIn);
     } else {
-      const inputData = { data: JSON.stringify(book) };
-      userSaveFavoritedBook(inputData);
+      const inputData = { data: { bookData: JSON.stringify(book) } };
+      userRemoveFavoritedBook(inputData);
     }
   };
 
@@ -192,7 +195,8 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  userSaveFavoritedBook: userActions.userSaveFavoritedBook
+  userSaveFavoritedBook: userActions.userSaveFavoritedBook,
+  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultCard);

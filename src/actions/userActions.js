@@ -6,19 +6,36 @@ import { startAction, stopAction } from "./uiActions";
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 
 const userSaveFavoritedBook = inputData => async dispatch => {
-  const getFavoritedBookSuccess = data => ({
+  const getSaveFavoritedBookSuccess = data => ({
     type: userTypes.GET_SAVE_FAVORITED_BOOK_SUCCESS,
     payload: data
   });
   try {
     dispatch(startAction(userTypes.GET_SAVE_FAVORITED_BOOK_FETCH));
     const { data } = await userService.saveFavoritedBook(inputData);
-    dispatch(getFavoritedBookSuccess(data));
+    dispatch(getSaveFavoritedBookSuccess(data));
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
   } finally {
     dispatch(stopAction(userTypes.GET_SAVE_FAVORITED_BOOK_FETCH));
+  }
+};
+
+const userRemoveFavoritedBook = inputData => async dispatch => {
+  const getRemoveFavoritedBookSuccess = data => ({
+    type: userTypes.GET_REMOVE_FAVORITED_BOOK_SUCCESS,
+    payload: data
+  });
+  try {
+    dispatch(startAction(userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH));
+    const { data } = await userService.removeFavoritedBook(inputData);
+    dispatch(getRemoveFavoritedBookSuccess(data));
+    setSnackbarSuccess(data, dispatch);
+  } catch (err) {
+    setSnackbarError(err.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH));
   }
 };
 
@@ -94,5 +111,6 @@ export const userActions = {
   signUp,
   signIn,
   signOut,
-  userSaveFavoritedBook
+  userSaveFavoritedBook,
+  userRemoveFavoritedBook
 };
