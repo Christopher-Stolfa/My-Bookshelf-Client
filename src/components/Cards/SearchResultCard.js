@@ -15,7 +15,11 @@ import BookIcon from "@mui/icons-material/Book";
 import { userActions } from "../../actions/userActions";
 import { getUserSelector } from "../../selectors/userSelectors";
 
-const SearchResultCard = ({ book, user: { loggedIn } }) => {
+const SearchResultCard = ({
+  userSaveFavoritedBook,
+  book,
+  user: { loggedIn },
+}) => {
   const ref = createRef();
   const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
@@ -35,7 +39,8 @@ const SearchResultCard = ({ book, user: { loggedIn } }) => {
     if (!loggedIn) {
       navigate(routes.signIn);
     } else {
-      
+      const inputData = { data: JSON.stringify(book) };
+      userSaveFavoritedBook(inputData);
     }
   };
 
@@ -133,11 +138,12 @@ const SearchResultCard = ({ book, user: { loggedIn } }) => {
 };
 
 SearchResultCard.propTypes = {
+  userSaveFavoritedBook: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
   }).isRequired,
   book: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    googleBooksId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     authors: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -156,6 +162,8 @@ const mapStateToProps = (state) => ({
   user: getUserSelector(state),
 });
 
-const actionCreators = {};
+const actionCreators = {
+  userSaveFavoritedBook: userActions.userSaveFavoritedBook,
+};
 
 export default connect(mapStateToProps, actionCreators)(SearchResultCard);

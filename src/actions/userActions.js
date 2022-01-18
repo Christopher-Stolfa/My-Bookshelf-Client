@@ -2,16 +2,25 @@ import { userTypes } from "../types/userTypes";
 import { snackbarActions } from "./snackbarActions";
 import { userService } from "../services/user.service";
 import { saveToLocalStorage } from "../helpers/localStorageHelpers";
+import { startAction, stopAction } from "./uiActions";
 
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 
 const userSaveFavoritedBook = (inputData) => async (dispatch) => {
   const getFavoritedBookSuccess = (data) => ({
     type: userTypes.GET_SAVE_FAVORITED_BOOK_SUCCESS,
-    payload: {},
+    payload: data,
   });
   try {
-  } catch (err) {}
+    dispatch(startAction(userTypes.GET_SAVE_FAVORITED_BOOK_FETCH));
+    const { data } = await userService.saveFavoritedBook(inputData);
+    dispatch(getFavoritedBookSuccess(data));
+    setSnackbarSuccess(data, dispatch);
+  } catch (err) {
+    setSnackbarError(err.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(userTypes.GET_SAVE_FAVORITED_BOOK_FETCH));
+  }
 };
 
 const getUserSession = () => async (dispatch) => {
@@ -77,4 +86,5 @@ export const userActions = {
   signUp,
   signIn,
   signOut,
+  userSaveFavoritedBook,
 };

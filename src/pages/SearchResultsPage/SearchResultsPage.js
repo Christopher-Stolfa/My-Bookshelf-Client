@@ -43,14 +43,14 @@ const SearchResultsPage = ({
         <h1>Search results:</h1>
         <Stack spacing={2}>
           {bookSearchData.map((book) => (
-            <div key={`${book.id}-search-result-div`}>
+            <div key={`${book.googleBooksId}-search-result-div`}>
               <SearchResultCard
-                key={`${book.id}-search-result-card`}
+                key={`${book.googleBooksId}-search-result-card`}
                 book={book}
               />
               <Divider
                 sx={{ marginTop: "8px", marginBottom: "8px" }}
-                key={`${book.id}-divider`}
+                key={`${book.googleBooksId}-divider`}
               />
             </div>
           ))}

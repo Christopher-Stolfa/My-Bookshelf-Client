@@ -16,6 +16,10 @@ const userReducer = (state = initialState, { type, payload }) => {
           userData: payload.userData,
         },
       };
+    case userTypes.GET_SAVE_FAVORITED_BOOK_SUCCESS:
+      return {
+        ...state,
+      };
     default:
       return state;
   }
