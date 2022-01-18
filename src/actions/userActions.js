@@ -1,7 +1,6 @@
 import { userTypes } from "../types/userTypes";
 import { snackbarActions } from "./snackbarActions";
 import { userService } from "../services/user.service";
-import { saveToLocalStorage } from "../helpers/localStorageHelpers";
 import { startAction, stopAction } from "./uiActions";
 
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
@@ -14,6 +13,7 @@ const userSaveFavoritedBook = inputData => async dispatch => {
   try {
     dispatch(startAction(userTypes.GET_SAVE_FAVORITED_BOOK_FETCH));
     const { data } = await userService.saveFavoritedBook(inputData);
+    debugger
     dispatch(getFavoritedBookSuccess(data));
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
