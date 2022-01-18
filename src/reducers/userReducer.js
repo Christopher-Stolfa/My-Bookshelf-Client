@@ -13,12 +13,12 @@ const userReducer = (state = initialState, { type, payload }) => {
         user: {
           message: payload.message,
           loggedIn: payload.loggedIn,
-          userData: payload.userData,
-        },
+          userData: payload.userData
+        }
       };
     case userTypes.GET_SAVE_FAVORITED_BOOK_SUCCESS:
       return {
-        ...state,
+        ...state
       };
     default:
       return state;
