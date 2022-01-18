@@ -13,7 +13,6 @@ const userSaveFavoritedBook = inputData => async dispatch => {
   try {
     dispatch(startAction(userTypes.GET_SAVE_FAVORITED_BOOK_FETCH));
     const { data } = await userService.saveFavoritedBook(inputData);
-    debugger
     dispatch(getFavoritedBookSuccess(data));
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
