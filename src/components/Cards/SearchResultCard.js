@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, createRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, createRef, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { routes } from "../../config";
@@ -10,20 +10,29 @@ import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BookIcon from "@mui/icons-material/Book";
 import { userActions } from "../../actions/userActions";
 import { getUserSelector } from "../../selectors/userSelectors";
 
 const SearchResultCard = ({
-  userSaveFavoritedBook,
   book,
-  user: { loggedIn },
+  user: { loggedIn, favorites },
+  userSaveFavoritedBook
 }) => {
   const ref = createRef();
   const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
   const [showLink, setShowLink] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  useEffect(() => {
+    favorites.some(
+      favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
+    ) && setIsFavorited(true);
+  }, [favorites]);
+
   useLayoutEffect(() => {
     const { clientWidth, scrollWidth } = ref.current;
     if (clientWidth < scrollWidth) {
@@ -36,6 +45,15 @@ const SearchResultCard = ({
   };
 
   const handleOnClickFavorite = () => {
+    if (!loggedIn) {
+      navigate(routes.signIn);
+    } else {
+      const inputData = { data: JSON.stringify(book) };
+      userSaveFavoritedBook(inputData);
+    }
+  };
+
+  const handleOnClickRemoveFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
     } else {
@@ -70,7 +88,7 @@ const SearchResultCard = ({
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis",
+                textOverflow: "ellipsis"
               }
         }
       >
@@ -78,24 +96,23 @@ const SearchResultCard = ({
           <Typography component="div" variant="h5">
             {book.title}
           </Typography>
-          {book.authors &&
-            book.authors.map((author) => (
-              <Typography
-                key={author}
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
-                {author}
-              </Typography>
-            ))}
+          {book.authors.map(author => (
+            <Typography
+              key={author}
+              variant="subtitle1"
+              color="text.secondary"
+              component="div"
+            >
+              {author}
+            </Typography>
+          ))}
           <span>
             <Typography
               variant="subtitle2"
               color="text.secondary"
               component="div"
             >
-              {book.description && book.description}
+              {book.description}
             </Typography>
           </span>
 
@@ -104,7 +121,7 @@ const SearchResultCard = ({
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline",
+                textDecoration: "underline"
               }}
               onClick={handleOnClickMore}
             >
@@ -113,12 +130,21 @@ const SearchResultCard = ({
           )}
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton
-            onClick={handleOnClickFavorite}
-            aria-label="favorite-item"
-          >
-            <StarBorderIcon />
-          </IconButton>
+          {isFavorited ? (
+            <IconButton
+              onClick={handleOnClickRemoveFavorite}
+              aria-label="favorite-item"
+            >
+              <StarIcon />
+            </IconButton>
+          ) : (
+            <IconButton
+              onClick={handleOnClickFavorite}
+              aria-label="favorite-item"
+            >
+              <StarBorderIcon />
+            </IconButton>
+          )}
           <IconButton
             onClick={handleOnClickReading}
             aria-label="currently-reading"
@@ -141,6 +167,9 @@ SearchResultCard.propTypes = {
   userSaveFavoritedBook: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
+    favorites: PropTypes.arrayOf(
+      PropTypes.shape({ googleBooksId: PropTypes.string.isRequired })
+    ).isRequired
   }).isRequired,
   book: PropTypes.shape({
     googleBooksId: PropTypes.string.isRequired,
@@ -154,16 +183,16 @@ SearchResultCard.propTypes = {
     ratingsCount: PropTypes.number.isRequired,
     imageLink: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }).isRequired,
+    categories: PropTypes.arrayOf(PropTypes.string).isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
-  user: getUserSelector(state),
+const mapStateToProps = state => ({
+  user: getUserSelector(state)
 });
 
 const actionCreators = {
-  userSaveFavoritedBook: userActions.userSaveFavoritedBook,
+  userSaveFavoritedBook: userActions.userSaveFavoritedBook
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultCard);
