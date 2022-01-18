@@ -1,30 +1,25 @@
-import {
-  START_ACTION,
-  STOP_ACTION,
-  REFRESH_ACTION_START,
-  REFRESH_ACTION_STOP,
-} from "./types";
+import { uiTypes } from "../types/uiTypes";
 
 export const startAction = (name, params) => ({
-  type: START_ACTION,
+  type: uiTypes.START_ACTION,
   payload: {
     action: { name, params },
   },
 });
 
 export const stopAction = (name, params) => ({
-  type: STOP_ACTION,
+  type: uiTypes.STOP_ACTION,
   payload: {
     action: { name, params },
   },
 });
 
 export const refreshActionStart = (refreshAction) => ({
-  type: REFRESH_ACTION_START,
+  type: uiTypes.REFRESH_ACTION_START,
   payload: { refreshAction },
 });
 
 export const refreshActionStop = (refreshAction) => ({
-  type: REFRESH_ACTION_STOP,
+  type: uiTypes.REFRESH_ACTION_STOP,
   payload: { refreshAction },
 });

@@ -1,9 +1,4 @@
-import {
-  START_ACTION,
-  STOP_ACTION,
-  REFRESH_ACTION_START,
-  REFRESH_ACTION_STOP,
-} from "../actions/types";
+import { uiTypes } from "../types/uiTypes";
 
 const initialState = {
   loader: {
@@ -16,7 +11,7 @@ const uiReducer = (state = initialState, { type, payload }) => {
   const { loader } = state;
   const { actions, refreshing } = loader;
   switch (type) {
-    case START_ACTION:
+    case uiTypes.START_ACTION:
       return {
         ...state,
         loader: {
@@ -24,7 +19,7 @@ const uiReducer = (state = initialState, { type, payload }) => {
           actions: [...actions, payload.action],
         },
       };
-    case STOP_ACTION:
+    case uiTypes.STOP_ACTION:
       return {
         ...state,
         loader: {
@@ -40,7 +35,7 @@ const uiReducer = (state = initialState, { type, payload }) => {
           }),
         },
       };
-    case REFRESH_ACTION_START:
+    case uiTypes.REFRESH_ACTION_START:
       return {
         ...state,
         loader: {
@@ -48,7 +43,7 @@ const uiReducer = (state = initialState, { type, payload }) => {
           refreshing: [...refreshing, payload.refreshAction],
         },
       };
-    case REFRESH_ACTION_STOP:
+    case uiTypes.REFRESH_ACTION_STOP:
       return {
         ...state,
         loader: {
