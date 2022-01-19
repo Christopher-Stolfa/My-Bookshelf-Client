@@ -30,7 +30,7 @@ const SearchResultCard = ({
 
   useEffect(() => {
     setIsFavorited(
-      favorites.some(
+      favorites && favorites.some(
         favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
       )
     );
@@ -133,7 +133,7 @@ const SearchResultCard = ({
           )}
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          {isFavorited ? (
+          {favorites && isFavorited ? (
             <IconButton
               onClick={handleOnClickRemoveFavorite}
               aria-label="favorite-item"
@@ -171,8 +171,8 @@ SearchResultCard.propTypes = {
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
     favorites: PropTypes.arrayOf(
-      PropTypes.shape({ googleBooksId: PropTypes.string.isRequired })
-    ).isRequired
+      PropTypes.shape({ googleBooksId: PropTypes.string })
+    )
   }).isRequired,
   book: PropTypes.shape({
     googleBooksId: PropTypes.string.isRequired,
