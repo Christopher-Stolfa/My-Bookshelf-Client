@@ -14,15 +14,15 @@ const Search = styled("div")(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.25)
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
-    width: "auto",
-  },
+    width: "auto"
+  }
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -32,7 +32,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   pointerEvents: "none",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "center"
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -44,14 +44,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
+      width: "20ch"
+    }
+  }
 }));
 
 const NavigationSearch = ({ searchBook }) => {
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const inputData = {
@@ -60,7 +60,8 @@ const NavigationSearch = ({ searchBook }) => {
         maxResults: 10,
         startIndex: 1,
         orderBy: "relevance",
-      }),
+        currentPage: 1
+      })
     };
     searchBook(inputData);
     navigate(routes.searchResults);
@@ -88,11 +89,11 @@ const NavigationSearch = ({ searchBook }) => {
 };
 
 NavigationSearch.propTypes = {
-  searchBook: PropTypes.func.isRequired,
+  searchBook: PropTypes.func.isRequired
 };
 
 const actionCreators = {
-  searchBook: searchActions.searchBook,
+  searchBook: searchActions.searchBook
 };
 
 export default connect(null, actionCreators)(NavigationSearch);
