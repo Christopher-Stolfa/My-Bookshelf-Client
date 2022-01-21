@@ -1,6 +1,8 @@
 import { searchTypes } from "../types/searchTypes";
 
-const initialState = { searchResults: { bookSearchData: [] } };
+const initialState = {
+  searchResults: { bookSearchData: [], totalItems: 0, searchQuery: "" }
+};
 
 const searchReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -8,9 +10,8 @@ const searchReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         searchResults: {
-          message: payload.message,
-          bookSearchData: payload.bookSearchData,
-        },
+          ...payload
+        }
       };
     default:
       return state;
