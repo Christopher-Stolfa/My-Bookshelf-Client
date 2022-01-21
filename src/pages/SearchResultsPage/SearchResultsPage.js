@@ -7,13 +7,13 @@ import Stack from "@mui/material/Stack";
 import { searchActions } from "../../actions/searchActions";
 import { getSearchSelector } from "../../selectors/searchSelector";
 import { checkIfLoading } from "../../selectors/uiSelectors";
-import SearchResultCard from "../../components/Cards/SearchResultCard";
+import SearchResultCard from "../../components/Cards";
 import SearchResultLoading from "../../components/Loaders/SearchResultLoading";
 import { searchTypes } from "../../types/searchTypes";
 
 const SearchResultsPage = ({
   searchResults: { bookSearchData },
-  isLoading,
+  isLoading
 }) => {
   if (isLoading) {
     return (
@@ -23,7 +23,7 @@ const SearchResultsPage = ({
           {Array.from(
             { length: 10 },
             () => new Date().getTime() + Math.random()
-          ).map((key) => (
+          ).map(key => (
             <div key={key}>
               <SearchResultLoading key={`${key}-search-result-card`} />
               <Divider
@@ -42,7 +42,7 @@ const SearchResultsPage = ({
       <>
         <h1>Search results:</h1>
         <Stack spacing={2}>
-          {bookSearchData.map((book) => (
+          {bookSearchData.map(book => (
             <div key={`${book.googleBooksId}-search-result-div`}>
               <SearchResultCard
                 key={`${book.googleBooksId}-search-result-card`}
@@ -63,17 +63,17 @@ const SearchResultsPage = ({
 SearchResultsPage.propTypes = {
   searchBook: PropTypes.func.isRequired,
   searchResults: PropTypes.shape({
-    bookSearchData: PropTypes.array.isRequired,
-  }).isRequired,
+    bookSearchData: PropTypes.array.isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   searchResults: getSearchSelector(state),
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
+  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH)
 });
 
 const actionCreators = {
-  searchBook: searchActions.searchBook,
+  searchBook: searchActions.searchBook
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultsPage);
