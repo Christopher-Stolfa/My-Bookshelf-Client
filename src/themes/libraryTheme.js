@@ -1,13 +1,11 @@
 import { createTheme } from "@mui/material/styles";
+import colors from "./colors";
 
-const colors = {
-  skyBlue: "#6386C7"
-};
-
-export const libraryTheme = createTheme({
+const libraryTheme = createTheme({
   palette: {
     primary: {
       main: colors.skyBlue
     }
   }
 });
+export default libraryTheme;
