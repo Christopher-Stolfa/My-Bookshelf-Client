@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,10 +29,11 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
-  pointerEvents: "none",
+  zIndex: 1,
   display: "flex",
   alignItems: "center",
-  justifyContent: "center"
+  justifyContent: "center",
+  cursor: "pointer"
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -50,13 +51,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavigationSearch = ({ searchBook }) => {
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+
+  const handleOnChange = ({ target: { value } }) => {
+    setSearchQuery(value);
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
     const inputData = {
       data: JSON.stringify({
-        searchQuery: formData.get("navigationSearch"),
+        searchQuery,
         maxResults: 10,
         startIndex: 1,
         orderBy: "relevance",
@@ -73,10 +79,11 @@ const NavigationSearch = ({ searchBook }) => {
         noValidate
         onSubmit={handleSubmit} /*sx={{ mt: 3 }}*/
       >
-        <SearchIconWrapper>
+        <SearchIconWrapper onClick={handleSubmit}>
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
+          onChange={handleOnChange}
           placeholder="Search for books…"
           label="Navigation Search"
           id="navigationSearch"
