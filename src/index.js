@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@mui/material/styles";
-import { libraryTheme } from "./themes/libraryTheme";
+import libraryTheme from "./themes/libraryTheme";
 import "./index.css";
 import RouterComponent from "./router/router";
 import { Provider } from "react-redux";
