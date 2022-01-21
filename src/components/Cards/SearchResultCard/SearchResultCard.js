@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, createRef, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { routes } from "../../config";
+import { routes } from "../../../config";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -13,8 +13,9 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BookIcon from "@mui/icons-material/Book";
-import { userActions } from "../../actions/userActions";
-import { getUserSelector } from "../../selectors/userSelectors";
+import { userActions } from "../../../actions/userActions";
+import { getUserSelector } from "../../../selectors/userSelectors";
+import colors from "../../../themes/colors";
 
 const SearchResultCard = ({
   book,
@@ -30,9 +31,10 @@ const SearchResultCard = ({
 
   useEffect(() => {
     setIsFavorited(
-      favorites && favorites.some(
-        favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
-      )
+      favorites &&
+        favorites.some(
+          favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
+        )
     );
   }, [favorites]);
 
@@ -138,7 +140,7 @@ const SearchResultCard = ({
               onClick={handleOnClickRemoveFavorite}
               aria-label="favorite-item"
             >
-              <StarIcon />
+              <StarIcon style={{ color: colors.gold }} />
             </IconButton>
           ) : (
             <IconButton
