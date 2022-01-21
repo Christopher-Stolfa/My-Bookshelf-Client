@@ -10,6 +10,7 @@ import { checkIfLoading } from "../../selectors/uiSelectors";
 import SearchResultCard from "../../components/Cards";
 import SearchResultLoading from "../../components/Loaders/SearchResultLoading";
 import { searchTypes } from "../../types/searchTypes";
+import { SearchResultPagination } from "../../components/Pagination";
 
 const SearchResultsPage = ({
   searchResults: { bookSearchData },
@@ -23,12 +24,12 @@ const SearchResultsPage = ({
           {Array.from(
             { length: 10 },
             () => new Date().getTime() + Math.random()
-          ).map(key => (
-            <div key={key}>
-              <SearchResultLoading key={`${key}-search-result-card`} />
+          ).map((key, i) => (
+            <div key={`${key}-${i}`}>
+              <SearchResultLoading key={`${key}-${i}-search-result-card`} />
               <Divider
                 sx={{ marginTop: "8px", marginBottom: "8px" }}
-                key={`${key}-divider`}
+                key={`${key}-${i}-divider`}
               />
             </div>
           ))}
@@ -55,6 +56,7 @@ const SearchResultsPage = ({
             </div>
           ))}
         </Stack>
+        <SearchResultPagination />
       </>
     );
   }
