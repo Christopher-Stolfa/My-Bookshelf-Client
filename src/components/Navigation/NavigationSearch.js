@@ -14,15 +14,15 @@ const Search = styled("div")(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25)
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
-    width: "auto"
-  }
+    width: "auto",
+  },
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -33,7 +33,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  cursor: "pointer"
+  cursor: "pointer",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -45,9 +45,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: "20ch"
-    }
-  }
+      width: "20ch",
+    },
+  },
 }));
 
 const NavigationSearch = ({ searchBook }) => {
@@ -58,18 +58,20 @@ const NavigationSearch = ({ searchBook }) => {
     setSearchQuery(value);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const inputData = {
-      data: JSON.stringify({
-        searchQuery,
-        maxResults: 10,
-        startIndex: 1,
-        orderBy: "relevance",
-        currentPage: 1
-      })
-    };
-    searchBook(inputData);
+  const handleSubmit = (e) => {
+    if (searchQuery.length > 1) {
+      e.preventDefault();
+      const inputData = {
+        data: JSON.stringify({
+          searchQuery,
+          maxResults: 10,
+          startIndex: 1,
+          orderBy: "relevance",
+          currentPage: 1,
+        }),
+      };
+      searchBook(inputData);
+    }
     navigate(routes.searchResults);
   };
   return (
@@ -96,11 +98,11 @@ const NavigationSearch = ({ searchBook }) => {
 };
 
 NavigationSearch.propTypes = {
-  searchBook: PropTypes.func.isRequired
+  searchBook: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
-  searchBook: searchActions.searchBook
+  searchBook: searchActions.searchBook,
 };
 
 export default connect(null, actionCreators)(NavigationSearch);
