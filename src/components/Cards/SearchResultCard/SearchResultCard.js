@@ -15,13 +15,17 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BookIcon from "@mui/icons-material/Book";
 import { userActions } from "../../../actions/userActions";
 import { getUserSelector } from "../../../selectors/userSelectors";
+import { userTypes } from "../../../types/userTypes";
+import { checkIfLoading } from "../../../selectors/uiSelectors";
 import colors from "../../../themes/colors";
 
 const SearchResultCard = ({
   book,
   user: { loggedIn, favorites },
   userSaveFavoritedBook,
-  userRemoveFavoritedBook
+  userRemoveFavoritedBook,
+  isDelFavLoading,
+  isAddFavLoading,
 }) => {
   const ref = createRef();
   const navigate = useNavigate();
@@ -33,7 +37,7 @@ const SearchResultCard = ({
     setIsFavorited(
       favorites &&
         favorites.some(
-          favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
+          (favoritedBook) => favoritedBook.googleBooksId === book.googleBooksId
         )
     );
   }, [favorites]);
@@ -52,6 +56,8 @@ const SearchResultCard = ({
   const handleOnClickFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
+    } else if (isAddFavLoading || isDelFavLoading) {
+      return;
     } else {
       const inputData = { data: JSON.stringify(book) };
       userSaveFavoritedBook(inputData);
@@ -61,6 +67,8 @@ const SearchResultCard = ({
   const handleOnClickRemoveFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
+    } else if (isAddFavLoading || isDelFavLoading) {
+      return;
     } else {
       const inputData = { data: { bookData: JSON.stringify(book) } };
       userRemoveFavoritedBook(inputData);
@@ -93,7 +101,7 @@ const SearchResultCard = ({
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis"
+                textOverflow: "ellipsis",
               }
         }
       >
@@ -101,7 +109,7 @@ const SearchResultCard = ({
           <Typography component="div" variant="h5">
             {book.title}
           </Typography>
-          {book.authors.map(author => (
+          {book.authors.map((author) => (
             <Typography
               key={author}
               variant="subtitle1"
@@ -126,7 +134,7 @@ const SearchResultCard = ({
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline"
+                textDecoration: "underline",
               }}
               onClick={handleOnClickMore}
             >
@@ -169,12 +177,14 @@ const SearchResultCard = ({
 };
 
 SearchResultCard.propTypes = {
+  isAddFavLoading: PropTypes.bool.isRequired,
+  isDelFavLoading: PropTypes.bool.isRequired,
   userSaveFavoritedBook: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
     favorites: PropTypes.arrayOf(
       PropTypes.shape({ googleBooksId: PropTypes.string })
-    )
+    ),
   }).isRequired,
   book: PropTypes.shape({
     googleBooksId: PropTypes.string.isRequired,
@@ -188,17 +198,25 @@ SearchResultCard.propTypes = {
     ratingsCount: PropTypes.number.isRequired,
     imageLink: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired
-  }).isRequired
+    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: getUserSelector(state)
+const mapStateToProps = (state) => ({
+  user: getUserSelector(state),
+  isAddFavLoading: checkIfLoading(
+    state,
+    userTypes.GET_SAVE_FAVORITED_BOOK_FETCH
+  ),
+  isDelFavLoading: checkIfLoading(
+    state,
+    userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
+  ),
 });
 
 const actionCreators = {
   userSaveFavoritedBook: userActions.userSaveFavoritedBook,
-  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook
+  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultCard);
