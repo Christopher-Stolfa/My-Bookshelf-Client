@@ -17,9 +17,7 @@ import { userActions } from "../../../actions/userActions";
 import { getUserSelector } from "../../../selectors/userSelectors";
 import { userTypes } from "../../../types/userTypes";
 import { checkIfLoading } from "../../../selectors/uiSelectors";
-import colors from "../../../themes/colors";
 import Rating from "@mui/material/Rating";
-import Stack from "@mui/material/Stack";
 
 const SearchResultCard = ({
   book,
@@ -87,7 +85,7 @@ const SearchResultCard = ({
 
   return (
     <Card variant="none" sx={{ display: "flex" }}>
-      <div style={{ flex: "1 0 auto" }}>
+      <div>
         <CardMedia
           component="img"
           sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
@@ -95,12 +93,15 @@ const SearchResultCard = ({
           alt={book.title}
         />
         <Rating
-          style={{ marginTop: "8px"}}
+          style={{ marginTop: "8px" }}
           name="half-rating-read"
           defaultValue={book.averageRating}
           precision={0.5}
           readOnly
         />
+        <Typography variant="caption" display="block" gutterBottom>
+          {book.ratingsCount > 0 && `Ratings: ${book.ratingsCount}`}
+        </Typography>
       </div>
       <Box
         ref={ref}
