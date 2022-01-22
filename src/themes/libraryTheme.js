@@ -4,8 +4,11 @@ import colors from "./colors";
 const libraryTheme = createTheme({
   palette: {
     primary: {
-      main: colors.skyBlue
-    }
-  }
+      main: colors.skyBlue,
+    },
+    secondary: {
+      main: colors.reddish,
+    },
+  },
 });
 export default libraryTheme;
