@@ -25,7 +25,7 @@ export const routes = {
   signUp: "/sign-up",
   signOut: "/sign-out",
   searchResults: "/search-results",
-  books: "/book",
+  book: "/book",
 };
 // Navigation
 export const navigationItems = [
