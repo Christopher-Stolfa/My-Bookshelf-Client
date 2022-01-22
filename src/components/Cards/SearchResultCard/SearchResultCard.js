@@ -9,8 +9,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarIcon from "@mui/icons-material/Star";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BookIcon from "@mui/icons-material/Book";
 import { userActions } from "../../../actions/userActions";
@@ -18,6 +18,8 @@ import { getUserSelector } from "../../../selectors/userSelectors";
 import { userTypes } from "../../../types/userTypes";
 import { checkIfLoading } from "../../../selectors/uiSelectors";
 import colors from "../../../themes/colors";
+import Rating from "@mui/material/Rating";
+import Stack from "@mui/material/Stack";
 
 const SearchResultCard = ({
   book,
@@ -85,12 +87,21 @@ const SearchResultCard = ({
 
   return (
     <Card variant="none" sx={{ display: "flex" }}>
-      <CardMedia
-        component="img"
-        sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
-        image={book.imageLink}
-        alt={book.title}
-      />
+      <div style={{ flex: "1 0 auto" }}>
+        <CardMedia
+          component="img"
+          sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
+          image={book.imageLink}
+          alt={book.title}
+        />
+        <Rating
+          style={{ marginTop: "8px"}}
+          name="half-rating-read"
+          defaultValue={book.averageRating}
+          precision={0.5}
+          readOnly
+        />
+      </div>
       <Box
         ref={ref}
         sx={
@@ -148,14 +159,14 @@ const SearchResultCard = ({
               onClick={handleOnClickRemoveFavorite}
               aria-label="favorite-item"
             >
-              <StarIcon style={{ color: colors.gold }} />
+              <FavoriteIcon color="secondary" />
             </IconButton>
           ) : (
             <IconButton
               onClick={handleOnClickFavorite}
               aria-label="favorite-item"
             >
-              <StarBorderIcon />
+              <FavoriteBorderIcon />
             </IconButton>
           )}
           <IconButton
