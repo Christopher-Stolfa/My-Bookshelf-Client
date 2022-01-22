@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
 import { searchActions } from "../../actions/searchActions";
 import { getSearchSelector } from "../../selectors/searchSelector";
 import { checkIfLoading } from "../../selectors/uiSelectors";
@@ -18,7 +19,7 @@ const SearchResultsPage = ({
 }) => {
   if (isLoading) {
     return (
-      <>
+      <Container component="main">
         <h1>Loading...</h1>
         <Stack spacing={2}>
           {Array.from(
@@ -34,13 +35,17 @@ const SearchResultsPage = ({
             </div>
           ))}
         </Stack>
-      </>
+      </Container>
     );
   } else if (bookSearchData.length < 1) {
-    return <h1>No search results.</h1>;
+    return (
+      <Container component="main">
+        <h1>No search results.</h1>
+      </Container>
+    );
   } else {
     return (
-      <>
+      <Container component="main">
         <h1>Search results:</h1>
         <Stack spacing={2}>
           {bookSearchData.map((book) => (
@@ -57,7 +62,7 @@ const SearchResultsPage = ({
           ))}
         </Stack>
         <SearchResultPagination />
-      </>
+      </Container>
     );
   }
 };
