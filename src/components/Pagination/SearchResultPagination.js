@@ -8,12 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { searchTypes } from "../../types/searchTypes";
 import { searchActions } from "../../actions/searchActions";
 import { getSearchSelector } from "../../selectors/searchSelector";
-import { checkIfLoading } from "../../selectors/uiSelectors";
 import { routes } from "../../config";
 
 const SearchResultPagination = ({
   searchBook,
-  searchResults: { totalItems, searchQuery, currentPage }
+  searchResults: { totalItems, searchQuery, currentPage },
 }) => {
   const maxPages = 10;
   const pageSize = 10;
@@ -30,8 +29,8 @@ const SearchResultPagination = ({
         maxResults: 10,
         startIndex: (value - 1) * pageSize,
         orderBy: "relevance",
-        currentPage: value
-      })
+        currentPage: value,
+      }),
     };
     searchBook(inputData);
     navigate(routes.searchResults);
@@ -69,17 +68,16 @@ SearchResultPagination.propTypes = {
     bookSearchData: PropTypes.array,
     totalItems: PropTypes.number,
     searchQuery: PropTypes.string,
-    currentPage: PropTypes.number
-  }).isRequired
+    currentPage: PropTypes.number,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   searchResults: getSearchSelector(state),
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH)
 });
 
 const actionCreators = {
-  searchBook: searchActions.searchBook
+  searchBook: searchActions.searchBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultPagination);
