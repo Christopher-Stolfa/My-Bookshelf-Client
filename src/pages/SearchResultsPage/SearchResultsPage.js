@@ -14,7 +14,7 @@ import { SearchResultPagination } from "../../components/Pagination";
 
 const SearchResultsPage = ({
   searchResults: { bookSearchData },
-  isLoading
+  isLoading,
 }) => {
   if (isLoading) {
     return (
@@ -43,7 +43,7 @@ const SearchResultsPage = ({
       <>
         <h1>Search results:</h1>
         <Stack spacing={2}>
-          {bookSearchData.map(book => (
+          {bookSearchData.map((book) => (
             <div key={`${book.googleBooksId}-search-result-div`}>
               <SearchResultCard
                 key={`${book.googleBooksId}-search-result-card`}
@@ -63,19 +63,20 @@ const SearchResultsPage = ({
 };
 
 SearchResultsPage.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   searchBook: PropTypes.func.isRequired,
   searchResults: PropTypes.shape({
-    bookSearchData: PropTypes.array.isRequired
-  }).isRequired
+    bookSearchData: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   searchResults: getSearchSelector(state),
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH)
+  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
 });
 
 const actionCreators = {
-  searchBook: searchActions.searchBook
+  searchBook: searchActions.searchBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultsPage);
