@@ -4,9 +4,9 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate
+  Navigate,
 } from "react-router-dom";
-import { routes } from "../config";
+import { routes, nestedRoutes } from "../config";
 import { connect } from "react-redux";
 import { userActions } from "../actions/userActions";
 import { checkIfLoading } from "../selectors/uiSelectors";
@@ -18,6 +18,7 @@ import ElevateAppBar from "../components/ElevateAppBar/ElevateAppBar";
 import HomePage from "../pages/HomePage/HomePage";
 import Error404Page from "../pages/Error404Page/Error404Page";
 import SearchResultsPage from "../pages/SearchResultsPage/SearchResultsPage";
+import BookPage from "../pages/BookPage/BookPage";
 
 const RouterComponent = ({ getUserSession, isLoading, user }) => {
   useEffect(() => {
@@ -40,6 +41,9 @@ const RouterComponent = ({ getUserSession, isLoading, user }) => {
               path={routes.searchResults}
               element={<SearchResultsPage />}
             />
+            <Route path={routes.books}>
+              <Route path={nestedRoutes.bookId} element={<BookPage />} />
+            </Route>
             <Route path="*" element={<Error404Page />} />
           </Routes>
         </ElevateAppBar>
@@ -52,17 +56,17 @@ RouterComponent.propTypes = {
   getUserSession: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool
-  })
+    loggedIn: PropTypes.bool,
+  }),
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: checkIfLoading(state, userTypes.GET_SESSION_FETCH),
-  user: getUserSelector(state)
+  user: getUserSelector(state),
 });
 
 const actionCreators = {
-  getUserSession: userActions.getUserSession
+  getUserSession: userActions.getUserSession,
 };
 
 export default connect(mapStateToProps, actionCreators)(RouterComponent);
