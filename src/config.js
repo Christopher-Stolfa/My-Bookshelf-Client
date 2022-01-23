@@ -27,6 +27,12 @@ export const routes = {
   searchResults: "/search-results",
   books: "/books",
 };
+
+// Nested routes
+export const nestedRoutes = {
+  bookId: ":bookId",
+};
+
 // Navigation
 export const navigationItems = [
   {
