@@ -26,6 +26,7 @@ const SearchResultCard = ({
   userRemoveFavoritedBook,
   isDelFavLoading,
   isAddFavLoading,
+  handleSelectBook,
 }) => {
   const ref = createRef();
   const navigate = useNavigate();
@@ -83,14 +84,23 @@ const SearchResultCard = ({
     if (!loggedIn) navigate(routes.signIn);
   };
 
+  const selectBook = () => handleSelectBook(book);
+
   return (
     <Card variant="none" sx={{ display: "flex" }}>
       <div>
         <CardMedia
           component="img"
-          sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
+          sx={{
+            width: 128,
+            minWidth: 128,
+            height: 168,
+            minHeight: 168,
+            cursor: "pointer",
+          }}
           image={book.imageLink}
           alt={book.title}
+          onClick={selectBook}
         />
         <Rating
           style={{ marginTop: "8px" }}
@@ -118,7 +128,12 @@ const SearchResultCard = ({
         }
       >
         <CardContent sx={{ flex: "1 0 auto" }}>
-          <Typography component="div" variant="h5">
+          <Typography
+            onClick={selectBook}
+            sx={{ cursor: "pointer" }}
+            component="div"
+            variant="h5"
+          >
             {book.title}
           </Typography>
           {book.authors.map((author) => (
@@ -189,6 +204,7 @@ const SearchResultCard = ({
 };
 
 SearchResultCard.propTypes = {
+  handleSelectBook: PropTypes.func.isRequired,
   isAddFavLoading: PropTypes.bool.isRequired,
   isDelFavLoading: PropTypes.bool.isRequired,
   userSaveFavoritedBook: PropTypes.func.isRequired,
