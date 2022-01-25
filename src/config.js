@@ -25,11 +25,10 @@ export const routes = {
   signUp: "/sign-up",
   signOut: "/sign-out",
   searchResults: "/search-results",
-  books: "/books",
 };
 
 // Nested routes
-export const nestedRoutes = {
+export const routeIds = {
   bookId: ":bookId",
 };
 

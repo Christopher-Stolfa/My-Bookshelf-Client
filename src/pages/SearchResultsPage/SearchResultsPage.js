@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
@@ -17,54 +17,51 @@ const SearchResultsPage = ({
   searchResults: { bookSearchData },
   isLoading,
 }) => {
-  if (isLoading) {
-    return (
-      <Container component="main">
-        <h1>Loading...</h1>
-        <Stack spacing={2}>
-          {Array.from(
-            { length: 10 },
-            () => new Date().getTime() + Math.random()
-          ).map((key, i) => (
-            <div key={`${key}-${i}`}>
-              <SearchResultLoading key={`${key}-${i}-search-result-card`} />
-              <Divider
-                sx={{ marginTop: "8px", marginBottom: "8px" }}
-                key={`${key}-${i}-divider`}
-              />
-            </div>
-          ))}
-        </Stack>
-      </Container>
-    );
-  } else if (bookSearchData.length < 1) {
-    return (
-      <Container component="main">
-        <h1>No search results.</h1>
-      </Container>
-    );
-  } else {
-    return (
-      <Container component="main">
-        <h1>Search results:</h1>
-        <Stack spacing={2}>
-          {bookSearchData.map((book) => (
-            <div key={`${book.googleBooksId}-search-result-div`}>
-              <SearchResultCard
-                key={`${book.googleBooksId}-search-result-card`}
-                book={book}
-              />
-              <Divider
-                sx={{ marginTop: "8px", marginBottom: "8px" }}
-                key={`${book.googleBooksId}-divider`}
-              />
-            </div>
-          ))}
-        </Stack>
-        <SearchResultPagination />
-      </Container>
-    );
-  }
+  return (
+    <Container component="main">
+      {isLoading && (
+        <>
+          <h1>Loading...</h1>
+          <Stack spacing={2}>
+            {Array.from(
+              { length: 10 },
+              () => new Date().getTime() + Math.random()
+            ).map((key, i) => (
+              <div key={`${key}-${i}`}>
+                <SearchResultLoading key={`${key}-${i}-search-result-card`} />
+                <Divider
+                  sx={{ marginTop: "8px", marginBottom: "8px" }}
+                  key={`${key}-${i}-divider`}
+                />
+              </div>
+            ))}
+          </Stack>
+        </>
+      )}
+      {!isLoading && bookSearchData.length > 0 && (
+        <>
+          <h1>Search results:</h1>
+          <Stack spacing={2}>
+            {bookSearchData.map((book) => (
+              <div key={`${book.googleBooksId}-search-result-div`}>
+                <SearchResultCard
+                  key={`${book.googleBooksId}-search-result-card`}
+                  book={book}
+                />
+                <Divider
+                  sx={{ marginTop: "8px", marginBottom: "8px" }}
+                  key={`${book.googleBooksId}-divider`}
+                />
+              </div>
+            ))}
+          </Stack>
+          <SearchResultPagination />
+        </>
+      )}
+      {!isLoading && bookSearchData.length < 1 && <h1>No search results.</h1>}
+      <Outlet />
+    </Container>
+  );
 };
 
 SearchResultsPage.propTypes = {

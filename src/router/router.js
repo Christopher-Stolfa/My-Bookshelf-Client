@@ -6,7 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { routes, nestedRoutes } from "../config";
+import { routes, routeIds } from "../config";
 import { connect } from "react-redux";
 import { userActions } from "../actions/userActions";
 import { checkIfLoading } from "../selectors/uiSelectors";
@@ -18,7 +18,7 @@ import ElevateAppBar from "../components/ElevateAppBar/ElevateAppBar";
 import HomePage from "../pages/HomePage/HomePage";
 import Error404Page from "../pages/Error404Page/Error404Page";
 import SearchResultsPage from "../pages/SearchResultsPage/SearchResultsPage";
-import BookPage from "../pages/BookPage/BookPage";
+import BookResultPage from "../pages/SearchResultsPage/BookResultPage";
 
 const RouterComponent = ({ getUserSession, isLoading, user }) => {
   useEffect(() => {
@@ -37,12 +37,8 @@ const RouterComponent = ({ getUserSession, isLoading, user }) => {
             <Route path={routes.home} element={<HomePage />} />
             <Route path={routes.signIn} element={<SignInPage />} />
             <Route path={routes.signUp} element={<SignUpPage />} />
-            <Route
-              path={routes.searchResults}
-              element={<SearchResultsPage />}
-            />
-            <Route path={routes.books}>
-              <Route path={nestedRoutes.bookId} element={<BookPage />} />
+            <Route path={routes.searchResults} element={<SearchResultsPage />}>
+              <Route path={routeIds.bookId} element={<BookResultPage />} />
             </Route>
             <Route path="*" element={<Error404Page />} />
           </Routes>
