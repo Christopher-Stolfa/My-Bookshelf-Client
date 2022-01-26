@@ -14,6 +14,7 @@ export const endPoints = {
   signOut: "sign-out",
   checkSession: "check-session",
   searchBook: "search-book",
+  searchBookById: "/search-book-by-id",
   saveFavoritedBook: "save-favorited-book",
   removeFavoritedBook: "remove-favorited-book",
 };
