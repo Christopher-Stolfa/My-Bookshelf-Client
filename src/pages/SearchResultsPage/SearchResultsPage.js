@@ -75,13 +75,7 @@ const SearchResultsPage = ({
       </Container>
     );
   } else {
-    return (
-      <Container component="main">
-        <Outlet
-          context={[selectedBook, setSelectedBook, initialState]}
-        />
-      </Container>
-    );
+    return <Outlet context={[selectedBook, setSelectedBook, initialState]} />;
   }
 };
 
