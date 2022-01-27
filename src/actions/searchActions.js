@@ -22,6 +22,7 @@ const searchBook = (inputData) => async (dispatch) => {
   }
 };
 
+// If a user manually reaches a search result page for an item, we fetch for the item.
 const searchBookById = (inputData) => async (dispatch) => {
   const getSearchBookByIdSuccess = (data) => ({
     type: searchTypes.GET_SEARCH_BOOK_BY_ID_SUCCESS,
@@ -29,7 +30,7 @@ const searchBookById = (inputData) => async (dispatch) => {
   });
   try {
     dispatch(startAction(searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH));
-    const { data } = await searchService.searchBook(inputData);
+    const { data } = await searchService.searchBookById(inputData);
     dispatch(getSearchBookByIdSuccess(data));
     setSnackbarSuccess(data, dispatch);
   } catch (error) {
@@ -39,4 +40,19 @@ const searchBookById = (inputData) => async (dispatch) => {
   }
 };
 
-export const searchActions = { searchBook, searchBookById };
+// If a user selects a search result item from the search results, set that item to state.
+const setSelectedBook = (inputData) => (dispatch) => {
+  try {
+    dispatch(startAction(searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH));
+    dispatch({
+      type: searchTypes.GET_SEARCH_BOOK_BY_ID_SUCCESS,
+      payload: inputData,
+    });
+  } catch (error) {
+    setSnackbarError(error.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH));
+  }
+};
+
+export const searchActions = { searchBook, searchBookById, setSelectedBook };
