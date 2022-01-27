@@ -15,6 +15,7 @@ const searchReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         searchResults: {
+          ...state.searchResults,
           ...payload,
         },
       };
@@ -22,6 +23,7 @@ const searchReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         searchResults: {
+          ...state.searchResults,
           ...payload,
         },
       };
