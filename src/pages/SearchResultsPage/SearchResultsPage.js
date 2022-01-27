@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
@@ -19,14 +19,7 @@ const SearchResultsPage = ({
   isLoading,
 }) => {
   const initialState = { isSelected: false, book: {} };
-  const navigate = useNavigate();
   const location = useLocation();
-  const [selectedBook, setSelectedBook] = useState(initialState);
-
-  const handleSelectBook = (book) => {
-    setSelectedBook({ isSelected: true, book });
-    navigate(`${routes.searchResults}/${book.googleBooksId}`);
-  };
 
   if (location.pathname === routes.searchResults) {
     return (
@@ -59,7 +52,6 @@ const SearchResultsPage = ({
                   <SearchResultCard
                     key={`${book.googleBooksId}-search-result-card`}
                     book={book}
-                    handleSelectBook={handleSelectBook}
                   />
                   <Divider
                     sx={{ marginTop: "8px", marginBottom: "8px" }}
@@ -75,13 +67,14 @@ const SearchResultsPage = ({
       </Container>
     );
   } else {
-    return <Outlet context={[selectedBook, setSelectedBook, initialState]} />;
+    return <Outlet />;
   }
 };
 
 SearchResultsPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   searchBook: PropTypes.func.isRequired,
+  setSelectedBook: PropTypes.func.isRequired,
   searchResults: PropTypes.shape({
     bookSearchData: PropTypes.array.isRequired,
   }).isRequired,
@@ -94,6 +87,7 @@ const mapStateToProps = (state) => ({
 
 const actionCreators = {
   searchBook: searchActions.searchBook,
+  setSelectedBook: searchActions.setSelectedBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultsPage);
