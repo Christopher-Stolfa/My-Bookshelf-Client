@@ -18,6 +18,7 @@ import { getUserSelector } from "../../../selectors/userSelectors";
 import { userTypes } from "../../../types/userTypes";
 import { checkIfLoading } from "../../../selectors/uiSelectors";
 import Rating from "@mui/material/Rating";
+import { searchActions } from "../../../actions/searchActions";
 
 const SearchResultCard = ({
   book,
@@ -26,7 +27,7 @@ const SearchResultCard = ({
   userRemoveFavoritedBook,
   isDelFavLoading,
   isAddFavLoading,
-  handleSelectBook,
+  setSelectedBook,
 }) => {
   const ref = createRef();
   const navigate = useNavigate();
@@ -84,7 +85,10 @@ const SearchResultCard = ({
     if (!loggedIn) navigate(routes.signIn);
   };
 
-  const selectBook = () => handleSelectBook(book);
+  const selectBook = () => {
+    setSelectedBook(book);
+    navigate(`${routes.searchResults}/${book.googleBooksId}`);
+  };
 
   return (
     <Card variant="none" sx={{ display: "flex" }}>
@@ -204,7 +208,7 @@ const SearchResultCard = ({
 };
 
 SearchResultCard.propTypes = {
-  handleSelectBook: PropTypes.func.isRequired,
+  setSelectedBook: PropTypes.func.isRequired,
   isAddFavLoading: PropTypes.bool.isRequired,
   isDelFavLoading: PropTypes.bool.isRequired,
   userSaveFavoritedBook: PropTypes.func.isRequired,
@@ -243,6 +247,7 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
+  setSelectedBook: searchActions.setSelectedBook,
   userSaveFavoritedBook: userActions.userSaveFavoritedBook,
   userRemoveFavoritedBook: userActions.userRemoveFavoritedBook,
 };
