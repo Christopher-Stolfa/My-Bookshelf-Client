@@ -86,7 +86,7 @@ const SearchResultCard = ({
   };
 
   const selectBook = () => {
-    setSelectedBook(book);
+    setSelectedBook({ message: "Book selected", selectedBookData: book });
     navigate(`${routes.searchResults}/${book.googleBooksId}`);
   };
 
@@ -212,6 +212,7 @@ SearchResultCard.propTypes = {
   isAddFavLoading: PropTypes.bool.isRequired,
   isDelFavLoading: PropTypes.bool.isRequired,
   userSaveFavoritedBook: PropTypes.func.isRequired,
+  userRemoveFavoritedBook: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
     favorites: PropTypes.arrayOf(
