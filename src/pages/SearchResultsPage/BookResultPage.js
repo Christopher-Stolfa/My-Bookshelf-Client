@@ -3,13 +3,20 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { searchTypes } from "../../types/searchTypes";
 import { searchActions } from "../../actions/searchActions";
-import { getSelectedBookSelector } from "../../selectors/searchSelector";
+import {
+  getSelectedBookSelector,
+  getSearchSelector,
+} from "../../selectors/searchSelector";
 import { useParams } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 
-const BookResultPage = ({ isLoading, searchBookById, selectedBookData }) => {
+const BookResultPage = ({
+  isLoading,
+  searchBookById,
+  searchResults: { selectedBookData, bookSearchData },
+}) => {
   const { bookId } = useParams();
 
   // TODO: Better handling of if the ID does not exist
@@ -22,21 +29,13 @@ const BookResultPage = ({ isLoading, searchBookById, selectedBookData }) => {
   };
   // When a user exists this page or backs out of it, reset SearchResultsPage selectedBook state back to its initial state.
   useEffect(() => {
-    if (isEmpty(selectedBookData)) {
-      console.log(
-        "User accessed this page manually, we must make a fetch with the ID they entered and handle it from there."
-      );
+    if (isEmpty(bookSearchData)) {
       const inputData = { data: JSON.stringify({ googleBooksId: bookId }) };
       searchBookById(inputData);
-    } else {
-      console.log("User accessed this page through search results");
     }
     return () => {};
   }, []);
 
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
   return (
     <Container>
       {isLoading && isEmpty(selectedBookData) && (
@@ -56,10 +55,27 @@ const BookResultPage = ({ isLoading, searchBookById, selectedBookData }) => {
 BookResultPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   searchBookById: PropTypes.func.isRequired,
+  searchResults: PropTypes.shape({
+    bookSearchData: PropTypes.array.isRequired,
+    selectedBookData: PropTypes.shape({
+      googleBooksId: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string,
+      authors: PropTypes.arrayOf(PropTypes.string),
+      publisher: PropTypes.string,
+      publishedDate: PropTypes.string,
+      pageCount: PropTypes.number,
+      averageRating: PropTypes.number,
+      ratingsCount: PropTypes.number,
+      imageLink: PropTypes.string,
+      language: PropTypes.string,
+      categories: PropTypes.arrayOf(PropTypes.string),
+    }),
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  selectedBookData: getSelectedBookSelector(state),
+  searchResults: getSearchSelector(state),
   isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH),
 });
 
