@@ -32,7 +32,6 @@ const searchBookById = (inputData) => async (dispatch) => {
     dispatch(startAction(searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH));
     const { data } = await searchService.searchBookById(inputData);
     dispatch(getSearchBookByIdSuccess(data));
-    setSnackbarSuccess(data, dispatch);
   } catch (error) {
     setSnackbarError(error.response.data, dispatch);
   } finally {
@@ -46,7 +45,7 @@ const setSelectedBook = (inputData) => (dispatch) => {
     dispatch(startAction(searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH));
     dispatch({
       type: searchTypes.GET_SEARCH_BOOK_BY_ID_SUCCESS,
-      payload: inputData,
+      payload: { message: "Book selected", selectedBookData: inputData },
     });
   } catch (error) {
     setSnackbarError(error.response.data, dispatch);
