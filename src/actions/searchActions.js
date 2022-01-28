@@ -45,7 +45,7 @@ const setSelectedBook = (inputData) => (dispatch) => {
     dispatch(startAction(searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH));
     dispatch({
       type: searchTypes.GET_SEARCH_BOOK_BY_ID_SUCCESS,
-      payload: { message: "Book selected", selectedBookData: inputData },
+      payload: inputData,
     });
   } catch (error) {
     setSnackbarError(error.response.data, dispatch);
