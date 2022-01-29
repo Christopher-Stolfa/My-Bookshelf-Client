@@ -96,6 +96,7 @@ const BookResultPage = ({
   };
   return (
     <Box>
+      <CssBaseline />
       {isLoading && isEmpty(selectedBookData) && (
         <Typography component="div" variant="h5">
           Loading...
