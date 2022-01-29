@@ -14,6 +14,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import CssBaseline from "@mui/material/CssBaseline";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import IconButton from "@mui/material/IconButton";
@@ -93,64 +95,42 @@ const BookResultPage = ({
     }
   };
   return (
-    <Container>
+    <Box>
       {isLoading && isEmpty(selectedBookData) && (
         <Typography component="div" variant="h5">
           Loading...
         </Typography>
       )}
       {!isLoading && !isEmpty(selectedBookData) && (
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            component="img"
-            src={selectedBookData.imageLink}
-            alt={selectedBookData.title}
-            sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
-          />
-          <Rating
-            style={{ marginTop: "8px" }}
-            name="half-rating-read"
-            defaultValue={selectedBookData.averageRating}
-            precision={0.5}
-            readOnly
-          />
-          <Typography variant="caption" display="block" gutterBottom>
-            {selectedBookData.ratingsCount > 0 &&
-              `Ratings: ${selectedBookData.ratingsCount}`}
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Box sx={{ flex: "1 0 auto" }}>
-              <Typography component="div" variant="h5">
-                {selectedBookData.title}
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
+            <div>
+              <Box
+                component="img"
+                src={selectedBookData.imageLink}
+                alt={selectedBookData.title}
+                sx={{
+                  width: 128,
+                  minWidth: 128,
+                  height: 168,
+                  minHeight: 168,
+                }}
+              />
+            </div>
+            <div>
+              <Rating
+                style={{ marginTop: "8px" }}
+                name="half-rating-read"
+                defaultValue={selectedBookData.averageRating}
+                precision={0.5}
+                readOnly
+              />
+              <Typography variant="caption" display="block" gutterBottom>
+                {selectedBookData.ratingsCount > 0 &&
+                  `Ratings: ${selectedBookData.ratingsCount}`}
               </Typography>
-              {selectedBookData.authors.map((author) => (
-                <Typography
-                  key={author}
-                  variant="subtitle1"
-                  color="text.secondary"
-                  component="div"
-                >
-                  {author}
-                </Typography>
-              ))}
-              <span>
-                <Typography
-                  variant="subtitle2"
-                  color="text.secondary"
-                  component="div"
-                >
-                  {selectedBookData.description}
-                </Typography>
-              </span>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
+            </div>
+            <div>
               {favorites && isFavorited ? (
                 <IconButton
                   onClick={handleOnClickRemoveFavorite}
@@ -172,12 +152,121 @@ const BookResultPage = ({
               <IconButton aria-label="finished-reading">
                 <BookIcon />
               </IconButton>
-            </Box>
+            </div>
+          </Box>
+          <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
+            <Typography component="div" variant="h5">
+              {selectedBookData.title}
+            </Typography>
+            {selectedBookData.authors.map((author) => (
+              <Typography
+                key={author}
+                variant="subtitle1"
+                color="text.secondary"
+                component="div"
+              >
+                {author}
+              </Typography>
+            ))}
+            <Typography
+              variant="subtitle2"
+              color="text.secondary"
+              component="div"
+            >
+              {selectedBookData.description}
+            </Typography>
           </Box>
         </Box>
       )}
-    </Container>
+    </Box>
   );
+
+  // return (
+  //   <Container>
+  //     {isLoading && isEmpty(selectedBookData) && (
+  //       <Typography component="div" variant="h5">
+  //         Loading...
+  //       </Typography>
+  //     )}
+  //     {!isLoading && !isEmpty(selectedBookData) && (
+  //       <Box
+  //         sx={{
+  //           marginTop: 8,
+  //           display: "flex",
+  //           flexDirection: "column",
+  //           alignItems: "center",
+  //         }}
+  //       >
+  //         <Box
+  //           component="img"
+  //           src={selectedBookData.imageLink}
+  //           alt={selectedBookData.title}
+  //           sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
+  //         />
+  //         <Rating
+  //           style={{ marginTop: "8px" }}
+  //           name="half-rating-read"
+  //           defaultValue={selectedBookData.averageRating}
+  //           precision={0.5}
+  //           readOnly
+  //         />
+  //         <Typography variant="caption" display="block" gutterBottom>
+  //           {selectedBookData.ratingsCount > 0 &&
+  //             `Ratings: ${selectedBookData.ratingsCount}`}
+  //         </Typography>
+  //         <Box sx={{ display: "flex", flexDirection: "column" }}>
+  //           <Box sx={{ flex: "1 0 auto" }}>
+  //             <Typography component="div" variant="h5">
+  //               {selectedBookData.title}
+  //             </Typography>
+  //             {selectedBookData.authors.map((author) => (
+  //               <Typography
+  //                 key={author}
+  //                 variant="subtitle1"
+  //                 color="text.secondary"
+  //                 component="div"
+  //               >
+  //                 {author}
+  //               </Typography>
+  //             ))}
+  //             <span>
+  //               <Typography
+  //                 variant="subtitle2"
+  //                 color="text.secondary"
+  //                 component="div"
+  //               >
+  //                 {selectedBookData.description}
+  //               </Typography>
+  //             </span>
+  //           </Box>
+  //           <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
+  //             {favorites && isFavorited ? (
+  //               <IconButton
+  //                 onClick={handleOnClickRemoveFavorite}
+  //                 aria-label="favorite-item"
+  //               >
+  //                 <FavoriteIcon color="secondary" />
+  //               </IconButton>
+  //             ) : (
+  //               <IconButton
+  //                 onClick={handleOnClickFavorite}
+  //                 aria-label="favorite-item"
+  //               >
+  //                 <FavoriteBorderIcon />
+  //               </IconButton>
+  //             )}
+  //             <IconButton aria-label="currently-reading">
+  //               <AutoStoriesIcon />
+  //             </IconButton>
+  //             <IconButton aria-label="finished-reading">
+  //               <BookIcon />
+  //             </IconButton>
+  //           </Box>
+  //         </Box>
+  //       </Box>
+  //     )}
+  //   </Container>
+  // );
 };
 
 BookResultPage.propTypes = {
