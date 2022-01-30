@@ -27,7 +27,7 @@ const SearchResultCard = ({
   userRemoveFavoritedBook,
   isDelFavLoading,
   isAddFavLoading,
-  setSelectedBook,
+  setSelectedBook
 }) => {
   const ref = createRef();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const SearchResultCard = ({
     setIsFavorited(
       favorites &&
         favorites.some(
-          (favoritedBook) => favoritedBook.googleBooksId === book.googleBooksId
+          favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
         )
     );
   }, [favorites]);
@@ -100,7 +100,7 @@ const SearchResultCard = ({
             minWidth: 128,
             height: 168,
             minHeight: 168,
-            cursor: "pointer",
+            cursor: "pointer"
           }}
           image={book.imageLink}
           alt={book.title}
@@ -127,7 +127,7 @@ const SearchResultCard = ({
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis",
+                textOverflow: "ellipsis"
               }
         }
       >
@@ -140,7 +140,7 @@ const SearchResultCard = ({
           >
             {book.title}
           </Typography>
-          {book.authors.map((author) => (
+          {book.authors.map(author => (
             <Typography
               key={author}
               variant="subtitle1"
@@ -165,7 +165,7 @@ const SearchResultCard = ({
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline",
+                textDecoration: "underline"
               }}
               onClick={handleOnClickMore}
             >
@@ -217,7 +217,7 @@ SearchResultCard.propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     favorites: PropTypes.arrayOf(
       PropTypes.shape({ googleBooksId: PropTypes.string })
-    ),
+    )
   }).isRequired,
   book: PropTypes.shape({
     googleBooksId: PropTypes.string.isRequired,
@@ -227,15 +227,15 @@ SearchResultCard.propTypes = {
     publisher: PropTypes.string.isRequired,
     publishedDate: PropTypes.string.isRequired,
     pageCount: PropTypes.number.isRequired,
-    averageRating: PropTypes.number.isRequired,
-    ratingsCount: PropTypes.number.isRequired,
+    averageRating: PropTypes.number,
+    ratingsCount: PropTypes.number,
     imageLink: PropTypes.string.isRequired,
-    language: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }).isRequired,
+    language: PropTypes.string,
+    categories: PropTypes.arrayOf(PropTypes.string).isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: getUserSelector(state),
   isAddFavLoading: checkIfLoading(
     state,
@@ -244,13 +244,13 @@ const mapStateToProps = (state) => ({
   isDelFavLoading: checkIfLoading(
     state,
     userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
-  ),
+  )
 });
 
 const actionCreators = {
   setSelectedBook: searchActions.setSelectedBook,
   userSaveFavoritedBook: userActions.userSaveFavoritedBook,
-  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook,
+  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultCard);
