@@ -4,7 +4,7 @@ export const LOCAL_STORAGE_KEY = "user-data";
 // API controller names
 export const controllers = {
   users: "users",
-  books: "books",
+  books: "books"
 };
 
 // API endpoints
@@ -16,7 +16,7 @@ export const endPoints = {
   searchBook: "search-book",
   searchBookById: "/search-book-by-id",
   saveFavoritedBook: "save-favorited-book",
-  removeFavoritedBook: "remove-favorited-book",
+  removeFavoritedBook: "remove-favorited-book"
 };
 
 // Routes
@@ -25,12 +25,13 @@ export const routes = {
   signIn: "/sign-in",
   signUp: "/sign-up",
   signOut: "/sign-out",
-  searchResults: "/search-results",
+  searchResults: "/search-results"
 };
 
 // Nested routes
 export const routeIds = {
   bookId: ":bookId",
+  searchQuery: ":searchQuery"
 };
 
 // Navigation
@@ -38,21 +39,21 @@ export const navigationItems = [
   {
     name: "Home Page",
     icon: "home",
-    route: "/",
+    route: "/"
   },
   {
     name: "Sign In",
     icon: "sign-in",
-    route: routes.signIn,
+    route: routes.signIn
   },
   {
     name: "Sign Up",
     icon: "sign-up",
-    route: routes.signUp,
+    route: routes.signUp
   },
   {
     name: "Sign Out",
     icon: "sign-out",
-    route: routes.signOut,
-  },
+    route: routes.signOut
+  }
 ];
