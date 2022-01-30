@@ -12,7 +12,7 @@ import { routes } from "../../config";
 
 const SearchResultPagination = ({
   searchBook,
-  searchResults: { totalItems, searchQuery, currentPage },
+  searchResults: { totalItems, searchQuery, currentPage }
 }) => {
   const maxPages = 10;
   const pageSize = 10;
@@ -26,11 +26,8 @@ const SearchResultPagination = ({
     const inputData = {
       data: JSON.stringify({
         searchQuery,
-        maxResults: 10,
-        startIndex: (value - 1) * pageSize,
-        orderBy: "relevance",
-        currentPage: value,
-      }),
+        orderBy: "relevance"
+      })
     };
     searchBook(inputData);
     navigate(routes.searchResults);
@@ -66,18 +63,14 @@ SearchResultPagination.propTypes = {
   searchBook: PropTypes.func.isRequired,
   searchResults: PropTypes.shape({
     bookSearchData: PropTypes.array,
-    totalItems: PropTypes.number,
-    searchQuery: PropTypes.string,
-    currentPage: PropTypes.number,
-  }).isRequired,
+    searchQuery: PropTypes.string
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
-  searchResults: getSearchSelector(state),
+const mapStateToProps = state => ({
+  searchResults: getSearchSelector(state)
 });
 
-const actionCreators = {
-  searchBook: searchActions.searchBook,
-};
+const actionCreators = {};
 
 export default connect(mapStateToProps, actionCreators)(SearchResultPagination);
