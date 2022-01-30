@@ -3,10 +3,9 @@ import { searchTypes } from "../types/searchTypes";
 const initialState = {
   searchResults: {
     bookSearchData: [],
-    totalItems: 0,
     searchQuery: "",
-    selectedBookData: {},
-  },
+    selectedBookData: {}
+  }
 };
 
 const searchReducer = (state = initialState, { type, payload }) => {
@@ -16,16 +15,16 @@ const searchReducer = (state = initialState, { type, payload }) => {
         ...state,
         searchResults: {
           ...state.searchResults,
-          ...payload,
-        },
+          ...payload
+        }
       };
     case searchTypes.GET_SEARCH_BOOK_BY_ID_SUCCESS:
       return {
         ...state,
         searchResults: {
           ...state.searchResults,
-          ...payload,
-        },
+          ...payload
+        }
       };
     default:
       return state;

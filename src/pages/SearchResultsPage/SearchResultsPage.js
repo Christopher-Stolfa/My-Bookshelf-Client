@@ -16,9 +16,8 @@ import { routes } from "../../config";
 
 const SearchResultsPage = ({
   searchResults: { bookSearchData },
-  isLoading,
+  isLoading
 }) => {
-  const initialState = { isSelected: false, book: {} };
   const location = useLocation();
 
   if (location.pathname === routes.searchResults) {
@@ -47,7 +46,7 @@ const SearchResultsPage = ({
           <>
             <h1>Search results:</h1>
             <Stack spacing={2}>
-              {bookSearchData.map((book) => (
+              {bookSearchData.map(book => (
                 <div key={`${book.googleBooksId}-search-result-div`}>
                   <SearchResultCard
                     key={`${book.googleBooksId}-search-result-card`}
@@ -76,18 +75,18 @@ SearchResultsPage.propTypes = {
   searchBook: PropTypes.func.isRequired,
   setSelectedBook: PropTypes.func.isRequired,
   searchResults: PropTypes.shape({
-    bookSearchData: PropTypes.array.isRequired,
-  }).isRequired,
+    bookSearchData: PropTypes.array.isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   searchResults: getSearchSelector(state),
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
+  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH)
 });
 
 const actionCreators = {
   searchBook: searchActions.searchBook,
-  setSelectedBook: searchActions.setSelectedBook,
+  setSelectedBook: searchActions.setSelectedBook
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultsPage);
