@@ -32,7 +32,7 @@ const BookResultPage = ({
   searchBookById,
   setSelectedBook,
   user: { loggedIn, favorites },
-  searchResults: { selectedBookData, bookSearchData },
+  searchResults: { selectedBookData, bookSearchData }
 }) => {
   const navigate = useNavigate();
   const { bookId } = useParams();
@@ -42,7 +42,7 @@ const BookResultPage = ({
     setIsFavorited(
       favorites &&
         favorites.some(
-          (favoritedBook) =>
+          favoritedBook =>
             favoritedBook.googleBooksId === selectedBookData.googleBooksId
         )
     );
@@ -57,7 +57,7 @@ const BookResultPage = ({
     return () => {
       setSelectedBook({
         message: "Removed selected book",
-        selectedBookData: {},
+        selectedBookData: {}
       });
     };
   }, []);
@@ -80,14 +80,14 @@ const BookResultPage = ({
       return;
     } else {
       const inputData = {
-        data: { bookData: JSON.stringify(selectedBookData) },
+        data: { bookData: JSON.stringify(selectedBookData) }
       };
       userRemoveFavoritedBook(inputData);
     }
   };
 
   // TODO: Better handling of if the ID does not exist
-  const isEmpty = (obj) => {
+  const isEmpty = obj => {
     if (Object.keys(obj).length === 0) {
       return true;
     } else {
@@ -114,7 +114,7 @@ const BookResultPage = ({
                   width: 128,
                   minWidth: 128,
                   height: 168,
-                  minHeight: 168,
+                  minHeight: 168
                 }}
               />
             </div>
@@ -159,7 +159,7 @@ const BookResultPage = ({
             <Typography component="div" variant="h5">
               {selectedBookData.title}
             </Typography>
-            {selectedBookData.authors.map((author) => (
+            {selectedBookData.authors.map(author => (
               <Typography
                 key={author}
                 variant="subtitle1"
@@ -181,93 +181,6 @@ const BookResultPage = ({
       )}
     </Box>
   );
-
-  // return (
-  //   <Container>
-  //     {isLoading && isEmpty(selectedBookData) && (
-  //       <Typography component="div" variant="h5">
-  //         Loading...
-  //       </Typography>
-  //     )}
-  //     {!isLoading && !isEmpty(selectedBookData) && (
-  //       <Box
-  //         sx={{
-  //           marginTop: 8,
-  //           display: "flex",
-  //           flexDirection: "column",
-  //           alignItems: "center",
-  //         }}
-  //       >
-  //         <Box
-  //           component="img"
-  //           src={selectedBookData.imageLink}
-  //           alt={selectedBookData.title}
-  //           sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
-  //         />
-  //         <Rating
-  //           style={{ marginTop: "8px" }}
-  //           name="half-rating-read"
-  //           defaultValue={selectedBookData.averageRating}
-  //           precision={0.5}
-  //           readOnly
-  //         />
-  //         <Typography variant="caption" display="block" gutterBottom>
-  //           {selectedBookData.ratingsCount > 0 &&
-  //             `Ratings: ${selectedBookData.ratingsCount}`}
-  //         </Typography>
-  //         <Box sx={{ display: "flex", flexDirection: "column" }}>
-  //           <Box sx={{ flex: "1 0 auto" }}>
-  //             <Typography component="div" variant="h5">
-  //               {selectedBookData.title}
-  //             </Typography>
-  //             {selectedBookData.authors.map((author) => (
-  //               <Typography
-  //                 key={author}
-  //                 variant="subtitle1"
-  //                 color="text.secondary"
-  //                 component="div"
-  //               >
-  //                 {author}
-  //               </Typography>
-  //             ))}
-  //             <span>
-  //               <Typography
-  //                 variant="subtitle2"
-  //                 color="text.secondary"
-  //                 component="div"
-  //               >
-  //                 {selectedBookData.description}
-  //               </Typography>
-  //             </span>
-  //           </Box>
-  //           <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-  //             {favorites && isFavorited ? (
-  //               <IconButton
-  //                 onClick={handleOnClickRemoveFavorite}
-  //                 aria-label="favorite-item"
-  //               >
-  //                 <FavoriteIcon color="secondary" />
-  //               </IconButton>
-  //             ) : (
-  //               <IconButton
-  //                 onClick={handleOnClickFavorite}
-  //                 aria-label="favorite-item"
-  //               >
-  //                 <FavoriteBorderIcon />
-  //               </IconButton>
-  //             )}
-  //             <IconButton aria-label="currently-reading">
-  //               <AutoStoriesIcon />
-  //             </IconButton>
-  //             <IconButton aria-label="finished-reading">
-  //               <BookIcon />
-  //             </IconButton>
-  //           </Box>
-  //         </Box>
-  //       </Box>
-  //     )}
-  //   </Container>
-  // );
 };
 
 BookResultPage.propTypes = {
@@ -292,12 +205,12 @@ BookResultPage.propTypes = {
       ratingsCount: PropTypes.number,
       imageLink: PropTypes.string,
       language: PropTypes.string,
-      categories: PropTypes.arrayOf(PropTypes.string),
-    }),
-  }).isRequired,
+      categories: PropTypes.arrayOf(PropTypes.string)
+    })
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: getUserSelector(state),
   searchResults: getSearchSelector(state),
   isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH),
@@ -308,14 +221,14 @@ const mapStateToProps = (state) => ({
   isDelFavLoading: checkIfLoading(
     state,
     userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
-  ),
+  )
 });
 
 const actionCreators = {
   searchBookById: searchActions.searchBookById,
   setSelectedBook: searchActions.setSelectedBook,
   userSaveFavoritedBook: userActions.userSaveFavoritedBook,
-  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook,
+  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook
 };
 
 export default connect(mapStateToProps, actionCreators)(BookResultPage);
