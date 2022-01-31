@@ -4,52 +4,30 @@ import { connect } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { useNavigate } from "react-router-dom";
-import { searchTypes } from "../../types/searchTypes";
-import { searchActions } from "../../actions/searchActions";
-import { getSearchSelector } from "../../selectors/searchSelector";
-import { routes } from "../../config";
+import { useNavigate, useParams } from "react-router-dom";
+import { getResultsTotalSelector } from "../../selectors/searchSelector";
 
-const SearchResultPagination = ({
-  searchBook,
-  searchResults: { totalItems, searchQuery, currentPage }
-}) => {
-  const maxPages = 10;
+const SearchResultPagination = ({ totalItems }) => {
   const pageSize = 10;
   const navigate = useNavigate();
-  const [page, setPage] = useState(currentPage);
-  const [totalPages, setTotalPages] = useState();
+  const { pageNum } = useParams();
+  const [page, setPage] = useState(Number(pageNum) || 1);
+  const [totalPages, setTotalPages] = useState(0);
 
   const handleChange = (e, value) => {
     e.preventDefault();
     setPage(value);
-    const inputData = {
-      data: JSON.stringify({
-        searchQuery,
-        orderBy: "relevance"
-      })
-    };
-    searchBook(inputData);
-    navigate(routes.searchResults);
   };
+
+  useEffect(() => {
+    navigate(`${page}`);
+    window.scrollTo(0, 0);
+  }, [page]);
 
   useEffect(() => {
     let num = Math.floor(totalItems / pageSize);
     if (num < totalItems / pageSize) num = Math.ceil(totalItems / pageSize);
-    if (maxPages < num) {
-      setTotalPages(maxPages);
-    } else {
-      setTotalPages(num);
-    }
-
-    if (pageSize < totalItems) {
-      if (page < 1) {
-        setPage(1);
-      } else if (page > totalPages) {
-        setPage(totalPages);
-      }
-    }
-    window.scrollTo(0, 0);
+    setTotalPages(num);
   }, [totalItems]);
   return (
     <Stack style={{ alignItems: "center" }} spacing={2}>
@@ -60,17 +38,11 @@ const SearchResultPagination = ({
 };
 
 SearchResultPagination.propTypes = {
-  searchBook: PropTypes.func.isRequired,
-  searchResults: PropTypes.shape({
-    bookSearchData: PropTypes.array,
-    searchQuery: PropTypes.string
-  }).isRequired
+  totalItems: PropTypes.number
 };
 
 const mapStateToProps = state => ({
-  searchResults: getSearchSelector(state)
+  totalItems: getResultsTotalSelector(state)
 });
 
-const actionCreators = {};
-
-export default connect(mapStateToProps, actionCreators)(SearchResultPagination);
+export default connect(mapStateToProps)(SearchResultPagination);
