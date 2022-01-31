@@ -31,7 +31,8 @@ export const routes = {
 // Nested routes
 export const routeIds = {
   bookId: ":bookId",
-  searchQuery: ":searchQuery"
+  searchQuery: ":searchQuery",
+  pageNum: ":pageNum"
 };
 
 // Navigation
