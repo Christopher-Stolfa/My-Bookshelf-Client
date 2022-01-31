@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import Box from "@mui/material/Box";
-import { searchActions } from "../../actions/searchActions";
 import { routes } from "../../config";
 
 const Search = styled("div")(({ theme }) => ({
@@ -50,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavigationSearch = ({ searchBook }) => {
+const NavigationSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -59,17 +56,8 @@ const NavigationSearch = ({ searchBook }) => {
   };
 
   const handleSubmit = e => {
-    if (searchQuery.length > 1) {
-      e.preventDefault();
-      const inputData = {
-        data: JSON.stringify({
-          searchQuery,
-          orderBy: "relevance"
-        })
-      };
-      searchBook(inputData);
-    }
-    navigate(routes.searchResults);
+    e.preventDefault();
+    navigate(`${routes.searchResults}/${searchQuery}`);
   };
   return (
     <Search>
@@ -94,12 +82,4 @@ const NavigationSearch = ({ searchBook }) => {
   );
 };
 
-NavigationSearch.propTypes = {
-  searchBook: PropTypes.func.isRequired
-};
-
-const actionCreators = {
-  searchBook: searchActions.searchBook
-};
-
-export default connect(null, actionCreators)(NavigationSearch);
+export default NavigationSearch;
