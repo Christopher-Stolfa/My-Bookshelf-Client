@@ -87,7 +87,7 @@ const SearchResultCard = ({
 
   const selectBook = () => {
     setSelectedBook({ message: "Book selected", selectedBookData: book });
-    navigate(`${routes.searchResults}/${book.googleBooksId}`);
+    navigate(book.googleBooksId);
   };
 
   return (
