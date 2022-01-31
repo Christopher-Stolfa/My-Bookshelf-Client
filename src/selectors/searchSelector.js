@@ -1,15 +1,22 @@
 import { createSelector } from "reselect";
 // selector
-const getSearchState = (state) => state.searchState.searchResults;
-const getSelectedBookState = (state) =>
+const getSearchState = state => state.searchState.searchResults;
+const getSelectedBookState = state =>
   state.searchState.searchResults.selectedBookData;
+const getBookSearchState = state =>
+  state.searchState.searchResults.bookSearchData;
 // reselect function
 export const getSearchSelector = createSelector(
   [getSearchState],
-  (searchResults) => searchResults
+  searchResults => searchResults
 );
 
 export const getSelectedBookSelector = createSelector(
   [getSelectedBookState],
-  (selectedBookData) => selectedBookData
+  selectedBookData => selectedBookData
+);
+
+export const getResultsTotalSelector = createSelector(
+  [getBookSearchState],
+  bookSearchData => bookSearchData.length
 );
