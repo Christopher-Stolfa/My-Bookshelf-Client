@@ -25,7 +25,8 @@ export const routes = {
   signIn: "/sign-in",
   signUp: "/sign-up",
   signOut: "/sign-out",
-  searchResults: "/search-results"
+  searchResults: "/search-results",
+  favorites: "/favorites"
 };
 
 // Nested routes
