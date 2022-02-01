@@ -5,13 +5,31 @@ import { checkIfLoading } from "../../selectors/uiSelectors";
 import { userActions } from "../../actions/userActions";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { userTypes } from "../../types/userTypes";
+import { useNavigate } from "react-router-dom";
 
-const FavoritesPage = props => {
+const FavoritesPage = ({
+  isAddFavLoading,
+  isDelFavLoading,
+  userSaveFavoritedBook,
+  userRemoveFavoritedBook,
+  user: { loggedIn, favorites }
+}) => {
+  const navigate = useNavigate();
+
   return <h1>favorites page</h1>;
 };
 
 FavoritesPage.propTypes = {
-    
+  isAddFavLoading: PropTypes.bool.isRequired,
+  isDelFavLoading: PropTypes.bool.isRequired,
+  userSaveFavoritedBook: PropTypes.func.isRequired,
+  userRemoveFavoritedBook: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    loggedIn: PropTypes.bool.isRequired,
+    favorites: PropTypes.arrayOf(
+      PropTypes.shape({ googleBooksId: PropTypes.string })
+    )
+  }).isRequired
 };
 
 const mapStateToProps = state => ({
