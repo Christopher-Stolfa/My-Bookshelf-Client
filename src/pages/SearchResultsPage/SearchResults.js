@@ -30,7 +30,7 @@ const SearchResults = ({ isLoading, searchBook }) => {
     <Box>
       {isLoading ? (
         <>
-          <h1>Loading...</h1>
+          <Typography variant="h4">Loading...</Typography>
           <Stack spacing={2}>
             {Array.from(
               { length: 10 },

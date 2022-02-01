@@ -29,14 +29,10 @@ const Results = ({ totalItems, searchResults: { bookSearchData } }) => {
     return (
       <>
         {bookSearchData.length < 1 ? (
-          <Typography component="div" variant="h5">
-            No Results
-          </Typography>
+          <Typography variant="h4">No Results</Typography>
         ) : (
           <>
-            <Typography component="div" variant="h5">
-              Search Results:
-            </Typography>
+            <Typography variant="h4">Search Results:</Typography>
             <Stack spacing={2}>
               {bookSearchData
                 .slice(getStartIndex(), getEndIndex())
