@@ -21,6 +21,7 @@ import SearchResultsPage from "../pages/SearchResultsPage/SearchResultsPage";
 import BookResultPage from "../pages/SearchResultsPage/BookResultPage";
 import SearchResults from "../pages/SearchResultsPage/SearchResults";
 import Results from "../pages/SearchResultsPage/Results";
+import FavoritesPage from "../pages/FavoritesPage/FavoritesPage";
 
 const RouterComponent = ({ getUserSession, isLoading, user }) => {
   useEffect(() => {
@@ -39,6 +40,7 @@ const RouterComponent = ({ getUserSession, isLoading, user }) => {
             <Route path={routes.home} element={<HomePage />} />
             <Route path={routes.signIn} element={<SignInPage />} />
             <Route path={routes.signUp} element={<SignUpPage />} />
+            <Route path={routes.favorites} element={<FavoritesPage />} />
             <Route path={routes.searchResults} element={<SearchResultsPage />}>
               <Route path={routeIds.searchQuery} element={<SearchResults />}>
                 <Route path={routeIds.pageNum} element={<Results />}>
