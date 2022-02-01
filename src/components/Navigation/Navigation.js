@@ -10,14 +10,15 @@ import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
+import { routes } from "../../config";
 import NavigationSearch from "./NavigationSearch";
 
-const Navigation = (props) => {
+const Navigation = props => {
   const navigate = useNavigate();
-  const handleOnClick = (e) => {
+  const handleOnClick = e => {
     navigate(e.target.name);
   };
-  const handleSignout = (e) => {
+  const handleSignout = e => {
     props.signOut();
   };
 
@@ -43,19 +44,40 @@ const Navigation = (props) => {
           My Bookshelf
         </Typography>
         <NavigationSearch />
-        <Button onClick={handleOnClick} name="home" color="inherit">
+        <Button onClick={handleOnClick} name={routes.home} color="inherit">
           Home
         </Button>
         {props.user.loggedIn ? (
-          <Button onClick={handleSignout} name="sign-out" color="inherit">
-            Sign Out
-          </Button>
+          <>
+            <Button
+              onClick={handleOnClick}
+              name={routes.favorites}
+              color="inherit"
+            >
+              Favorites
+            </Button>
+            <Button
+              onClick={handleSignout}
+              name={routes.signOut}
+              color="inherit"
+            >
+              Sign Out
+            </Button>
+          </>
         ) : (
           <>
-            <Button onClick={handleOnClick} name="sign-in" color="inherit">
+            <Button
+              onClick={handleOnClick}
+              name={routes.signIn}
+              color="inherit"
+            >
               Sign In
             </Button>
-            <Button onClick={handleOnClick} name="sign-up" color="inherit">
+            <Button
+              onClick={handleOnClick}
+              name={routes.signUp}
+              color="inherit"
+            >
               Sign Up
             </Button>
           </>
@@ -70,16 +92,16 @@ Navigation.propTypes = {
   user: PropTypes.shape({
     message: PropTypes.string,
     loggedIn: PropTypes.bool,
-    userData: PropTypes.object,
-  }).isRequired,
+    userData: PropTypes.object
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
-  user: getUserSelector(state),
+const mapStateToProps = state => ({
+  user: getUserSelector(state)
 });
 
 const actionCreators = {
-  signOut: userActions.signOut,
+  signOut: userActions.signOut
 };
 
 export default connect(mapStateToProps, actionCreators)(Navigation);
