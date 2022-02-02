@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { routes } from "../../config";
 import PropTypes from "prop-types";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import { userActions } from "../../actions/userActions";
@@ -12,9 +13,13 @@ const FavoritesPage = ({
   isDelFavLoading,
   userSaveFavoritedBook,
   userRemoveFavoritedBook,
-  user: { loggedIn, favorites }
+  user: { loggedIn, favorites },
 }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    !loggedIn && navigate(routes.sign);
+  }, [loggedIn]);
 
   return <h1>favorites page</h1>;
 };
@@ -28,11 +33,11 @@ FavoritesPage.propTypes = {
     loggedIn: PropTypes.bool.isRequired,
     favorites: PropTypes.arrayOf(
       PropTypes.shape({ googleBooksId: PropTypes.string })
-    )
-  }).isRequired
+    ),
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: getUserSelector(state),
   isAddFavLoading: checkIfLoading(
     state,
@@ -41,12 +46,12 @@ const mapStateToProps = state => ({
   isDelFavLoading: checkIfLoading(
     state,
     userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
-  )
+  ),
 });
 
 const actionCreators = {
   userSaveFavoritedBook: userActions.userSaveFavoritedBook,
-  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook
+  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(FavoritesPage);
