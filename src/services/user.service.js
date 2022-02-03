@@ -31,6 +31,13 @@ const getSession = async () => {
   );
 };
 
+const getFavoritedBooks = async () => {
+  Axios.defaults.withCredentials = true;
+  return await Axios.get(
+    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.getFavoritedBooks}`
+  );
+};
+
 const saveFavoritedBook = async inputData => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
@@ -53,5 +60,6 @@ export const userService = {
   signIn,
   getSession,
   saveFavoritedBook,
-  removeFavoritedBook
+  removeFavoritedBook,
+  getFavoritedBooks
 };
