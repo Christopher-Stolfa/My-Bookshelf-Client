@@ -1,4 +1,5 @@
 import { bookTypes } from "../types/bookTypes";
+import { userTypes } from "../types/userTypes";
 
 const initialState = {
   selectedBook: {},
@@ -7,6 +8,11 @@ const initialState = {
 
 const bookReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case userTypes.GET_FAVORITED_BOOKS_SUCCESS:
+      return {
+        ...state,
+        ...payload
+      };
     case bookTypes.GET_SELECT_BOOK:
       return {
         ...state,
