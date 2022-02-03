@@ -16,7 +16,8 @@ export const endPoints = {
   searchBook: "search-book",
   searchBookById: "/search-book-by-id",
   saveFavoritedBook: "save-favorited-book",
-  removeFavoritedBook: "remove-favorited-book"
+  removeFavoritedBook: "remove-favorited-book",
+  getFavoritedBooks: "get-favorited-books"
 };
 
 // Routes
