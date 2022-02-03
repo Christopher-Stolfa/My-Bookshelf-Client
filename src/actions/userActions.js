@@ -39,6 +39,18 @@ const userRemoveFavoritedBook = inputData => async dispatch => {
   }
 };
 
+const userGetFavoritedBooks = () => async dispatch => {
+  try {
+    dispatch(startAction(userTypes.GET_FAVORITED_BOOKS_FETCH));
+    const { data } = await userService.getFavoritedBooks();
+    dispatch({ type: userTypes.GET_FAVORITED_BOOKS_SUCCESS, payload: data });
+  } catch (err) {
+    setSnackbarError(err.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(userTypes.GET_FAVORITED_BOOKS_FETCH));
+  }
+};
+
 const getUserSession = () => async dispatch => {
   const getSessionSuccess = data => ({
     type: userTypes.GET_SESSION_SUCCESS,
@@ -112,5 +124,6 @@ export const userActions = {
   signIn,
   signOut,
   userSaveFavoritedBook,
-  userRemoveFavoritedBook
+  userRemoveFavoritedBook,
+  userGetFavoritedBooks
 };
