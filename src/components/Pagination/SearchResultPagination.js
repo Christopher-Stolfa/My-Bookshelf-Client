@@ -17,18 +17,17 @@ const SearchResultPagination = ({ totalItems }) => {
   const handleChange = (e, value) => {
     e.preventDefault();
     setPage(value);
-    // navigate(value);
+    navigate(`${value}`);
     window.scrollTo(0, 0);
   };
 
   useEffect(() => {
-    console.log("Navigating to " + page);
-    navigate(`${page}`);
-  }, [page]);
-
-  useEffect(() => {
     console.log("Setting page to the page num " + pageNum);
-    setPage(parseInt(pageNum));
+    if (!pageNum) {
+      navigate("1");
+    } else {
+      setPage(parseInt(pageNum));
+    }
   }, [pageNum]);
 
   useEffect(() => {
