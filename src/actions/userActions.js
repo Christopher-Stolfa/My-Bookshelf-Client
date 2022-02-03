@@ -5,52 +5,6 @@ import { startAction, stopAction } from "./uiActions";
 
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 
-const userSaveFavoritedBook = inputData => async dispatch => {
-  const getSaveFavoritedBookSuccess = data => ({
-    type: userTypes.GET_SAVE_FAVORITED_BOOK_SUCCESS,
-    payload: data
-  });
-  try {
-    dispatch(startAction(userTypes.GET_SAVE_FAVORITED_BOOK_FETCH));
-    const { data } = await userService.saveFavoritedBook(inputData);
-    dispatch(getSaveFavoritedBookSuccess(data));
-    setSnackbarSuccess(data, dispatch);
-  } catch (err) {
-    setSnackbarError(err.response.data, dispatch);
-  } finally {
-    dispatch(stopAction(userTypes.GET_SAVE_FAVORITED_BOOK_FETCH));
-  }
-};
-
-const userRemoveFavoritedBook = inputData => async dispatch => {
-  const getRemoveFavoritedBookSuccess = data => ({
-    type: userTypes.GET_REMOVE_FAVORITED_BOOK_SUCCESS,
-    payload: data
-  });
-  try {
-    dispatch(startAction(userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH));
-    const { data } = await userService.removeFavoritedBook(inputData);
-    dispatch(getRemoveFavoritedBookSuccess(data));
-    setSnackbarSuccess(data, dispatch);
-  } catch (err) {
-    setSnackbarError(err.response.data, dispatch);
-  } finally {
-    dispatch(stopAction(userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH));
-  }
-};
-
-const userGetFavoritedBooks = () => async dispatch => {
-  try {
-    dispatch(startAction(userTypes.GET_FAVORITED_BOOKS_FETCH));
-    const { data } = await userService.getFavoritedBooks();
-    dispatch({ type: userTypes.GET_FAVORITED_BOOKS_SUCCESS, payload: data });
-  } catch (err) {
-    setSnackbarError(err.response.data, dispatch);
-  } finally {
-    dispatch(stopAction(userTypes.GET_FAVORITED_BOOKS_FETCH));
-  }
-};
-
 const getUserSession = () => async dispatch => {
   const getSessionSuccess = data => ({
     type: userTypes.GET_SESSION_SUCCESS,
@@ -122,8 +76,5 @@ export const userActions = {
   getUserSession,
   signUp,
   signIn,
-  signOut,
-  userSaveFavoritedBook,
-  userRemoveFavoritedBook,
-  userGetFavoritedBooks
+  signOut
 };
