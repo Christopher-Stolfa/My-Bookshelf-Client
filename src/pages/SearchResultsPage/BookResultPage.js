@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { routes } from "../../config";
 import { connect } from "react-redux";
 import { searchTypes } from "../../types/searchTypes";
-import { searchActions } from "../../actions/searchActions";
 import { getSearchSelector } from "../../selectors/searchSelector";
 import { useParams, useNavigate } from "react-router-dom";
 import Container from "@mui/material/Container";
@@ -19,20 +18,29 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import IconButton from "@mui/material/IconButton";
-import { userActions } from "../../actions/userActions";
-import { userTypes } from "../../types/userTypes";
+import { bookActions } from "../../actions/bookActions";
+import {
+  GET_SAVE_FAVORITED_BOOK_FETCH,
+  GET_REMOVE_FAVORITED_BOOK_FETCH
+} from "../../types/bookTypes";
 import getUserSelector from "../../selectors/userSelectors";
+import {
+  getFavoritesSelector,
+  getSelectedBookSelector
+} from "../../selectors/bookSelector";
 
 const BookResultPage = ({
-  userSaveFavoritedBook,
-  userRemoveFavoritedBook,
+  saveFavoritedBook,
+  removeFavoritedBook,
   isDelFavLoading,
   isAddFavLoading,
   isLoading,
   searchBookById,
   setSelectedBook,
-  user: { loggedIn, favorites },
-  searchResults: { selectedBookData, bookSearchData }
+  favorites,
+  selectedBook,
+  user: { loggedIn },
+  searchResults: { bookSearchData }
 }) => {
   const navigate = useNavigate();
   const { bookId } = useParams();
@@ -43,7 +51,7 @@ const BookResultPage = ({
       favorites &&
         favorites.some(
           favoritedBook =>
-            favoritedBook.googleBooksId === selectedBookData.googleBooksId
+            favoritedBook.googleBooksId === selectedBook.googleBooksId
         )
     );
   }, [favorites]);
@@ -57,7 +65,7 @@ const BookResultPage = ({
     return () => {
       setSelectedBook({
         message: "Removed selected book",
-        selectedBookData: {}
+        selectedBook: {}
       });
     };
   }, []);
@@ -68,8 +76,8 @@ const BookResultPage = ({
     } else if (isAddFavLoading || isDelFavLoading) {
       return;
     } else {
-      const inputData = { data: JSON.stringify(selectedBookData) };
-      userSaveFavoritedBook(inputData);
+      const inputData = { data: JSON.stringify(selectedBook) };
+      saveFavoritedBook(inputData);
     }
   };
 
@@ -80,9 +88,9 @@ const BookResultPage = ({
       return;
     } else {
       const inputData = {
-        data: { bookData: JSON.stringify(selectedBookData) }
+        data: { bookData: JSON.stringify(selectedBook) }
       };
-      userRemoveFavoritedBook(inputData);
+      removeFavoritedBook(inputData);
     }
   };
 
@@ -97,19 +105,19 @@ const BookResultPage = ({
   return (
     <Box>
       <CssBaseline />
-      {isLoading && isEmpty(selectedBookData) && (
+      {isLoading && isEmpty(selectedBook) && (
         <Typography component="div" variant="h5">
           Loading...
         </Typography>
       )}
-      {!isLoading && !isEmpty(selectedBookData) && (
+      {!isLoading && !isEmpty(selectedBook) && (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
             <div>
               <Box
                 component="img"
-                src={selectedBookData.imageLink}
-                alt={selectedBookData.title}
+                src={selectedBook.imageLink}
+                alt={selectedBook.title}
                 sx={{
                   width: 128,
                   minWidth: 128,
@@ -122,13 +130,13 @@ const BookResultPage = ({
               <Rating
                 style={{ marginTop: "8px" }}
                 name="half-rating-read"
-                defaultValue={selectedBookData.averageRating}
+                defaultValue={selectedBook.averageRating}
                 precision={0.5}
                 readOnly
               />
               <Typography variant="caption" display="block" gutterBottom>
-                {selectedBookData.ratingsCount > 0 &&
-                  `Ratings: ${selectedBookData.ratingsCount}`}
+                {selectedBook.ratingsCount > 0 &&
+                  `Ratings: ${selectedBook.ratingsCount}`}
               </Typography>
             </div>
             <div>
@@ -157,9 +165,9 @@ const BookResultPage = ({
           </Box>
           <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
             <Typography component="div" variant="h5">
-              {selectedBookData.title}
+              {selectedBook.title}
             </Typography>
-            {selectedBookData.authors.map(author => (
+            {selectedBook.authors.map(author => (
               <Typography
                 key={author}
                 variant="subtitle1"
@@ -174,7 +182,7 @@ const BookResultPage = ({
               color="text.secondary"
               component="div"
             >
-              {selectedBookData.description}
+              {selectedBook.description}
             </Typography>
           </Box>
         </Box>
@@ -187,13 +195,16 @@ BookResultPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   searchBookById: PropTypes.func.isRequired,
   setSelectedBook: PropTypes.func.isRequired,
-  userSaveFavoritedBook: PropTypes.func.isRequired,
-  userRemoveFavoritedBook: PropTypes.func.isRequired,
+  saveFavoritedBook: PropTypes.func.isRequired,
+  removeFavoritedBook: PropTypes.func.isRequired,
   isAddFavLoading: PropTypes.bool.isRequired,
   isDelFavLoading: PropTypes.bool.isRequired,
+  favorites: PropTypes.arrayOf(
+    PropTypes.shape({ googleBooksId: PropTypes.string })
+  ),
   searchResults: PropTypes.shape({
     bookSearchData: PropTypes.array.isRequired,
-    selectedBookData: PropTypes.shape({
+    selectedBook: PropTypes.shape({
       googleBooksId: PropTypes.string,
       title: PropTypes.string,
       description: PropTypes.string,
@@ -211,24 +222,20 @@ BookResultPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
   searchResults: getSearchSelector(state),
+  selectedBook: getSelectedBookSelector(state),
   isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH),
-  isAddFavLoading: checkIfLoading(
-    state,
-    userTypes.GET_SAVE_FAVORITED_BOOK_FETCH
-  ),
-  isDelFavLoading: checkIfLoading(
-    state,
-    userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
-  )
+  isAddFavLoading: checkIfLoading(state, GET_SAVE_FAVORITED_BOOK_FETCH),
+  isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH)
 });
 
 const actionCreators = {
-  searchBookById: searchActions.searchBookById,
-  setSelectedBook: searchActions.setSelectedBook,
-  userSaveFavoritedBook: userActions.userSaveFavoritedBook,
-  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook
+  searchBookById: bookActions.searchBookById,
+  setSelectedBook: bookActions.setSelectedBook,
+  saveFavoritedBook: bookActions.saveFavoritedBook,
+  removeFavoritedBook: bookActions.removeFavoritedBook
 };
 
 export default connect(mapStateToProps, actionCreators)(BookResultPage);

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Outlet } from "react-router-dom";
-import { userActions } from "../../actions/userActions";
+import { bookActions } from "../../actions/bookActions";
 import { getUserSelector } from "../../selectors/userSelectors";
 
 const SearchResultsPage = ({ getFavorites, user: { loggedIn } }) => {
@@ -13,7 +13,7 @@ const SearchResultsPage = ({ getFavorites, user: { loggedIn } }) => {
 };
 
 SearchResultsPage.propTypes = {
-  getFavorites: PropTypes.func.isRequired,
+  getFavorites: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  getFavorites: userActions.userGetFavoritedBooks
+  getFavorites: bookActions.getFavoritedBooks
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResultsPage);

@@ -1,5 +1,10 @@
-import { bookTypes } from "../types/bookTypes";
-import { userTypes } from "../types/userTypes";
+import {
+  GET_FAVORITED_BOOKS_SUCCESS,
+  GET_REMOVE_FAVORITED_BOOK_SUCCESS,
+  GET_SAVE_FAVORITED_BOOK_SUCCESS,
+  GET_SEARCH_BOOK_BY_ID_SUCCESS,
+  GET_SELECT_BOOK
+} from "../types/bookTypes";
 
 const initialState = {
   selectedBook: {},
@@ -8,17 +13,30 @@ const initialState = {
 
 const bookReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case userTypes.GET_FAVORITED_BOOKS_SUCCESS:
+    case GET_FAVORITED_BOOKS_SUCCESS:
       return {
         ...state,
         ...payload
       };
-    case bookTypes.GET_SELECT_BOOK:
+    case GET_SAVE_FAVORITED_BOOK_SUCCESS:
       return {
         ...state,
-        selectedBook: {
-          ...payload
-        }
+        favorites: [...state.favorites, payload.favoritedBook]
+      };
+    case GET_REMOVE_FAVORITED_BOOK_SUCCESS:
+      return {
+        ...state,
+        favorites: [
+          ...state.favorites.filter(
+            book => book.googleBooksId !== payload.favoritedBook.googleBooksId
+          )
+        ]
+      };
+    case GET_SELECT_BOOK:
+    case GET_SEARCH_BOOK_BY_ID_SUCCESS:
+      return {
+        ...state,
+        ...payload
       };
     default:
       return state;

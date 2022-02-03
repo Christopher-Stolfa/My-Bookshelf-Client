@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { searchActions } from "../../actions/searchActions";
 import {
   getSearchSelector,
-  getResultsTotalSelector,
+  getResultsTotalSelector
 } from "../../selectors/searchSelector";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import ResultCard from "../../components/Cards/ResultCard";
@@ -36,7 +36,7 @@ const Results = ({ totalItems, searchResults: { bookSearchData } }) => {
             <Stack spacing={2}>
               {bookSearchData
                 .slice(getStartIndex(), getEndIndex())
-                .map((book) => (
+                .map(book => (
                   <div key={`${book.googleBooksId}-search-result-div`}>
                     <ResultCard
                       key={`${book.googleBooksId}-search-result-card`}
@@ -57,22 +57,19 @@ const Results = ({ totalItems, searchResults: { bookSearchData } }) => {
 };
 
 Results.propTypes = {
-  setSelectedBook: PropTypes.func.isRequired,
   searchResults: PropTypes.shape({
-    bookSearchData: PropTypes.array.isRequired,
-    selectedBookData: PropTypes.object.isRequired,
-  }).isRequired,
+    bookSearchData: PropTypes.array.isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   totalItems: getResultsTotalSelector(state),
   searchResults: getSearchSelector(state),
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
+  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH)
 });
 
 const actionCreators = {
-  searchBook: searchActions.searchBook,
-  setSelectedBook: searchActions.setSelectedBook,
+  searchBook: searchActions.searchBook
 };
 
 export default connect(mapStateToProps, actionCreators)(Results);
