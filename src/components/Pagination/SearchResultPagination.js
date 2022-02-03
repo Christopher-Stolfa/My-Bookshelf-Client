@@ -11,7 +11,7 @@ const SearchResultPagination = ({ totalItems }) => {
   const pageSize = 10;
   const navigate = useNavigate();
   const { pageNum } = useParams();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(pageNum ? parseInt(pageNum) : 1);
   const [totalPages, setTotalPages] = useState(0);
 
   const handleChange = (e, value) => {
