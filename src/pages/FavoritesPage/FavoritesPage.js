@@ -7,13 +7,15 @@ import { userActions } from "../../actions/userActions";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { userTypes } from "../../types/userTypes";
 import { useNavigate } from "react-router-dom";
+import { getFavoritesSelector } from "../../selectors/bookSelector";
 
 const FavoritesPage = ({
   isAddFavLoading,
   isDelFavLoading,
   userSaveFavoritedBook,
   userRemoveFavoritedBook,
-  user: { loggedIn, favorites },
+  favorites,
+  user: { loggedIn }
 }) => {
   const navigate = useNavigate();
 
@@ -27,17 +29,16 @@ const FavoritesPage = ({
 FavoritesPage.propTypes = {
   isAddFavLoading: PropTypes.bool.isRequired,
   isDelFavLoading: PropTypes.bool.isRequired,
-  userSaveFavoritedBook: PropTypes.func.isRequired,
-  userRemoveFavoritedBook: PropTypes.func.isRequired,
+  favorites: PropTypes.arrayOf(
+    PropTypes.shape({ googleBooksId: PropTypes.string })
+  ),
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-    favorites: PropTypes.arrayOf(
-      PropTypes.shape({ googleBooksId: PropTypes.string })
-    ),
-  }).isRequired,
+    loggedIn: PropTypes.bool.isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
+  favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
   isAddFavLoading: checkIfLoading(
     state,
@@ -46,12 +47,9 @@ const mapStateToProps = (state) => ({
   isDelFavLoading: checkIfLoading(
     state,
     userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
-  ),
+  )
 });
 
-const actionCreators = {
-  userSaveFavoritedBook: userActions.userSaveFavoritedBook,
-  userRemoveFavoritedBook: userActions.userRemoveFavoritedBook,
-};
+const actionCreators = {};
 
 export default connect(mapStateToProps, actionCreators)(FavoritesPage);
