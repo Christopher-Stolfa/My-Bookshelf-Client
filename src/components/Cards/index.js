@@ -1,3 +1,2 @@
-import ResultCard from "./ResultCard/";
-import SearchResultCard from "./SearchResultCard";
-export { ResultCard, SearchResultCard };
+import BookCard from "./BookCard/";
+export { BookCard };
