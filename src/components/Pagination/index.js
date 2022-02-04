@@ -1,2 +1,2 @@
-import SearchResultPagination from "./SearchResultPagination";
-export { SearchResultPagination };
+import CustomPagination from "./CustomPagination";
+export { CustomPagination };

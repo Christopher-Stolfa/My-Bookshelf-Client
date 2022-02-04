@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useNavigate, useParams } from "react-router-dom";
-import { getResultsTotalSelector } from "../../selectors/searchSelector";
 
-const SearchResultPagination = ({ totalItems }) => {
+const CustomPagination = ({ totalItems }) => {
   const pageSize = 10;
   const navigate = useNavigate();
   const { pageNum } = useParams();
@@ -44,12 +42,8 @@ const SearchResultPagination = ({ totalItems }) => {
   );
 };
 
-SearchResultPagination.propTypes = {
+CustomPagination.propTypes = {
   totalItems: PropTypes.number
 };
 
-const mapStateToProps = state => ({
-  totalItems: getResultsTotalSelector(state)
-});
-
-export default connect(mapStateToProps)(SearchResultPagination);
+export default CustomPagination;

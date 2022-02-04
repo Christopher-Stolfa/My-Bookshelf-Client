@@ -11,7 +11,7 @@ import { getResultsTotalSelector } from "../../selectors/searchSelector";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import SearchResultLoading from "../../components/Loaders/SearchResultLoading";
 import { searchTypes } from "../../types/searchTypes";
-import { SearchResultPagination } from "../../components/Pagination";
+import { CustomPagination } from "../../components/Pagination";
 
 const SearchResults = ({ isLoading, totalItems, searchBook }) => {
   const { searchQuery, bookId } = useParams();
@@ -51,7 +51,7 @@ const SearchResults = ({ isLoading, totalItems, searchBook }) => {
     return (
       <Box>
         <Outlet />
-        {!bookId && <SearchResultPagination />}
+        {!bookId && <CustomPagination totalItems={totalItems} />}
       </Box>
     );
   }
