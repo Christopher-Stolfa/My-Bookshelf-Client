@@ -11,11 +11,16 @@ import {
   getSearchSelector,
   getResultsTotalSelector
 } from "../../selectors/searchSelector";
+import LoadingCard from "../../components/Loaders/LoadingCard";
 import { checkIfLoading } from "../../selectors/uiSelectors";
-import ResultCard from "../../components/Cards/ResultCard";
+import { BookCard } from "../../components/Cards/";
 import { searchTypes } from "../../types/searchTypes";
 
-const Results = ({ totalItems, searchResults: { bookSearchData } }) => {
+const Results = ({
+  isLoading,
+  totalItems,
+  searchResults: { bookSearchData }
+}) => {
   const { pageNum, bookId } = useParams();
   const pageSize = 10;
 
@@ -25,6 +30,26 @@ const Results = ({ totalItems, searchResults: { bookSearchData } }) => {
 
   if (bookId) {
     return <Outlet />;
+  } else if (isLoading) {
+    return (
+      <Box>
+        <Typography variant="h4">Loading...</Typography>
+        <Stack spacing={2}>
+          {Array.from(
+            { length: 10 },
+            () => new Date().getTime() + Math.random()
+          ).map((key, i) => (
+            <div key={`${key}-${i}`}>
+              <LoadingCard key={`${key}-${i}-search-result-card`} />
+              <Divider
+                sx={{ marginTop: "8px", marginBottom: "8px" }}
+                key={`${key}-${i}-divider`}
+              />
+            </div>
+          ))}
+        </Stack>
+      </Box>
+    );
   } else {
     return (
       <>
@@ -38,7 +63,7 @@ const Results = ({ totalItems, searchResults: { bookSearchData } }) => {
                 .slice(getStartIndex(), getEndIndex())
                 .map(book => (
                   <div key={`${book.googleBooksId}-search-result-div`}>
-                    <ResultCard
+                    <BookCard
                       key={`${book.googleBooksId}-search-result-card`}
                       book={book}
                     />
