@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { userActions } from "../actions/userActions";
 import { checkIfLoading } from "../selectors/uiSelectors";
 import { getUserSelector } from "../selectors/userSelectors";
+import { getFavoritedBooks, bookActions } from "../actions/bookActions";
 import { userTypes } from "../types/userTypes";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import SignInPage from "../pages/SignInPage/SignInPage";
@@ -23,12 +24,18 @@ import SearchResults from "../pages/SearchResultsPage/SearchResults";
 import Results from "../pages/SearchResultsPage/Results";
 import FavoritesPage from "../pages/FavoritesPage/FavoritesPage";
 
-const RouterComponent = ({ getUserSession, isLoading, user }) => {
+const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
   useEffect(() => {
     // This is a temporary fix, but this checks if there is an active session.
     getUserSession();
     return () => {};
   }, [getUserSession]);
+
+  useEffect(() => {
+    getFavorites();
+    return () => {};
+  }, [user]);
+
   if (!user || isLoading) {
     return <div />;
   } else {
@@ -70,7 +77,8 @@ const mapStateToProps = state => ({
 });
 
 const actionCreators = {
-  getUserSession: userActions.getUserSession
+  getUserSession: userActions.getUserSession,
+  getFavorites: bookActions.getFavoritedBooks
 };
 
 export default connect(mapStateToProps, actionCreators)(RouterComponent);
