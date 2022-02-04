@@ -2,33 +2,52 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { routes } from "../../config";
 import PropTypes from "prop-types";
-import { checkIfLoading } from "../../selectors/uiSelectors";
-import { userActions } from "../../actions/userActions";
 import { getUserSelector } from "../../selectors/userSelectors";
-import { userTypes } from "../../types/userTypes";
-import { useNavigate } from "react-router-dom";
-import { getFavoritesSelector } from "../../selectors/bookSelector";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { getTotalFavoritesSelector } from "../../selectors/bookSelector";
+import { CustomPagination } from "../../components/Pagination/";
+import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import LoadingCard from "../../components/Loaders/LoadingCard";
 
-const FavoritesPage = ({
-  isAddFavLoading,
-  isDelFavLoading,
-  userSaveFavoritedBook,
-  userRemoveFavoritedBook,
-  favorites,
-  user: { loggedIn }
-}) => {
+const FavoritesPage = ({ totalItems, user: { loggedIn } }) => {
+  const { pageNum, bookId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     !loggedIn && navigate(routes.sign);
   }, [loggedIn]);
 
-  return <h1>favorites page</h1>;
+  return (
+    <Box>
+      {!pageNum && (
+        <Box>
+          <Typography variant="h4">Loading...</Typography>
+          <Stack spacing={2}>
+            {Array.from(
+              { length: totalItems >= 10 ? 10 : totalItems },
+              () => new Date().getTime() + Math.random()
+            ).map((key, i) => (
+              <div key={`${key}-${i}`}>
+                <LoadingCard key={`${key}-${i}-favorite-card`} />
+                <Divider
+                  sx={{ marginTop: "8px", marginBottom: "8px" }}
+                  key={`${key}-${i}-divider`}
+                />
+              </div>
+            ))}
+          </Stack>
+        </Box>
+      )}
+      <Outlet />
+      {!bookId && <CustomPagination totalItems={totalItems} />}
+    </Box>
+  );
 };
 
 FavoritesPage.propTypes = {
-  isAddFavLoading: PropTypes.bool.isRequired,
-  isDelFavLoading: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(
     PropTypes.shape({ googleBooksId: PropTypes.string })
   ),
@@ -38,16 +57,8 @@ FavoritesPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  favorites: getFavoritesSelector(state),
-  user: getUserSelector(state),
-  isAddFavLoading: checkIfLoading(
-    state,
-    userTypes.GET_SAVE_FAVORITED_BOOK_FETCH
-  ),
-  isDelFavLoading: checkIfLoading(
-    state,
-    userTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
-  )
+  totalItems: getTotalFavoritesSelector(state),
+  user: getUserSelector(state)
 });
 
 const actionCreators = {};
