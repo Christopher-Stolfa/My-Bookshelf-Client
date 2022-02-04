@@ -15,22 +15,33 @@ const CustomPagination = ({ totalItems }) => {
   const handleChange = (e, value) => {
     e.preventDefault();
     setPage(value);
-    navigate(`${value}`);
+    navigate(String(value));
     window.scrollTo(0, 0);
   };
 
   useEffect(() => {
-    console.log("Setting page to the page num " + pageNum);
     if (!pageNum) {
-      navigate("1");
+      console.log("Setting undefined page number to 1");
+      navigate("1", { replace: true });
     } else {
+      console.log("Setting page to the page num " + pageNum);
       setPage(parseInt(pageNum));
     }
   }, [pageNum]);
 
   useEffect(() => {
+    console.log("in totalItems useEffect");
     let num = Math.floor(totalItems / pageSize);
-    if (num < totalItems / pageSize) num = Math.ceil(totalItems / pageSize);
+    if (num < totalItems / pageSize) {
+      num = Math.ceil(totalItems / pageSize);
+    }
+    if (num < pageNum) {
+      console.log(
+        `Page num: ${pageNum} is higher than totalPages ${num}. Navigating to ${pageNum -
+          1}`
+      );
+      navigate(String(pageNum - 1));
+    }
     setTotalPages(num);
   }, [totalItems]);
 
