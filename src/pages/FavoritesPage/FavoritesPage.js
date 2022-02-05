@@ -17,7 +17,7 @@ const FavoritesPage = ({ totalItems, user: { loggedIn } }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    !loggedIn && navigate(routes.sign);
+    !loggedIn && navigate(routes.signIn);
   }, [loggedIn]);
 
   return (
