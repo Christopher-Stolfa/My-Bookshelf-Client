@@ -10,7 +10,7 @@ const CustomPagination = ({ totalItems }) => {
   const navigate = useNavigate();
   const { pageNum } = useParams();
   const [page, setPage] = useState(pageNum ? parseInt(pageNum) : 1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleChange = (e, value) => {
     e.preventDefault();
@@ -20,12 +20,23 @@ const CustomPagination = ({ totalItems }) => {
   };
 
   useEffect(() => {
+    const pageRoute = parseInt(pageNum);
     if (!pageNum) {
-      console.log("Setting undefined page number to 1");
+      console.log("Setting undefined page route to 1");
       navigate("1", { replace: true });
-    } else {
-      console.log("Setting page to the page num " + pageNum);
-      setPage(parseInt(pageNum));
+    } else if (pageRoute < 1) {
+      console.log("Page route less than 1, set it to 1");
+      navigate("1", { replace: true });
+    } else if (pageRoute > totalPages) {
+      console.log(
+        `Page route: ${pageNum} is greater than the max page: ${totalPages}`
+      );
+      navigate(String(totalPages), { replace: true });
+    } else if (pageRoute !== page) {
+      console.log(
+        `Page route: ${pageNum} is not equal to ${page}, now setting page state.`
+      );
+      setPage(pageRoute);
     }
   }, [pageNum]);
 
@@ -35,15 +46,20 @@ const CustomPagination = ({ totalItems }) => {
     if (num < totalItems / pageSize) {
       num = Math.ceil(totalItems / pageSize);
     }
-    if (num < pageNum) {
-      console.log(
-        `Page num: ${pageNum} is higher than totalPages ${num}. Navigating to ${pageNum -
-          1}`
-      );
-      navigate(String(pageNum - 1));
-    }
+    if (num === 0) num = 1;
     setTotalPages(num);
   }, [totalItems]);
+
+  useEffect(() => {
+    const pageRoute = parseInt(pageNum);
+    console.log("In totalPages effect");
+    if (pageRoute < pageNum) {
+      console.log(
+        `Page num: ${pageNum} is higher than totalPages ${totalPages}. Navigating to ${totalPages}`
+      );
+      navigate(String(totalPages));
+    }
+  }, [totalPages]);
 
   return (
     <Stack style={{ alignItems: "center" }} spacing={2}>
@@ -54,7 +70,7 @@ const CustomPagination = ({ totalItems }) => {
 };
 
 CustomPagination.propTypes = {
-  totalItems: PropTypes.number
+  totalItems: PropTypes.number,
 };
 
 export default CustomPagination;
