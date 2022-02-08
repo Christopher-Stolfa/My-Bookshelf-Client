@@ -130,7 +130,8 @@ const BookResultPage = ({
               <Rating
                 style={{ marginTop: "8px" }}
                 name="half-rating-read"
-                defaultValue={selectedBook.averageRating}
+                defaultValue={0}
+                value={selectedBook.averageRating || 0}
                 precision={0.5}
                 readOnly
               />
