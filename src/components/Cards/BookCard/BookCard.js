@@ -17,7 +17,7 @@ import { bookActions } from "../../../actions/bookActions";
 import { getUserSelector } from "../../../selectors/userSelectors";
 import {
   GET_SAVE_FAVORITED_BOOK_FETCH,
-  GET_REMOVE_FAVORITED_BOOK_FETCH
+  GET_REMOVE_FAVORITED_BOOK_FETCH,
 } from "../../../types/bookTypes";
 import { checkIfLoading } from "../../../selectors/uiSelectors";
 import Rating from "@mui/material/Rating";
@@ -31,7 +31,6 @@ const BookCard = ({
   removeFavoritedBook,
   isDelFavLoading,
   isAddFavLoading,
-  setSelectedBook
 }) => {
   const ref = createRef();
   const navigate = useNavigate();
@@ -43,7 +42,7 @@ const BookCard = ({
     setIsFavorited(
       favorites &&
         favorites.some(
-          favoritedBook => favoritedBook.googleBooksId === book.googleBooksId
+          (favoritedBook) => favoritedBook.googleBooksId === book.googleBooksId
         )
     );
   }, [favorites]);
@@ -90,7 +89,6 @@ const BookCard = ({
   };
 
   const selectBook = () => {
-    setSelectedBook({ message: "Book selected", selectedBook: book });
     navigate(book.googleBooksId);
   };
 
@@ -104,7 +102,7 @@ const BookCard = ({
             minWidth: 128,
             height: 168,
             minHeight: 168,
-            cursor: "pointer"
+            cursor: "pointer",
           }}
           image={book.imageLink}
           alt={book.title}
@@ -131,7 +129,7 @@ const BookCard = ({
                 flexDirection: "column",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
-                textOverflow: "ellipsis"
+                textOverflow: "ellipsis",
               }
         }
       >
@@ -144,7 +142,7 @@ const BookCard = ({
           >
             {book.title}
           </Typography>
-          {book.authors.map(author => (
+          {book.authors.map((author) => (
             <Typography
               key={author}
               variant="subtitle1"
@@ -169,7 +167,7 @@ const BookCard = ({
               style={{
                 cursor: "pointer",
                 color: "#0d6aa8",
-                textDecoration: "underline"
+                textDecoration: "underline",
               }}
               onClick={handleOnClickMore}
             >
@@ -212,7 +210,6 @@ const BookCard = ({
 };
 
 BookCard.propTypes = {
-  setSelectedBook: PropTypes.func.isRequired,
   isAddFavLoading: PropTypes.bool.isRequired,
   isDelFavLoading: PropTypes.bool.isRequired,
   saveFavoritedBook: PropTypes.func.isRequired,
@@ -221,7 +218,7 @@ BookCard.propTypes = {
     PropTypes.shape({ googleBooksId: PropTypes.string })
   ),
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired
+    loggedIn: PropTypes.bool.isRequired,
   }).isRequired,
   book: PropTypes.shape({
     googleBooksId: PropTypes.string.isRequired,
@@ -235,21 +232,20 @@ BookCard.propTypes = {
     ratingsCount: PropTypes.number,
     imageLink: PropTypes.string.isRequired,
     language: PropTypes.string,
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired
-  }).isRequired
+    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
   isAddFavLoading: checkIfLoading(state, GET_SAVE_FAVORITED_BOOK_FETCH),
-  isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH)
+  isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH),
 });
 
 const actionCreators = {
-  setSelectedBook: bookActions.setSelectedBook,
   saveFavoritedBook: bookActions.saveFavoritedBook,
-  removeFavoritedBook: bookActions.removeFavoritedBook
+  removeFavoritedBook: bookActions.removeFavoritedBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(BookCard);
