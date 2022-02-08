@@ -52,13 +52,13 @@ FavoritesPage.propTypes = {
     PropTypes.shape({ googleBooksId: PropTypes.string })
   ),
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired
-  }).isRequired
+    loggedIn: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   totalItems: getTotalFavoritesSelector(state),
-  user: getUserSelector(state)
+  user: getUserSelector(state),
 });
 
 const actionCreators = {};
