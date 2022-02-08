@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { searchActions } from "../../actions/searchActions";
 import {
   getSearchSelector,
-  getResultsTotalSelector
+  getResultsTotalSelector,
 } from "../../selectors/searchSelector";
 import LoadingCard from "../../components/Loaders/LoadingCard";
 import { checkIfLoading } from "../../selectors/uiSelectors";
@@ -19,7 +19,7 @@ import { searchTypes } from "../../types/searchTypes";
 const Results = ({
   isLoading,
   totalItems,
-  searchResults: { bookSearchData }
+  searchResults: { bookSearchData },
 }) => {
   const { pageNum, bookId } = useParams();
   const pageSize = 10;
@@ -52,8 +52,8 @@ const Results = ({
     );
   } else {
     return (
-      <>
-        {bookSearchData.length < 1 ? (
+      <Box>
+        {totalItems < 1 ? (
           <Typography variant="h4">No Results</Typography>
         ) : (
           <>
@@ -61,7 +61,7 @@ const Results = ({
             <Stack spacing={2}>
               {bookSearchData
                 .slice(getStartIndex(), getEndIndex())
-                .map(book => (
+                .map((book) => (
                   <div key={`${book.googleBooksId}-search-result-div`}>
                     <BookCard
                       key={`${book.googleBooksId}-search-result-card`}
@@ -76,25 +76,25 @@ const Results = ({
             </Stack>
           </>
         )}
-      </>
+      </Box>
     );
   }
 };
 
 Results.propTypes = {
   searchResults: PropTypes.shape({
-    bookSearchData: PropTypes.array.isRequired
-  }).isRequired
+    bookSearchData: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   totalItems: getResultsTotalSelector(state),
   searchResults: getSearchSelector(state),
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH)
+  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
 });
 
 const actionCreators = {
-  searchBook: searchActions.searchBook
+  searchBook: searchActions.searchBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(Results);

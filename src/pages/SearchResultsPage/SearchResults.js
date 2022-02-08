@@ -18,8 +18,8 @@ const SearchResults = ({ totalItems, searchBook }) => {
     const inputData = {
       data: JSON.stringify({
         searchQuery,
-        orderBy: "relevance"
-      })
+        orderBy: "relevance",
+      }),
     };
     searchBook(inputData);
   }, [searchQuery]);
@@ -34,15 +34,15 @@ const SearchResults = ({ totalItems, searchBook }) => {
 
 SearchResults.propTypes = {
   totalItems: PropTypes.number.isRequired,
-  searchBook: PropTypes.func.isRequired
+  searchBook: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  totalItems: getResultsTotalSelector(state)
+const mapStateToProps = (state) => ({
+  totalItems: getResultsTotalSelector(state),
 });
 
 const actionCreators = {
-  searchBook: searchActions.searchBook
+  searchBook: searchActions.searchBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResults);

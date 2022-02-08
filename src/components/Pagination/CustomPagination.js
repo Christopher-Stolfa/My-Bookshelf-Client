@@ -20,6 +20,7 @@ const CustomPagination = ({ totalItems }) => {
   };
 
   useEffect(() => {
+    console.log("In page num effect");
     const pageRoute = parseInt(pageNum);
     if (!pageNum) {
       console.log("Setting undefined page route to 1");

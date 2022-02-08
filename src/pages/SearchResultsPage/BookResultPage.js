@@ -48,6 +48,16 @@ const BookResultPage = ({
   const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
+    return () => {
+      console.log("Unmounting");
+      setSelectedBook({
+        message: "Removed selected book",
+        selectedBook: {},
+      });
+    };
+  }, []);
+
+  useEffect(() => {
     if (!firstRender) {
       console.log(
         "Either a book was selected or there is no book data anywhere"
@@ -91,13 +101,7 @@ const BookResultPage = ({
       });
     }
     setFirstRender(false);
-    return () => {
-      setSelectedBook({
-        message: "Removed selected book",
-        selectedBook: {},
-      });
-    };
-  }, [bookId]);
+  }, []);
 
   const handleOnClickFavorite = () => {
     if (!loggedIn) {
