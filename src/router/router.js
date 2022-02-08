@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 import { routes, routeIds } from "../config";
 import { connect } from "react-redux";
@@ -24,6 +24,7 @@ import SearchResults from "../pages/SearchResultsPage/SearchResults";
 import Results from "../pages/SearchResultsPage/Results";
 import FavoritesPage from "../pages/FavoritesPage/FavoritesPage";
 import FavoriteBooks from "../pages/FavoritesPage/FavoriteBooks";
+import FavoriteBookPage from "../pages/FavoritesPage/FavoriteBookPage";
 
 const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
   useEffect(() => {
@@ -49,7 +50,9 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
             <Route path={routes.signIn} element={<SignInPage />} />
             <Route path={routes.signUp} element={<SignUpPage />} />
             <Route path={routes.favorites} element={<FavoritesPage />}>
-              <Route path={routeIds.pageNum} element={<FavoriteBooks />} />
+              <Route path={routeIds.pageNum} element={<FavoriteBooks />}>
+                <Route path={routeIds.bookId} element={<FavoriteBookPage />} />
+              </Route>
             </Route>
             <Route path={routes.searchResults} element={<SearchResultsPage />}>
               <Route path={routeIds.searchQuery} element={<SearchResults />}>
@@ -70,18 +73,18 @@ RouterComponent.propTypes = {
   getUserSession: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool
-  })
+    loggedIn: PropTypes.bool,
+  }),
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: checkIfLoading(state, userTypes.GET_SESSION_FETCH),
-  user: getUserSelector(state)
+  user: getUserSelector(state),
 });
 
 const actionCreators = {
   getUserSession: userActions.getUserSession,
-  getFavorites: bookActions.getFavoritedBooks
+  getFavorites: bookActions.getFavoritedBooks,
 };
 
 export default connect(mapStateToProps, actionCreators)(RouterComponent);
