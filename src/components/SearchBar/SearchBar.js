@@ -93,7 +93,7 @@ const SearchBar = ({ searchBook }) => {
             sx={{ padding: 1 }}
             row
           >
-            <FormControlLabel value={""} control={<Radio />} label="Title" />
+            <FormControlLabel value="" control={<Radio />} label="Title" />
             <FormControlLabel
               value={SUBJECT}
               control={<Radio />}
