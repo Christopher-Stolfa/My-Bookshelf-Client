@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
-import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import DirectionsIcon from "@mui/icons-material/Directions";
-import Typography from "@mui/material/Typography";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -74,7 +69,7 @@ const SearchBar = ({ searchBook, isLoading }) => {
         <OutlinedInput
           disabled={isLoading}
           onChange={handleOnQueryChange}
-          placeholder="Search books..."
+          placeholder="Search for books by title, author, or publisher..."
           style={{
             alignSelf: "center",
             width: "100%",
