@@ -38,9 +38,17 @@ const Background = styled("div")(({ theme }) => ({
 const HomePage = (props) => {
   return (
     <Background>
-      <Typography variant="h3" gutterBottom>
-        Discover books you'll love!
-      </Typography>
+      <Box sx={{ maxWidth: "70%" }}>
+        <Typography fontWeight="bold" variant="h4" gutterBottom>
+          Discover and save books you love!
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          Enter a book title, author, category, or publisher and the site will
+          pull a list of books related to your search term. Create an account
+          and you can keep track of books you find by saving them to your
+          favorites!
+        </Typography>
+      </Box>
       <SearchBar />
     </Background>
   );
