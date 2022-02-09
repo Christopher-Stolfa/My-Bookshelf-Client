@@ -21,6 +21,8 @@ import FormLabel from "@mui/material/FormLabel";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../config";
 import { searchActions } from "../../actions/searchActions";
+import { checkIfLoading } from "../../selectors/uiSelectors";
+import { searchTypes } from "../../types/searchTypes";
 
 const SUBJECT = "subject:";
 const AUTHOR = "inauthor:";
@@ -36,7 +38,7 @@ const FormContainer = styled("div")(({ theme }) => ({
   margin: 5,
 }));
 
-const SearchBar = ({ searchBook }) => {
+const SearchBar = ({ searchBook, isLoading }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchBy, setSearchBy] = useState("");
   const [orderBy, setOrderBy] = useState(RELEVANCE);
@@ -70,6 +72,7 @@ const SearchBar = ({ searchBook }) => {
     <Box component="form" onSubmit={handleOnSubmit}>
       <FormControl>
         <OutlinedInput
+          disabled={isLoading}
           onChange={handleOnQueryChange}
           placeholder="Search books..."
           style={{
@@ -137,10 +140,15 @@ const SearchBar = ({ searchBook }) => {
 
 SearchBar.propTypes = {
   searchBook: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
+});
 
 const actionCreators = {
   searchBook: searchActions.searchBook,
 };
 
-export default connect(null, actionCreators)(SearchBar);
+export default connect(mapStateToProps, actionCreators)(SearchBar);
