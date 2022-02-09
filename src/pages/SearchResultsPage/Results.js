@@ -85,6 +85,8 @@ Results.propTypes = {
   searchResults: PropTypes.shape({
     bookSearchData: PropTypes.array.isRequired,
   }).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  totalItems: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
