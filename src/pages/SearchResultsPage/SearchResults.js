@@ -14,15 +14,15 @@ const SearchResults = ({ totalItems, searchBook }) => {
   const { searchQuery, bookId } = useParams();
 
   // When searchResults route is hit, perform a search query
-  useEffect(() => {
-    const inputData = {
-      data: JSON.stringify({
-        searchQuery,
-        orderBy: "relevance",
-      }),
-    };
-    searchBook(inputData);
-  }, [searchQuery]);
+  // useEffect(() => {
+  //   const inputData = {
+  //     data: JSON.stringify({
+  //       searchQuery,
+  //       orderBy: "relevance",
+  //     }),
+  //   };
+  //   searchBook(inputData);
+  // }, [searchQuery]);
 
   return (
     <Box>
