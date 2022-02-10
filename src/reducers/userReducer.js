@@ -1,6 +1,6 @@
 import { userTypes } from "../types/userTypes";
 
-const initialState = {};
+const initialState = { user: { loggedIn: false } };
 
 const userReducer = (state = initialState, { type, payload }) => {
   switch (type) {
@@ -11,8 +11,8 @@ const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         user: {
-          ...payload
-        }
+          ...payload,
+        },
       };
     default:
       return state;
