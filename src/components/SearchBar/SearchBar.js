@@ -40,7 +40,7 @@ const SearchBar = ({ searchBook, isLoading }) => {
   const navigate = useNavigate();
 
   const handleOnQueryChange = ({ target: { value } }) => {
-    setSearchQuery(value);
+    setSearchQuery(value.trim().replaceAll(" ", "+"));
   };
 
   const handleOnSearchChange = ({ target: { value } }) => {
