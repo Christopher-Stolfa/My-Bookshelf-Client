@@ -30,12 +30,10 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
   useEffect(() => {
     // This is a temporary fix, but this checks if there is an active session.
     getUserSession();
-    return () => {};
   }, [getUserSession]);
 
   useEffect(() => {
-    getFavorites();
-    return () => {};
+    user.loggedIn && getFavorites();
   }, [user]);
 
   if (!user || isLoading) {
