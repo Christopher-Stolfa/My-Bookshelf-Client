@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -17,6 +19,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import { quoteActions } from "../../actions/quoteActions";
+import { getSelectedQuoteSelector } from "../../selectors/quoteSelector";
+import { GET_RANDOM_QUOTE_SUCCESS } from "../../types/quoteTypes";
+import { checkIfLoading } from "../../selectors/uiSelectors";
 
 const Background = styled("div")(({ theme }) => ({
   display: "flex",
@@ -35,10 +41,14 @@ const Background = styled("div")(({ theme }) => ({
   backgroundRepeat: "no-repeat",
   backgroundSize: "cover",
 }));
-const HomePage = (props) => {
+const HomePage = ({ getRandomQuote, selectedQuote, isLoading }) => {
+  useEffect(() => {
+    getRandomQuote();
+  }, []);
+
   return (
     <Background>
-      <Box sx={{ maxWidth: "70%" }}>
+      <Box>
         <Typography fontWeight="bold" variant="h4" gutterBottom>
           Discover and save books you love!
         </Typography>
@@ -48,10 +58,34 @@ const HomePage = (props) => {
           and you can keep track of books you find by saving them to your
           favorites!
         </Typography>
+        <SearchBar />
+        <Typography fontWeight="bold" variant="h5" gutterBottom>
+          {selectedQuote.text}
+        </Typography>
+        <Typography fontWeight="bold" variant="caption" gutterBottom>
+          -{selectedQuote.author}
+        </Typography>
       </Box>
-      <SearchBar />
     </Background>
   );
 };
 
-export default HomePage;
+HomePage.propTypes = {
+  getRandomQuote: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  selectedQuote: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  isLoading: checkIfLoading(state, GET_RANDOM_QUOTE_SUCCESS),
+  selectedQuote: getSelectedQuoteSelector(state),
+});
+
+const actionCreators = {
+  getRandomQuote: quoteActions.getRandomQoute,
+};
+
+export default connect(mapStateToProps, actionCreators)(HomePage);
