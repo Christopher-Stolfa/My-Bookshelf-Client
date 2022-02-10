@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Toolbar from "@mui/material/Toolbar";
 import CssBaseline from "@mui/material/CssBaseline";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import Navigation from "../Navigation/Navigation";
 
 const ElevationScroll = () => {
@@ -23,7 +23,7 @@ const ElevateAppBar = ({ children }) => {
       <CssBaseline />
       <ElevationScroll />
       <Toolbar />
-      <Container sx={{ my: 2 }}>{children}</Container>
+      {children}
     </React.Fragment>
   );
 };
