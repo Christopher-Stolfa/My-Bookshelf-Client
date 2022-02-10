@@ -19,7 +19,7 @@ export const endPoints = {
   saveFavoritedBook: "save-favorited-book",
   removeFavoritedBook: "remove-favorited-book",
   getFavoritedBooks: "get-favorited-books",
-  getRandomQod: "get-random-qod",
+  getRandomQod: "get-random-qoute",
 };
 
 // Routes
