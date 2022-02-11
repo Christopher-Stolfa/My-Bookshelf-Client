@@ -11,14 +11,14 @@ import { connect } from "react-redux";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import { routes } from "../../config";
-import NavigationSearch from "./NavigationSearch";
 
-const Navigation = props => {
+const Navigation = (props) => {
   const navigate = useNavigate();
-  const handleOnClick = e => {
-    navigate(e.target.name);
+  const handleOnClick = ({ target: { name } }) => {
+    const path = name === routes.favorites ? `${name}/1` : name;
+    navigate(path);
   };
-  const handleSignout = e => {
+  const handleSignout = (e) => {
     props.signOut();
   };
 
@@ -39,11 +39,10 @@ const Navigation = props => {
           variant="h6"
           noWrap
           component="div"
-          sx={{ display: { xs: "none", sm: "block" } }}
+          sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
         >
           My Bookshelf
         </Typography>
-        <NavigationSearch />
         <Button onClick={handleOnClick} name={routes.home} color="inherit">
           Home
         </Button>
@@ -92,16 +91,16 @@ Navigation.propTypes = {
   user: PropTypes.shape({
     message: PropTypes.string,
     loggedIn: PropTypes.bool,
-    userData: PropTypes.object
-  }).isRequired
+    userData: PropTypes.object,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: getUserSelector(state)
+const mapStateToProps = (state) => ({
+  user: getUserSelector(state),
 });
 
 const actionCreators = {
-  signOut: userActions.signOut
+  signOut: userActions.signOut,
 };
 
 export default connect(mapStateToProps, actionCreators)(Navigation);
