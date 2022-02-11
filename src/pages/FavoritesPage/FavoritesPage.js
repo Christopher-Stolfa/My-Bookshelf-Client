@@ -11,17 +11,18 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import LoadingCard from "../../components/Loaders/LoadingCard";
+import Container from "@mui/material/Container";
 
 const FavoritesPage = ({ totalItems, user: { loggedIn } }) => {
   const { pageNum, bookId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    !loggedIn && navigate(routes.signIn);
+    !loggedIn && navigate(routes.signIn, { replace: true });
   }, [loggedIn]);
 
   return (
-    <Box>
+    <Container sx={{ padding: "25px" }}>
       {!pageNum && (
         <Box>
           <Typography variant="h4">Loading...</Typography>
@@ -43,7 +44,7 @@ const FavoritesPage = ({ totalItems, user: { loggedIn } }) => {
       )}
       <Outlet />
       {!bookId && <CustomPagination totalItems={totalItems} />}
-    </Box>
+    </Container>
   );
 };
 
