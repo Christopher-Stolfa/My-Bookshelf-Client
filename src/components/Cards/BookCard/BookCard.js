@@ -93,7 +93,7 @@ const BookCard = ({
   };
 
   return (
-    <Card variant="none" sx={{ display: "flex" }}>
+    <Card variant="none" sx={{ display: "flex", backgroundColor: "#FDF4E7" }}>
       <div>
         <CardMedia
           component="img"
