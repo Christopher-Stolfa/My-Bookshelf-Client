@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   BrowserRouter as Router,
@@ -27,20 +27,21 @@ import FavoriteBooks from "../pages/FavoritesPage/FavoriteBooks";
 import FavoriteBookPage from "../pages/FavoritesPage/FavoriteBookPage";
 
 const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
-  useEffect(() => {
+  const [firstRender, setFirstRender] = useState(true);
+
+  useEffect(async () => {
     // This is a temporary fix, but this checks if there is an active session.
-    getUserSession();
+    await getUserSession();
+    setFirstRender(false);
   }, [getUserSession]);
 
   useEffect(() => {
     user.loggedIn && getFavorites();
   }, [user]);
 
-  if (!user || isLoading) {
-    return <div />;
-  } else {
-    return (
-      <Router>
+  return (
+    <Router>
+      {!firstRender && (
         <ElevateAppBar>
           <Routes>
             <Route exact path={"/"} element={<Navigate to={routes.home} />} />
@@ -62,9 +63,9 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
             <Route path="*" element={<Error404Page />} />
           </Routes>
         </ElevateAppBar>
-      </Router>
-    );
-  }
+      )}
+    </Router>
+  );
 };
 
 RouterComponent.propTypes = {
