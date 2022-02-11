@@ -19,10 +19,9 @@ const HomeContainer = styled(Container)(({ theme }) => ({
   borderRadius: "3px",
   width: "100%",
   minHeight: "200px%",
-  backgroundColor: "#FDF4E7",
   color: "#333333",
   textAlign: "center",
-  padding: "40px 15px 200px",
+  padding: "25px",
 }));
 
 const LibaryImage = styled("img")(({ theme }) => ({
@@ -33,36 +32,37 @@ const LibaryImage = styled("img")(({ theme }) => ({
 
 const HomePage = ({ getRandomQuote, selectedQuote, isLoading }) => {
   useEffect(() => {
+    console.log("Component Mounted");
     getRandomQuote();
+    return () => {
+      console.log("Component unmounted");
+    };
   }, []);
 
   return (
-    <div style={{ backgroundColor: "#FDF4E7" }}>
-      <HomeContainer>
-        <Typography fontWeight="bold" variant="h4" gutterBottom>
-          Discover and save books you love!
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          Enter a book title, author, category, or publisher and the site will
-          pull a list of books related to your search term. Create an account
-          and you can keep track of books you find by saving them to your
-          favorites!
-        </Typography>
-        <SearchBar />
-        <Typography
-          sx={{ fontSize: "1rem" }}
-          fontWeight="bold"
-          variant="overline"
-          gutterBottom
-        >
-          {selectedQuote.text}
-        </Typography>
-        <Typography fontWeight="bold" variant="caption" gutterBottom>
-          -{selectedQuote.author}
-        </Typography>
-        <LibaryImage src={`${process.env.PUBLIC_URL}/library2.svg`} />
-      </HomeContainer>
-    </div>
+    <HomeContainer>
+      <Typography fontWeight="bold" variant="h4" gutterBottom>
+        Discover and save books you love!
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        Enter a book title, author, category, or publisher and the site will
+        pull a list of books related to your search term. Create an account and
+        you can keep track of books you find by saving them to your favorites!
+      </Typography>
+      <SearchBar />
+      <Typography
+        sx={{ fontSize: "1rem" }}
+        fontWeight="bold"
+        variant="overline"
+        gutterBottom
+      >
+        {selectedQuote.text}
+      </Typography>
+      <Typography fontWeight="bold" variant="caption" gutterBottom>
+        -{selectedQuote.author}
+      </Typography>
+      <LibaryImage src={`${process.env.PUBLIC_URL}/library2.svg`} />
+    </HomeContainer>
   );
 };
 
