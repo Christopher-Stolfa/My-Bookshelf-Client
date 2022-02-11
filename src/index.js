@@ -9,6 +9,8 @@ import { Provider } from "react-redux";
 import SnackbarNotifier from "./components/SnackbarNotifier/SnackbarNotifier";
 import store from "./store";
 
+document.body.style = "background-color: #FDF4E7";
+
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={libraryTheme}>
