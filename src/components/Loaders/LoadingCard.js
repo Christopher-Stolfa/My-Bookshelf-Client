@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 
 const LoadingCard = () => (
   <>
-    <Card variant="none" sx={{ display: "flex" }}>
+    <Card variant="none" sx={{ display: "flex", backgroundColor: "#FDF4E7" }}>
       <Skeleton
         variant="rectangular"
         sx={{ width: 128, minWidth: 128, height: 168, minHeight: 168 }}
