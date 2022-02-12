@@ -169,12 +169,8 @@ const BookResultPage = ({
                 precision={0.5}
                 readOnly
               />
-              <Typography variant="caption" display="block" gutterBottom>
-                {selectedBook.ratingsCount > 0 &&
-                  `Ratings: ${selectedBook.ratingsCount}`}
-              </Typography>
             </div>
-            <div>
+            <div style={{ display: "inline-block", verticalAlign: "middle" }}>
               {favorites && isFavorited ? (
                 <IconButton
                   onClick={handleOnClickRemoveFavorite}
@@ -190,13 +186,15 @@ const BookResultPage = ({
                   <FavoriteBorderIcon />
                 </IconButton>
               )}
-              <IconButton aria-label="currently-reading">
-                <AutoStoriesIcon />
-              </IconButton>
-              <IconButton aria-label="finished-reading">
-                <BookIcon />
-              </IconButton>
             </div>
+            <Typography
+              style={{ display: "inline-block", verticalAlign: "middle" }}
+              variant="caption"
+              gutterBottom
+            >
+              {selectedBook.ratingsCount > 0 &&
+                `Ratings: ${selectedBook.ratingsCount}`}
+            </Typography>
           </Box>
           <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
             <Typography component="div" variant="h5">

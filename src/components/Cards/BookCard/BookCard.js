@@ -11,8 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import BookIcon from "@mui/icons-material/Book";
+import Rating from "@mui/material/Rating";
 import { bookActions } from "../../../actions/bookActions";
 import { getUserSelector } from "../../../selectors/userSelectors";
 import {
@@ -20,7 +19,6 @@ import {
   GET_REMOVE_FAVORITED_BOOK_FETCH,
 } from "../../../types/bookTypes";
 import { checkIfLoading } from "../../../selectors/uiSelectors";
-import Rating from "@mui/material/Rating";
 import { getFavoritesSelector } from "../../../selectors/bookSelector";
 
 const BookCard = ({
@@ -80,14 +78,6 @@ const BookCard = ({
     }
   };
 
-  const handleOnClickReading = () => {
-    if (!loggedIn) navigate(routes.signIn);
-  };
-
-  const handleOnClickFinished = () => {
-    if (!loggedIn) navigate(routes.signIn);
-  };
-
   const selectBook = () => {
     navigate(book.googleBooksId);
   };
@@ -115,7 +105,29 @@ const BookCard = ({
           precision={0.5}
           readOnly
         />
-        <Typography variant="caption" display="block" gutterBottom>
+
+        <Box style={{ display: "inline-block", verticalAlign: "middle" }}>
+          {favorites && isFavorited ? (
+            <IconButton
+              onClick={handleOnClickRemoveFavorite}
+              aria-label="favorite-item"
+            >
+              <FavoriteIcon color="secondary" />
+            </IconButton>
+          ) : (
+            <IconButton
+              onClick={handleOnClickFavorite}
+              aria-label="favorite-item"
+            >
+              <FavoriteBorderIcon />
+            </IconButton>
+          )}
+        </Box>
+        <Typography
+          style={{ display: "inline-block", verticalAlign: "middle" }}
+          variant="caption"
+          gutterBottom
+        >
           {book.ratingsCount > 0 && `Ratings: ${book.ratingsCount}`}
         </Typography>
       </div>
@@ -175,35 +187,6 @@ const BookCard = ({
             </span>
           )}
         </CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          {favorites && isFavorited ? (
-            <IconButton
-              onClick={handleOnClickRemoveFavorite}
-              aria-label="favorite-item"
-            >
-              <FavoriteIcon color="secondary" />
-            </IconButton>
-          ) : (
-            <IconButton
-              onClick={handleOnClickFavorite}
-              aria-label="favorite-item"
-            >
-              <FavoriteBorderIcon />
-            </IconButton>
-          )}
-          <IconButton
-            onClick={handleOnClickReading}
-            aria-label="currently-reading"
-          >
-            <AutoStoriesIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleOnClickFinished}
-            aria-label="finished-reading"
-          >
-            <BookIcon />
-          </IconButton>
-        </Box>
       </Box>
     </Card>
   );
