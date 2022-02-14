@@ -25,6 +25,7 @@ import Results from "../pages/SearchResultsPage/Results";
 import FavoritesPage from "../pages/FavoritesPage/FavoritesPage";
 import FavoriteBooks from "../pages/FavoritesPage/FavoriteBooks";
 import FavoriteBookPage from "../pages/FavoritesPage/FavoriteBookPage";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
 
 const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
   const [firstRender, setFirstRender] = useState(true);
@@ -48,6 +49,10 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
             <Route path={routes.home} element={<HomePage />} />
             <Route path={routes.signIn} element={<SignInPage />} />
             <Route path={routes.signUp} element={<SignUpPage />} />
+            <Route
+              path={routes.forgotPassword}
+              element={<ForgotPasswordPage />}
+            />
             <Route path={routes.favorites} element={<FavoritesPage />}>
               <Route path={routeIds.pageNum} element={<FavoriteBooks />}>
                 <Route path={routeIds.bookId} element={<FavoriteBookPage />} />
