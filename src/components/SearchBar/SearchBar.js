@@ -30,10 +30,10 @@ const FormContainer = styled("div")(({ theme }) => ({
   display: "inline-flex",
   position: "relative",
   textAlign: "left",
-  margin: 5,
+  margin: 5
 }));
 
-const SearchBar = ({ searchBook, isLoading }) => {
+const SearchBar = ({ setInitialState, searchBook, isLoading }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchBy, setSearchBy] = useState("");
   const [orderBy, setOrderBy] = useState(RELEVANCE);
@@ -51,14 +51,15 @@ const SearchBar = ({ searchBook, isLoading }) => {
     setOrderBy(value);
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = e => {
     e.preventDefault();
     const inputData = {
       data: JSON.stringify({
         searchQuery,
-        filters: { orderBy: orderBy, searchBy: searchBy },
-      }),
+        filters: { orderBy: orderBy, searchBy: searchBy }
+      })
     };
+    setInitialState();
     searchBook(inputData);
     navigate(`${routes.searchResults}/${searchQuery}/1`);
   };
@@ -80,7 +81,7 @@ const SearchBar = ({ searchBook, isLoading }) => {
             fontSize: "18px",
             fontWeight: 400,
             lineHeight: "19px",
-            minHeight: "64px",
+            minHeight: "64px"
           }}
         />
         <FormContainer>
@@ -134,16 +135,18 @@ const SearchBar = ({ searchBook, isLoading }) => {
 };
 
 SearchBar.propTypes = {
+  setInitialState: PropTypes.func.isRequired,
   searchBook: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
+const mapStateToProps = state => ({
+  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH)
 });
 
 const actionCreators = {
-  searchBook: searchActions.searchBook,
+  setInitialState: searchActions.setInitialState,
+  searchBook: searchActions.searchBook
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchBar);
