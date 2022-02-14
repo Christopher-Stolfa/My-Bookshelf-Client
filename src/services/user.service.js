@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { endPoints, controllers } from "../config";
 
-const signIn = async inputData => {
+const signIn = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
     `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signIn}`,
@@ -9,7 +9,7 @@ const signIn = async inputData => {
   );
 };
 
-const signUp = async inputData => {
+const signUp = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
     `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signUp}`,
@@ -38,7 +38,7 @@ const getFavoritedBooks = async () => {
   );
 };
 
-const saveFavoritedBook = async inputData => {
+const saveFavoritedBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
     `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.saveFavoritedBook}`,
@@ -46,10 +46,18 @@ const saveFavoritedBook = async inputData => {
   );
 };
 
-const removeFavoritedBook = async inputData => {
+const removeFavoritedBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.delete(
     `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.removeFavoritedBook}`,
+    inputData
+  );
+};
+
+const sendPasswordReset = async (inputData) => {
+  Axios.defaults.withCredentials = true;
+  return await Axios.post(
+    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.forgotPassword}`,
     inputData
   );
 };
@@ -61,5 +69,6 @@ export const userService = {
   getSession,
   saveFavoritedBook,
   removeFavoritedBook,
-  getFavoritedBooks
+  getFavoritedBooks,
+  sendPasswordReset,
 };
