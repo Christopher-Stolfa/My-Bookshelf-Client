@@ -20,6 +20,7 @@ export const endPoints = {
   removeFavoritedBook: "remove-favorited-book",
   getFavoritedBooks: "get-favorited-books",
   getRandomQod: "get-random-qoute",
+  forgotPassword: "forgot-password",
 };
 
 // Routes
@@ -30,6 +31,7 @@ export const routes = {
   signOut: "/sign-out",
   searchResults: "/search-results",
   favorites: "/favorites",
+  forgotPassword: "/forgot-password",
 };
 
 // Nested routes
