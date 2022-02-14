@@ -5,15 +5,14 @@ import { startAction, stopAction } from "./uiActions";
 
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 
-const getUserSession = () => async dispatch => {
-  const getSessionSuccess = data => ({
-    type: userTypes.GET_SESSION_SUCCESS,
-    payload: data
-  });
+const getUserSession = () => async (dispatch) => {
   try {
     dispatch(startAction(userTypes.GET_SESSION_FETCH));
     const { data } = await userService.getSession();
-    dispatch(getSessionSuccess(data));
+    dispatch({
+      type: userTypes.GET_SESSION_SUCCESS,
+      payload: data,
+    });
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
   } finally {
@@ -21,15 +20,14 @@ const getUserSession = () => async dispatch => {
   }
 };
 
-const signUp = inputData => async dispatch => {
-  const getSignUpSuccess = data => ({
-    type: userTypes.GET_SIGNUP_SUCCESS,
-    payload: data
-  });
+const signUp = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(userTypes.GET_SIGNUP_FETCH));
     const { data } = await userService.signUp(inputData);
-    dispatch(getSignUpSuccess(data));
+    dispatch({
+      type: userTypes.GET_SIGNUP_SUCCESS,
+      payload: data,
+    });
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
@@ -38,15 +36,14 @@ const signUp = inputData => async dispatch => {
   }
 };
 
-const signIn = inputData => async dispatch => {
-  const getSignInSuccess = data => ({
-    type: userTypes.GET_SIGNIN_SUCCESS,
-    payload: data
-  });
+const signIn = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(userTypes.GET_SIGNIN_FETCH));
     const { data } = await userService.signIn(inputData);
-    dispatch(getSignInSuccess(data));
+    dispatch({
+      type: userTypes.GET_SIGNIN_SUCCESS,
+      payload: data,
+    });
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
@@ -55,10 +52,10 @@ const signIn = inputData => async dispatch => {
   }
 };
 
-const signOut = () => async dispatch => {
-  const getSignOutSuccess = data => ({
+const signOut = () => async (dispatch) => {
+  const getSignOutSuccess = (data) => ({
     type: userTypes.GET_SIGNOUT_SUCCESS,
-    payload: data
+    payload: data,
   });
   try {
     dispatch(startAction(userTypes.GET_SIGNOUT_FETCH));
@@ -72,9 +69,26 @@ const signOut = () => async dispatch => {
   }
 };
 
+const passwordReset = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(userTypes.GET_FORGOT_PASSWORD_FETCH));
+    const { data } = await userService.sendPasswordReset(inputData);
+    dispatch({
+      type: userTypes.GET_FORGOT_PASSWORD_SUCCESS,
+      payload: data,
+    });
+    setSnackbarSuccess(data, dispatch);
+  } catch (err) {
+    setSnackbarError(err.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(userTypes.GET_FORGOT_PASSWORD_FETCH));
+  }
+};
+
 export const userActions = {
   getUserSession,
   signUp,
   signIn,
-  signOut
+  signOut,
+  passwordReset,
 };
