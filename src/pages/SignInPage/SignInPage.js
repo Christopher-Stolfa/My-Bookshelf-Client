@@ -101,7 +101,7 @@ const SignInPage = ({ user: { loggedIn }, signIn }) => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to="#" variant="body2">
+              <Link to={routes.forgotPassword} variant="body2">
                 Forgot password?
               </Link>
             </Grid>
