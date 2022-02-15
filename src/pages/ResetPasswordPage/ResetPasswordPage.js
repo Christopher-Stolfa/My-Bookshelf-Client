@@ -10,20 +10,51 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { userTypes } from "../../types/userTypes";
+import { checkIfLoading } from "../../selectors/uiSelectors";
 
 const validate = (pass) =>
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/.test(pass);
 
-const ResetPasswordPage = (props) => {
-  const params = useParams();
+const helperText =
+  "Please enter a password between 8 and 16 characters with at least one uppercase character, number and special character.";
+
+const ResetPasswordPage = ({
+  user: { loggedIn },
+  isLoading,
+  checkResetToken,
+}) => {
+  const navigate = useNavigate();
+  const { token } = useParams();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [notValid, setNotValid] = useState(false);
   const [notValid2, setNotValid2] = useState(false);
+
+  useEffect(() => {
+    loggedIn && navigate(routes.home, { replace: true });
+    const checkTokenGetEmail = async () => {
+      const inputData = {
+        params: {
+          resetPasswordToken: token,
+        },
+      };
+      const data = await checkResetToken(inputData);
+      if (data) {
+        setEmail(data.email);
+      } else {
+        navigate(routes.home, { replace: true });
+      }
+    };
+    checkTokenGetEmail();
+  }, []);
 
   const handlePassword = ({ target: { value } }) => {
     setPassword(value);
@@ -44,6 +75,12 @@ const ResetPasswordPage = (props) => {
 
   return (
     <Container component="main" maxWidth="xs">
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <CssBaseline />
       <Box
         sx={{
@@ -60,41 +97,39 @@ const ResetPasswordPage = (props) => {
           Reset Password
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                helperText={notValid && "Please enter a valid password"}
-                onChange={handlePassword}
-                error={notValid}
-              />
-              <TextField
-                required
-                fullWidth
-                name="password2"
-                label="Confirm Password"
-                type="password"
-                id="password2"
-                autoComplete="new-password"
-                helperText={notValid && "Please enter a valid password"}
-                onChange={handlePassword2}
-                error={notValid2}
-              />
-            </Grid>
-          </Grid>
+          <TextField
+            required
+            fullWidth
+            margin="normal"
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="new-password"
+            helperText={notValid && helperText}
+            onChange={handlePassword}
+            error={notValid}
+          />
+          <TextField
+            required
+            fullWidth
+            margin="normal"
+            name="password2"
+            label="Confirm Password"
+            type="password"
+            id="password2"
+            autoComplete="new-password"
+            helperText={notValid && helperText}
+            onChange={handlePassword2}
+            error={notValid2}
+          />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Submit
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
@@ -109,14 +144,21 @@ const ResetPasswordPage = (props) => {
   );
 };
 
-ResetPasswordPage.propTypes = {};
+ResetPasswordPage.propTypes = {
+  checkResetToken: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    loggedIn: PropTypes.bool.isRequired,
+  }).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   user: getUserSelector(state),
+  isLoading: checkIfLoading(state, userTypes.GET_CHECK_RESET_TOKEN_FETCH),
 });
 
 const actionCreators = {
-  forgotPassword: userActions.forgotPassword,
+  checkResetToken: userActions.checkResetToken,
 };
 
 export default connect(mapStateToProps, actionCreators)(ResetPasswordPage);
