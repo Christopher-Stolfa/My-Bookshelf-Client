@@ -15,7 +15,7 @@ import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import { routes } from "../../config";
 
-const ForgotPasswordPage = ({ passwordReset, user: { loggedIn } }) => {
+const ForgotPasswordPage = ({ forgotPassword, user: { loggedIn } }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
@@ -35,7 +35,7 @@ const ForgotPasswordPage = ({ passwordReset, user: { loggedIn } }) => {
         email,
       }),
     };
-    passwordReset(inputData);
+    forgotPassword(inputData);
   };
 
   return (
@@ -83,7 +83,7 @@ const ForgotPasswordPage = ({ passwordReset, user: { loggedIn } }) => {
 };
 
 ForgotPasswordPage.propTypes = {
-  passwordReset: PropTypes.func.isRequired,
+  forgotPassword: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
   }).isRequired,
@@ -94,7 +94,7 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
-  passwordReset: userActions.passwordReset,
+  forgotPassword: userActions.forgotPassword,
 };
 
 export default connect(mapStateToProps, actionCreators)(ForgotPasswordPage);
