@@ -26,14 +26,18 @@ import FavoritesPage from "../pages/FavoritesPage/FavoritesPage";
 import FavoriteBooks from "../pages/FavoritesPage/FavoriteBooks";
 import FavoriteBookPage from "../pages/FavoritesPage/FavoriteBookPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 
 const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
   const [firstRender, setFirstRender] = useState(true);
 
-  useEffect(async () => {
+  useEffect(() => {
     // This is a temporary fix, but this checks if there is an active session.
-    await getUserSession();
-    setFirstRender(false);
+    const getSession = async () => {
+      await getUserSession();
+      setFirstRender(false);
+    };
+    getSession();
   }, [getUserSession]);
 
   useEffect(() => {
@@ -52,6 +56,11 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
             <Route
               path={routes.forgotPassword}
               element={<ForgotPasswordPage />}
+            />
+            <Route
+              exact
+              path={`${routes.reset}/${routeIds.token}`}
+              element={<ResetPasswordPage />}
             />
             <Route path={routes.favorites} element={<FavoritesPage />}>
               <Route path={routeIds.pageNum} element={<FavoriteBooks />}>
