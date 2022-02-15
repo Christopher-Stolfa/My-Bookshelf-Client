@@ -20,7 +20,7 @@ const ForgotPasswordPage = ({ forgotPassword, user: { loggedIn } }) => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    if (loggedIn) navigate(routes.home);
+    if (loggedIn) navigate(routes.home, { replace: true });
     return () => {};
   }, [loggedIn]);
 
