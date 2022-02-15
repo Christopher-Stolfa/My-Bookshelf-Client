@@ -85,10 +85,23 @@ const forgotPassword = (inputData) => async (dispatch) => {
   }
 };
 
+const checkResetToken = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(userTypes.GET_CHECK_RESET_TOKEN_FETCH));
+    const { data } = await userService.checkResetToken(inputData);
+    return data;
+  } catch (err) {
+    setSnackbarError(err.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(userTypes.GET_CHECK_RESET_TOKEN_FETCH));
+  }
+};
+
 export const userActions = {
   getUserSession,
   signUp,
   signIn,
   signOut,
   forgotPassword,
+  checkResetToken,
 };
