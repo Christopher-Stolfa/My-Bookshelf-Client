@@ -5,10 +5,10 @@ import {
 import { startAction, stopAction } from "./uiActions";
 import { quoteService } from "../services/quotes.service";
 
-const getRandomQoute = () => async (dispatch) => {
+const getRandomQuote = () => async (dispatch) => {
   try {
     dispatch(startAction(GET_RANDOM_QUOTE_FETCH));
-    const { data } = await quoteService.fetchRandomQoute();
+    const { data } = await quoteService.fetchRandomQuote();
     dispatch({
       type: GET_RANDOM_QUOTE_SUCCESS,
       payload: data,
@@ -19,5 +19,5 @@ const getRandomQoute = () => async (dispatch) => {
 };
 
 export const quoteActions = {
-  getRandomQoute,
+  getRandomQuote,
 };
