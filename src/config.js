@@ -21,6 +21,7 @@ export const endPoints = {
   getFavoritedBooks: "get-favorited-books",
   getRandomQuote: "get-random-quote",
   forgotPassword: "forgot-password",
+  checkResetToken: "check-reset-token",
 };
 
 // Routes
