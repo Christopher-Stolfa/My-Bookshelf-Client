@@ -69,7 +69,7 @@ const signOut = () => async (dispatch) => {
   }
 };
 
-const passwordReset = (inputData) => async (dispatch) => {
+const forgotPassword = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(userTypes.GET_FORGOT_PASSWORD_FETCH));
     const { data } = await userService.sendPasswordReset(inputData);
@@ -90,5 +90,5 @@ export const userActions = {
   signUp,
   signIn,
   signOut,
-  passwordReset,
+  forgotPassword,
 };
