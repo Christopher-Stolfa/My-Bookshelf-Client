@@ -81,7 +81,7 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
-  getRandomQuote: quoteActions.getRandomQoute,
+  getRandomQuote: quoteActions.getRandomQuote,
 };
 
 export default connect(mapStateToProps, actionCreators)(HomePage);
