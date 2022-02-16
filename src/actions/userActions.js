@@ -97,6 +97,18 @@ const checkResetToken = (inputData) => async (dispatch) => {
   }
 };
 
+const updatePasswordWithToken = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(userTypes.GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH));
+    const { data } = await userService.updatePasswordWithToken(inputData);
+    setSnackbarSuccess(data, dispatch);
+  } catch (err) {
+    setSnackbarError(err.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(userTypes.GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH));
+  }
+};
+
 export const userActions = {
   getUserSession,
   signUp,
@@ -104,4 +116,5 @@ export const userActions = {
   signOut,
   forgotPassword,
   checkResetToken,
+  updatePasswordWithToken,
 };
