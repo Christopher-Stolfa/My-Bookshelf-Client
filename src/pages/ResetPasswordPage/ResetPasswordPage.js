@@ -29,6 +29,7 @@ const ResetPasswordPage = ({
   user: { loggedIn },
   isLoading,
   checkResetToken,
+  updatePasswordWithToken,
 }) => {
   const navigate = useNavigate();
   const { token } = useParams();
@@ -69,8 +70,23 @@ const ResetPasswordPage = ({
       : setNotValid2(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (password !== password2) {
+      setNotValid(true);
+      setNotValid2(true);
+    } else {
+      const inputData = {
+        data: JSON.stringify({
+          token,
+          email,
+          password,
+        }),
+      };
+      await updatePasswordWithToken(inputData);
+      setPassword("");
+      setPassword2("");
+    }
   };
 
   return (
@@ -147,6 +163,7 @@ const ResetPasswordPage = ({
 ResetPasswordPage.propTypes = {
   checkResetToken: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  updatePasswordWithToken: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,
   }).isRequired,
@@ -154,11 +171,14 @@ ResetPasswordPage.propTypes = {
 
 const mapStateToProps = (state) => ({
   user: getUserSelector(state),
-  isLoading: checkIfLoading(state, userTypes.GET_CHECK_RESET_TOKEN_FETCH),
+  isLoading:
+    checkIfLoading(state, userTypes.GET_CHECK_RESET_TOKEN_FETCH) ||
+    checkIfLoading(state, userTypes.GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH),
 });
 
 const actionCreators = {
   checkResetToken: userActions.checkResetToken,
+  updatePasswordWithToken: userActions.updatePasswordWithToken,
 };
 
 export default connect(mapStateToProps, actionCreators)(ResetPasswordPage);
