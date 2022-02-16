@@ -19,7 +19,7 @@ import Container from "@mui/material/Container";
 import { userTypes } from "../../types/userTypes";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 
-const validate = (pass) =>
+const validate = pass =>
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/.test(pass);
 
 const helperText =
@@ -29,7 +29,7 @@ const ResetPasswordPage = ({
   user: { loggedIn },
   isLoading,
   checkResetToken,
-  updatePasswordWithToken,
+  updatePasswordWithToken
 }) => {
   const navigate = useNavigate();
   const { token } = useParams();
@@ -44,8 +44,8 @@ const ResetPasswordPage = ({
     const checkTokenGetEmail = async () => {
       const inputData = {
         params: {
-          resetPasswordToken: token,
-        },
+          resetPasswordToken: token
+        }
       };
       const data = await checkResetToken(inputData);
       if (data) {
@@ -57,20 +57,27 @@ const ResetPasswordPage = ({
     checkTokenGetEmail();
   }, []);
 
+  useEffect(() => {
+    validate(password) || password === ""
+      ? setNotValid(false)
+      : setNotValid(true);
+  }, [password]);
+
+  useEffect(() => {
+    password2 === password && validate(password2)
+      ? setNotValid2(false)
+      : setNotValid2(true);
+  }, [password2]);
+
   const handlePassword = ({ target: { value } }) => {
     setPassword(value);
-    validate(value) || value === "" ? setNotValid(false) : setNotValid(true);
   };
 
   const handlePassword2 = ({ target: { value } }) => {
     setPassword2(value);
-
-    validate(value) || (value === "" && value !== password)
-      ? setNotValid2(false)
-      : setNotValid2(true);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     if (password !== password2) {
       setNotValid(true);
@@ -80,8 +87,8 @@ const ResetPasswordPage = ({
         data: JSON.stringify({
           token,
           email,
-          password,
-        }),
+          password
+        })
       };
       await updatePasswordWithToken(inputData);
       setPassword("");
@@ -92,7 +99,7 @@ const ResetPasswordPage = ({
   return (
     <Container component="main" maxWidth="xs">
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
         open={isLoading}
       >
         <CircularProgress color="inherit" />
@@ -103,7 +110,7 @@ const ResetPasswordPage = ({
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -165,20 +172,20 @@ ResetPasswordPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   updatePasswordWithToken: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
+    loggedIn: PropTypes.bool.isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: getUserSelector(state),
   isLoading:
     checkIfLoading(state, userTypes.GET_CHECK_RESET_TOKEN_FETCH) ||
-    checkIfLoading(state, userTypes.GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH),
+    checkIfLoading(state, userTypes.GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH)
 });
 
 const actionCreators = {
   checkResetToken: userActions.checkResetToken,
-  updatePasswordWithToken: userActions.updatePasswordWithToken,
+  updatePasswordWithToken: userActions.updatePasswordWithToken
 };
 
 export default connect(mapStateToProps, actionCreators)(ResetPasswordPage);
