@@ -70,6 +70,14 @@ const checkResetToken = async (inputData) => {
   );
 };
 
+const updatePasswordWithToken = async (inputData) => {
+  Axios.defaults.withCredentials = true;
+  return await Axios.put(
+    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.updatePasswordWithToken}`,
+    inputData
+  );
+};
+
 export const userService = {
   signOut,
   signUp,
@@ -80,4 +88,5 @@ export const userService = {
   getFavoritedBooks,
   sendPasswordReset,
   checkResetToken,
+  updatePasswordWithToken,
 };
