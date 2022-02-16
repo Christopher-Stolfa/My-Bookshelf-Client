@@ -11,11 +11,19 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import { routes } from "../../config";
+import { checkIfLoading } from "../../selectors/uiSelectors";
+import { userTypes } from "../../types/userTypes";
 
-const ForgotPasswordPage = ({ forgotPassword, user: { loggedIn } }) => {
+const ForgotPasswordPage = ({
+  isLoading,
+  forgotPassword,
+  user: { loggedIn }
+}) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
@@ -28,32 +36,43 @@ const ForgotPasswordPage = ({ forgotPassword, user: { loggedIn } }) => {
     setEmail(value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     const inputData = {
       data: JSON.stringify({
-        email,
-      }),
+        email
+      })
     };
     forgotPassword(inputData);
   };
 
   return (
     <Container component="main" maxWidth="xs">
+      <Backdrop
+        sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Forgot Password
+          Forgot your password?
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
+          If you wish to reset your password, enter the email associated with
+          your profile and we will send you a password reset link that expires
+          in 10 minutes. NOTE: The email may be sent to your spam folder.
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -83,18 +102,20 @@ const ForgotPasswordPage = ({ forgotPassword, user: { loggedIn } }) => {
 };
 
 ForgotPasswordPage.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   forgotPassword: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
+    loggedIn: PropTypes.bool.isRequired
+  }).isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: getUserSelector(state),
+  isLoading: checkIfLoading(state, userTypes.GET_FORGOT_PASSWORD_FETCH)
 });
 
 const actionCreators = {
-  forgotPassword: userActions.forgotPassword,
+  forgotPassword: userActions.forgotPassword
 };
 
 export default connect(mapStateToProps, actionCreators)(ForgotPasswordPage);
