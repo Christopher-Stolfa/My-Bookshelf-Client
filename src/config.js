@@ -22,6 +22,7 @@ export const endPoints = {
   getRandomQuote: "get-random-quote",
   forgotPassword: "forgot-password",
   checkResetToken: "check-reset-token",
+  updatePasswordWithToken: "update-password-with-token",
 };
 
 // Routes
