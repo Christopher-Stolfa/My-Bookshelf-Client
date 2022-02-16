@@ -34,6 +34,14 @@ const GET_CHECK_RESET_TOKEN_FETCH = "GET_CHECK_RESET_TOKEN_FETCH";
 // User receives a successful response from the server checking if token is valid
 const GET_CHECK_RESET_TOKEN_SUCCESS = "GET_CHECK_RESET_TOKEN_SUCCESS";
 
+// User attempts to update password through reset password link with token
+const GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH =
+  "GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH";
+
+// User successfully updates password through reset password link with token
+const GET_UPDATE_PASSWORD_WITH_TOKEN_SUCCESS =
+  "GET_UPDATE_PASSWORD_WITH_TOKEN_SUCCESS";
+
 export const userTypes = {
   GET_SESSION_FETCH,
   GET_SESSION_SUCCESS,
@@ -47,4 +55,6 @@ export const userTypes = {
   GET_FORGOT_PASSWORD_SUCCESS,
   GET_CHECK_RESET_TOKEN_FETCH,
   GET_CHECK_RESET_TOKEN_SUCCESS,
+  GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH,
+  GET_UPDATE_PASSWORD_WITH_TOKEN_SUCCESS,
 };
