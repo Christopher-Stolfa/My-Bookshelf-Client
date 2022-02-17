@@ -147,7 +147,7 @@ const BookResultPage = ({
       {!isLoading && !isEmpty(selectedBook) && (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
-            <div>
+            <Box>
               <Box
                 component="img"
                 src={selectedBook.imageLink}
@@ -159,8 +159,8 @@ const BookResultPage = ({
                   minHeight: 168,
                 }}
               />
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Rating
                 style={{ marginTop: "8px" }}
                 name="half-rating-read"
@@ -169,32 +169,34 @@ const BookResultPage = ({
                 precision={0.5}
                 readOnly
               />
-            </div>
-            <div style={{ display: "inline-block", verticalAlign: "middle" }}>
-              {favorites && isFavorited ? (
-                <IconButton
-                  onClick={handleOnClickRemoveFavorite}
-                  aria-label="favorite-item"
-                >
-                  <FavoriteIcon color="secondary" />
-                </IconButton>
-              ) : (
-                <IconButton
-                  onClick={handleOnClickFavorite}
-                  aria-label="favorite-item"
-                >
-                  <FavoriteBorderIcon />
-                </IconButton>
-              )}
-            </div>
-            <Typography
-              style={{ display: "inline-block", verticalAlign: "middle" }}
-              variant="caption"
-              gutterBottom
-            >
-              {selectedBook.ratingsCount > 0 &&
-                `Ratings: ${selectedBook.ratingsCount}`}
-            </Typography>
+            </Box>
+            <Box sx={{ minWidth: "inherit" }}>
+              <Box style={{ display: "inline-block", verticalAlign: "middle" }}>
+                {favorites && isFavorited ? (
+                  <IconButton
+                    onClick={handleOnClickRemoveFavorite}
+                    aria-label="favorite-item"
+                  >
+                    <FavoriteIcon color="secondary" />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={handleOnClickFavorite}
+                    aria-label="favorite-item"
+                  >
+                    <FavoriteBorderIcon />
+                  </IconButton>
+                )}
+              </Box>
+              <Typography
+                style={{ display: "inline-block", verticalAlign: "middle" }}
+                variant="caption"
+                gutterBottom
+              >
+                {selectedBook.ratingsCount > 0 &&
+                  `Ratings: ${selectedBook.ratingsCount}`}
+              </Typography>
+            </Box>
           </Box>
           <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
             <Typography component="div" variant="h5">
