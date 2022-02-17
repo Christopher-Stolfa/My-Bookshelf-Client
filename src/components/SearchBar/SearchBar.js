@@ -15,9 +15,9 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../config";
-import { searchActions } from "../../actions/searchActions";
+import { bookActions } from "../../actions/bookActions";
 import { checkIfLoading } from "../../selectors/uiSelectors";
-import { searchTypes } from "../../types/searchTypes";
+import { GET_SEARCH_BOOK_FETCH } from "../../types/bookTypes";
 
 const SUBJECT = "subject:";
 const AUTHOR = "inauthor:";
@@ -30,10 +30,10 @@ const FormContainer = styled("div")(({ theme }) => ({
   display: "inline-flex",
   position: "relative",
   textAlign: "left",
-  margin: 5
+  margin: 5,
 }));
 
-const SearchBar = ({ setInitialState, searchBook, isLoading }) => {
+const SearchBar = ({ setInitialSearchState, searchBook, isLoading }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchBy, setSearchBy] = useState("");
   const [orderBy, setOrderBy] = useState(RELEVANCE);
@@ -51,15 +51,15 @@ const SearchBar = ({ setInitialState, searchBook, isLoading }) => {
     setOrderBy(value);
   };
 
-  const handleOnSubmit = e => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
     const inputData = {
       data: JSON.stringify({
         searchQuery,
-        filters: { orderBy: orderBy, searchBy: searchBy }
-      })
+        filters: { orderBy: orderBy, searchBy: searchBy },
+      }),
     };
-    setInitialState();
+    setInitialSearchState();
     searchBook(inputData);
     navigate(`${routes.searchResults}/${searchQuery}/1`);
   };
@@ -81,7 +81,7 @@ const SearchBar = ({ setInitialState, searchBook, isLoading }) => {
             fontSize: "18px",
             fontWeight: 400,
             lineHeight: "19px",
-            minHeight: "64px"
+            minHeight: "64px",
           }}
         />
         <FormContainer>
@@ -135,18 +135,18 @@ const SearchBar = ({ setInitialState, searchBook, isLoading }) => {
 };
 
 SearchBar.propTypes = {
-  setInitialState: PropTypes.func.isRequired,
+  setInitialSearchState: PropTypes.func.isRequired,
   searchBook: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH)
+const mapStateToProps = (state) => ({
+  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_FETCH),
 });
 
 const actionCreators = {
-  setInitialState: searchActions.setInitialState,
-  searchBook: searchActions.searchBook
+  setInitialSearchState: bookActions.setInitialSearchState,
+  searchBook: bookActions.searchBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchBar);
