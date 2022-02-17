@@ -1,22 +1,14 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { connect } from "react-redux";
-import { routes } from "../../config";
 import PropTypes from "prop-types";
 import { checkIfLoading } from "../../selectors/uiSelectors";
-import { userActions } from "../../actions/userActions";
-import { getUserSelector } from "../../selectors/userSelectors";
-import { userTypes } from "../../types/userTypes";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   getFavoritesSelector,
   getTotalFavoritesSelector,
 } from "../../selectors/bookSelector";
-import {
-  GET_FAVORITED_BOOKS_FETCH,
-  GET_SAVE_FAVORITED_BOOK_FETCH,
-  GET_REMOVE_FAVORITED_BOOK_FETCH,
-} from "../../types/bookTypes";
+import { GET_FAVORITED_BOOKS_FETCH } from "../../types/bookTypes";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -24,17 +16,7 @@ import Typography from "@mui/material/Typography";
 import LoadingCard from "../../components/Loaders/LoadingCard";
 import { BookCard } from "../../components/Cards/";
 
-const FavoriteBooks = ({
-  isAddFavLoading,
-  isDelFavLoading,
-  isFavoritesLoading,
-  userSaveFavoritedBook,
-  userRemoveFavoritedBook,
-  favorites,
-  totalItems,
-  user: { loggedIn },
-}) => {
-  const navigate = useNavigate();
+const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
   const { pageNum, bookId } = useParams();
   const pageSize = 10;
 
@@ -94,23 +76,15 @@ const FavoriteBooks = ({
 };
 
 FavoriteBooks.propTypes = {
-  isAddFavLoading: PropTypes.bool.isRequired,
-  isDelFavLoading: PropTypes.bool.isRequired,
   isFavoritesLoading: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(
     PropTypes.shape({ googleBooksId: PropTypes.string })
   ),
-  user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   totalItems: getTotalFavoritesSelector(state),
-  user: getUserSelector(state),
-  isAddFavLoading: checkIfLoading(state, GET_SAVE_FAVORITED_BOOK_FETCH),
-  isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH),
   isFavoritesLoading: checkIfLoading(state, GET_FAVORITED_BOOKS_FETCH),
 });
 
