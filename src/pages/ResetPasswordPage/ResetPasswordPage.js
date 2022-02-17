@@ -64,18 +64,14 @@ const ResetPasswordPage = ({
   }, [password]);
 
   useEffect(() => {
-    password2 === password && validate(password2)
+    password2 === "" || (password2 === password && validate(password2))
       ? setNotValid2(false)
       : setNotValid2(true);
   }, [password2]);
 
-  const handlePassword = ({ target: { value } }) => {
-    setPassword(value);
-  };
+  const handlePassword = ({ target: { value } }) => setPassword(value);
 
-  const handlePassword2 = ({ target: { value } }) => {
-    setPassword2(value);
-  };
+  const handlePassword2 = ({ target: { value } }) => setPassword2(value);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -128,6 +124,7 @@ const ResetPasswordPage = ({
             label="Password"
             type="password"
             id="password"
+            value={password}
             autoComplete="new-password"
             helperText={notValid && helperText}
             onChange={handlePassword}
@@ -141,6 +138,7 @@ const ResetPasswordPage = ({
             label="Confirm Password"
             type="password"
             id="password2"
+            value={password2}
             autoComplete="new-password"
             helperText={notValid && helperText}
             onChange={handlePassword2}
