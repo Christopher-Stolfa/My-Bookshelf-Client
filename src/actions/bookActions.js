@@ -7,7 +7,12 @@ import {
   GET_FAVORITED_BOOKS_SUCCESS,
   GET_SELECT_BOOK,
   GET_SEARCH_BOOK_BY_ID_FETCH,
-  GET_SEARCH_BOOK_BY_ID_SUCCESS
+  GET_SEARCH_BOOK_BY_ID_SUCCESS,
+  SET_SORTED_FAVORITES,
+  SET_SORTED_SEARCH_RESULTS,
+  GET_SEARCH_BOOK_SUCCESS,
+  GET_SEARCH_BOOK_FETCH,
+  SET_SEARCH_INITIAL_STATE,
 } from "../types/bookTypes";
 import { snackbarActions } from "./snackbarActions";
 import { startAction, stopAction } from "./uiActions";
@@ -16,13 +21,13 @@ import { bookService } from "../services/books.service";
 
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 
-const saveFavoritedBook = inputData => async dispatch => {
+const saveFavoritedBook = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(GET_SAVE_FAVORITED_BOOK_FETCH));
     const { data } = await userService.saveFavoritedBook(inputData);
     dispatch({
       type: GET_SAVE_FAVORITED_BOOK_SUCCESS,
-      payload: data
+      payload: data,
     });
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
@@ -32,13 +37,13 @@ const saveFavoritedBook = inputData => async dispatch => {
   }
 };
 
-const removeFavoritedBook = inputData => async dispatch => {
+const removeFavoritedBook = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(GET_REMOVE_FAVORITED_BOOK_FETCH));
     const { data } = await userService.removeFavoritedBook(inputData);
     dispatch({
       type: GET_REMOVE_FAVORITED_BOOK_SUCCESS,
-      payload: data
+      payload: data,
     });
     setSnackbarSuccess(data, dispatch);
   } catch (err) {
@@ -48,7 +53,7 @@ const removeFavoritedBook = inputData => async dispatch => {
   }
 };
 
-const getFavoritedBooks = () => async dispatch => {
+const getFavoritedBooks = () => async (dispatch) => {
   try {
     dispatch(startAction(GET_FAVORITED_BOOKS_FETCH));
     const { data } = await userService.getFavoritedBooks();
@@ -60,12 +65,12 @@ const getFavoritedBooks = () => async dispatch => {
   }
 };
 
-const setSelectedBook = inputData => dispatch => {
+const setSelectedBook = (inputData) => (dispatch) => {
   try {
     dispatch(startAction(GET_SELECT_BOOK));
     dispatch({
       type: GET_SELECT_BOOK,
-      payload: inputData
+      payload: inputData,
     });
   } catch (error) {
     setSnackbarError(error.response.data, dispatch);
@@ -75,13 +80,13 @@ const setSelectedBook = inputData => dispatch => {
 };
 
 // If a user manually reaches a search result page for an item, we fetch for the item.
-const searchBookById = inputData => async dispatch => {
+const searchBookById = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(GET_SEARCH_BOOK_BY_ID_FETCH));
     const { data } = await bookService.searchBookById(inputData);
     dispatch({
       type: GET_SEARCH_BOOK_BY_ID_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     setSnackbarError(error.response.data, dispatch);
@@ -90,10 +95,36 @@ const searchBookById = inputData => async dispatch => {
   }
 };
 
+const setSortedItems = (inputData, type) => (dispatch) =>
+  dispatch({ type, payload: inputData });
+
+const searchBook = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(GET_SEARCH_BOOK_FETCH));
+    const { data } = await bookService.searchBook(inputData);
+    dispatch({
+      type: GET_SEARCH_BOOK_SUCCESS,
+      payload: data,
+    });
+    setSnackbarSuccess(data, dispatch);
+  } catch (error) {
+    setSnackbarError(error.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(GET_SEARCH_BOOK_FETCH));
+  }
+};
+
+const setInitialSearchState = () => (dispatch) => {
+  dispatch({ type: SET_SEARCH_INITIAL_STATE, payload: {} });
+};
+
 export const bookActions = {
   saveFavoritedBook,
   removeFavoritedBook,
   getFavoritedBooks,
   setSelectedBook,
-  searchBookById
+  searchBookById,
+  setSortedItems,
+  searchBook,
+  setInitialSearchState,
 };
