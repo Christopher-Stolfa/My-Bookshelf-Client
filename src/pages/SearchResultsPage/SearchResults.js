@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Outlet, useParams, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { searchActions } from "../../actions/searchActions";
-import { getResultsTotalSelector } from "../../selectors/searchSelector";
 import { CustomPagination } from "../../components/Pagination";
+import { bookActions } from "../../actions/bookActions";
+import { getTotalSearchResultsSelector } from "../../selectors/bookSelector";
 
 const SearchResults = ({ totalItems, searchBook }) => {
   const { searchQuery, bookId } = useParams();
@@ -34,11 +34,11 @@ SearchResults.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  totalItems: getResultsTotalSelector(state),
+  totalItems: getTotalSearchResultsSelector(state),
 });
 
 const actionCreators = {
-  searchBook: searchActions.searchBook,
+  searchBook: bookActions.searchBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(SearchResults);

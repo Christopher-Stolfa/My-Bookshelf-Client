@@ -8,13 +8,17 @@ import {
   getFavoritesSelector,
   getTotalFavoritesSelector,
 } from "../../selectors/bookSelector";
-import { GET_FAVORITED_BOOKS_FETCH } from "../../types/bookTypes";
+import {
+  GET_FAVORITED_BOOKS_FETCH,
+  SET_SORTED_FAVORITES,
+} from "../../types/bookTypes";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LoadingCard from "../../components/Loaders/LoadingCard";
 import { BookCard } from "../../components/Cards/";
+import SortButton from "../../components/Buttons/SortButton";
 
 const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
   const { pageNum, bookId } = useParams();
@@ -54,6 +58,7 @@ const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
         ) : (
           <>
             <Typography variant="h4">Favorites:</Typography>
+            <SortButton items={favorites} type={SET_SORTED_FAVORITES} />
             <Stack spacing={2}>
               {favorites.slice(getStartIndex(), getEndIndex()).map((book) => (
                 <div key={`${book.googleBooksId}-favorite-book-div`}>

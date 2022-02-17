@@ -2,8 +2,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { routes } from "../../config";
 import { connect } from "react-redux";
-import { searchTypes } from "../../types/searchTypes";
-import { getSearchSelector } from "../../selectors/searchSelector";
+import { GET_SEARCH_BOOK_BY_ID_FETCH } from "../../types/bookTypes";
+import { getSearchResultsSelector } from "../../selectors/bookSelector";
 import { useParams, useNavigate } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -85,22 +85,27 @@ const BookResultPage = ({
     );
   }, [favorites]);
 
-  useEffect(async () => {
-    if (isEmpty(bookSearchData)) {
-      console.log("No search data, manually fetch for book data");
-      const inputData = { data: JSON.stringify({ googleBooksId: bookId }) };
-      await searchBookById(inputData);
-    } else {
-      console.log(
-        "There is search data, try to find the book by ID in search data."
-      );
-      const book = bookSearchData.find((book) => book.googleBooksId === bookId);
-      setSelectedBook({
-        message: book ? "Book selected" : "Book doesn't exist",
-        selectedBook: book || {},
-      });
-    }
-    setFirstRender(false);
+  useEffect(() => {
+    const asyncEffect = async () => {
+      if (isEmpty(bookSearchData)) {
+        console.log("No search data, manually fetch for book data");
+        const inputData = { data: JSON.stringify({ googleBooksId: bookId }) };
+        await searchBookById(inputData);
+      } else {
+        console.log(
+          "There is search data, try to find the book by ID in search data."
+        );
+        const book = bookSearchData.find(
+          (book) => book.googleBooksId === bookId
+        );
+        setSelectedBook({
+          message: book ? "Book selected" : "Book doesn't exist",
+          selectedBook: book || {},
+        });
+      }
+      setFirstRender(false);
+    };
+    asyncEffect();
   }, []);
 
   const handleOnClickFavorite = () => {
@@ -259,11 +264,9 @@ BookResultPage.propTypes = {
 const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
-  searchResults: getSearchSelector(state),
+  searchResults: getSearchResultsSelector(state),
   selectedBook: getSelectedBookSelector(state),
-  isLoading:
-    checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH) ||
-    checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH),
+  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_BY_ID_FETCH),
   isAddFavLoading: checkIfLoading(state, GET_SAVE_FAVORITED_BOOK_FETCH),
   isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH),
 });

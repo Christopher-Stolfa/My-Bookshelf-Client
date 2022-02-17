@@ -6,21 +6,16 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { searchActions } from "../../actions/searchActions";
 import {
-  getSearchSelector,
-  getResultsTotalSelector,
-} from "../../selectors/searchSelector";
+  getSearchResultsSelector,
+  getTotalSearchResultsSelector,
+} from "../../selectors/bookSelector";
 import LoadingCard from "../../components/Loaders/LoadingCard";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import { BookCard } from "../../components/Cards/";
-import { searchTypes } from "../../types/searchTypes";
+import { GET_SEARCH_BOOK_FETCH } from "../../types/bookTypes";
 
-const Results = ({
-  isLoading,
-  totalItems,
-  searchResults: { bookSearchData },
-}) => {
+const Results = ({ isLoading, totalItems, searchResults }) => {
   const { pageNum, bookId } = useParams();
   const pageSize = 10;
 
@@ -59,7 +54,7 @@ const Results = ({
           <>
             <Typography variant="h4">Search Results:</Typography>
             <Stack spacing={2}>
-              {bookSearchData
+              {searchResults
                 .slice(getStartIndex(), getEndIndex())
                 .map((book) => (
                   <div key={`${book.googleBooksId}-search-result-div`}>
@@ -82,21 +77,17 @@ const Results = ({
 };
 
 Results.propTypes = {
-  searchResults: PropTypes.shape({
-    bookSearchData: PropTypes.array.isRequired,
-  }).isRequired,
+  searchResults: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   totalItems: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  totalItems: getResultsTotalSelector(state),
-  searchResults: getSearchSelector(state),
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_FETCH),
+  totalItems: getTotalSearchResultsSelector(state),
+  searchResults: getSearchResultsSelector(state),
+  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_FETCH),
 });
 
-const actionCreators = {
-  searchBook: searchActions.searchBook,
-};
+const actionCreators = {};
 
 export default connect(mapStateToProps, actionCreators)(Results);

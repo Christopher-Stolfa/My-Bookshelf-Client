@@ -27,3 +27,18 @@ export const GET_REMOVE_FAVORITED_BOOK_FETCH =
 // Remove favorited book success
 export const GET_REMOVE_FAVORITED_BOOK_SUCCESS =
   "GET_REMOVE_FAVORITED_BOOK_SUCCESS";
+
+// Set sorted favorites to state
+export const SET_SORTED_FAVORITES = "SET_SORTED_FAVORITES";
+
+// Set sorted search results to state
+export const SET_SORTED_SEARCH_RESULTS = "SET_SORTED_SEARCH_RESULTS";
+
+// Fetch book from search bar term
+export const GET_SEARCH_BOOK_FETCH = "GET_SEARCH_BOOK_FETCH";
+
+// Book search receives data successfully
+export const GET_SEARCH_BOOK_SUCCESS = "GET_SEARCH_BOOK_SUCCESS";
+
+// Sets search results to its initial state
+export const SET_SEARCH_INITIAL_STATE = "SET_SEARCH_INITIAL_STATE";
