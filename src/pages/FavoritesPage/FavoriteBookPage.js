@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { routes } from "../../config";
 import { connect } from "react-redux";
-import { searchTypes } from "../../types/searchTypes";
-import { getSearchSelector } from "../../selectors/searchSelector";
+import { GET_SEARCH_BOOK_BY_ID_FETCH } from "../../types/bookTypes";
 import { useParams, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import BookIcon from "@mui/icons-material/Book";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { checkIfLoading } from "../../selectors/uiSelectors";
@@ -210,7 +207,7 @@ const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
   selectedBook: getSelectedBookSelector(state),
-  isLoading: checkIfLoading(state, searchTypes.GET_SEARCH_BOOK_BY_ID_FETCH),
+  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_BY_ID_FETCH),
   isAddFavLoading: checkIfLoading(state, GET_SAVE_FAVORITED_BOOK_FETCH),
   isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH),
 });
