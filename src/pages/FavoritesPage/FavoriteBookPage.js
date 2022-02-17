@@ -113,7 +113,7 @@ const BookResultPage = ({
       {!isLoading && !isEmpty(selectedBook) && (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
-            <div>
+            <Box>
               <Box
                 component="img"
                 src={selectedBook.imageLink}
@@ -125,8 +125,8 @@ const BookResultPage = ({
                   minHeight: 168,
                 }}
               />
-            </div>
-            <div>
+            </Box>
+            <Box>
               <Rating
                 style={{ marginTop: "8px" }}
                 name="half-rating-read"
@@ -135,34 +135,36 @@ const BookResultPage = ({
                 precision={0.5}
                 readOnly
               />
-              <Typography variant="caption" display="block" gutterBottom>
-                {selectedBook.ratingsCount > 0 &&
-                  `Ratings: ${selectedBook.ratingsCount}`}
-              </Typography>
-            </div>
-            <div>
-              {favorites && isFavorited ? (
-                <IconButton
-                  onClick={handleOnClickRemoveFavorite}
-                  aria-label="favorite-item"
+              <Box sx={{ minWidth: "inherit" }}>
+                <Box
+                  style={{ display: "inline-block", verticalAlign: "middle" }}
                 >
-                  <FavoriteIcon color="secondary" />
-                </IconButton>
-              ) : (
-                <IconButton
-                  onClick={handleOnClickFavorite}
-                  aria-label="favorite-item"
+                  {favorites && isFavorited ? (
+                    <IconButton
+                      onClick={handleOnClickRemoveFavorite}
+                      aria-label="favorite-item"
+                    >
+                      <FavoriteIcon color="secondary" />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      onClick={handleOnClickFavorite}
+                      aria-label="favorite-item"
+                    >
+                      <FavoriteBorderIcon />
+                    </IconButton>
+                  )}
+                </Box>
+                <Typography
+                  style={{ display: "inline-block", verticalAlign: "middle" }}
+                  variant="caption"
+                  gutterBottom
                 >
-                  <FavoriteBorderIcon />
-                </IconButton>
-              )}
-              <IconButton aria-label="currently-reading">
-                <AutoStoriesIcon />
-              </IconButton>
-              <IconButton aria-label="finished-reading">
-                <BookIcon />
-              </IconButton>
-            </div>
+                  {selectedBook.ratingsCount > 0 &&
+                    `Ratings: ${selectedBook.ratingsCount}`}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
           <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
             <Typography component="div" variant="h5">
