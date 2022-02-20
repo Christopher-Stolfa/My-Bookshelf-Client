@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 
 // To make this component reusable, the parent component will pass its items as the prop "items"
 // The type of items of the parent are also passed down
-const SortButton = ({ items, type }) => {
+const SortButton = ({ items, type, setSortedItems }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -29,10 +29,10 @@ const SortButton = ({ items, type }) => {
   }, [open]);
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+    setOpen(prevOpen => !prevOpen);
   };
 
-  const handleClose = (event) => {
+  const handleClose = event => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -40,7 +40,7 @@ const SortButton = ({ items, type }) => {
     setOpen(false);
   };
 
-  const handleListKeyDown = (event) => {
+  const handleListKeyDown = event => {
     if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
@@ -49,10 +49,29 @@ const SortButton = ({ items, type }) => {
     }
   };
 
+  const handleSortDateAddedNewest = () => {};
+
+  const handleSortDateAddedOldest = e => {
+    if (anchorRef.current && anchorRef.current.contains(e.target)) {
+      return;
+    }
+    setOpen(false);
+    const sortedItems = items.sort(
+      (a, b) => new Date(a.publishedDate) - new Date(b.publishedDate)
+    );
+    console.log(type);
+    console.log(sortedItems);
+    const inputData = { favorites: sortedItems };
+    setSortedItems(inputData, type);
+  };
+
+  const handleSortMostPopular = () => {};
+
   return (
     <Stack direction="row" spacing={2}>
       <div>
         <Button
+          sx={{ fontSize: "1rem", color: "rgba(0, 0, 0, 0.87)" }}
           variant="text"
           startIcon={<SortIcon />}
           ref={anchorRef}
@@ -71,13 +90,14 @@ const SortButton = ({ items, type }) => {
           placement="bottom-start"
           transition
           disablePortal
+          style={{ zIndex: 1 }}
         >
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
               style={{
                 transformOrigin:
-                  placement === "bottom-start" ? "left top" : "left bottom",
+                  placement === "bottom-start" ? "left top" : "left bottom"
               }}
             >
               <Paper>
@@ -88,9 +108,11 @@ const SortButton = ({ items, type }) => {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={handleClose}>test1</MenuItem>
-                    <MenuItem onClick={handleClose}>test2</MenuItem>
-                    <MenuItem onClick={handleClose}>test3</MenuItem>
+                    <MenuItem onClick={handleClose}>Most popular</MenuItem>
+                    <MenuItem>Date published (newest)</MenuItem>
+                    <MenuItem onClick={handleSortDateAddedOldest}>
+                      Date published (oldest)
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -105,13 +127,13 @@ const SortButton = ({ items, type }) => {
 SortButton.propTypes = {
   items: PropTypes.array.isRequired,
   type: PropTypes.string.isRequired,
-  setSortedItems: PropTypes.func.isRequired,
+  setSortedItems: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = state => ({});
 
 const actionCreators = {
-  setSortedItems: bookActions.setSortedItems,
+  setSortedItems: bookActions.setSortedItems
 };
 
 export default connect(mapStateToProps, actionCreators)(SortButton);

@@ -107,7 +107,12 @@ const BookCard = ({
         />
 
         <Box sx={{ minWidth: "inherit" }}>
-          <Box style={{ display: "inline-block", verticalAlign: "middle" }}>
+          <Box
+            style={{
+              display: "inline-block",
+              verticalAlign: "middle"
+            }}
+          >
             {favorites && isFavorited ? (
               <IconButton
                 onClick={handleOnClickRemoveFavorite}

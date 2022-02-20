@@ -6,11 +6,11 @@ import { checkIfLoading } from "../../selectors/uiSelectors";
 import { useParams } from "react-router-dom";
 import {
   getFavoritesSelector,
-  getTotalFavoritesSelector,
+  getTotalFavoritesSelector
 } from "../../selectors/bookSelector";
 import {
   GET_FAVORITED_BOOKS_FETCH,
-  SET_SORTED_FAVORITES,
+  SET_SORTED_FAVORITES
 } from "../../types/bookTypes";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
@@ -23,6 +23,10 @@ import SortButton from "../../components/Buttons/SortButton";
 const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
   const { pageNum, bookId } = useParams();
   const pageSize = 10;
+
+  React.useEffect(() => {
+    console.log("favorited updated");
+  }, [favorites]);
 
   const getStartIndex = () => (pageNum - 1) * pageSize;
 
@@ -60,7 +64,7 @@ const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
             <Typography variant="h4">Favorites:</Typography>
             <SortButton items={favorites} type={SET_SORTED_FAVORITES} />
             <Stack spacing={2}>
-              {favorites.slice(getStartIndex(), getEndIndex()).map((book) => (
+              {favorites.slice(getStartIndex(), getEndIndex()).map(book => (
                 <div key={`${book.googleBooksId}-favorite-book-div`}>
                   <BookCard
                     key={`${book.googleBooksId}-favorite-book-card`}
@@ -84,13 +88,13 @@ FavoriteBooks.propTypes = {
   isFavoritesLoading: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(
     PropTypes.shape({ googleBooksId: PropTypes.string })
-  ),
+  )
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   favorites: getFavoritesSelector(state),
   totalItems: getTotalFavoritesSelector(state),
-  isFavoritesLoading: checkIfLoading(state, GET_FAVORITED_BOOKS_FETCH),
+  isFavoritesLoading: checkIfLoading(state, GET_FAVORITED_BOOKS_FETCH)
 });
 
 const actionCreators = {};
