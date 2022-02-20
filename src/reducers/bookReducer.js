@@ -5,14 +5,15 @@ import {
   GET_SEARCH_BOOK_BY_ID_SUCCESS,
   GET_SELECT_BOOK,
   SET_SORTED_FAVORITES,
+  SET_SORTED_SEARCH_RESULTS,
   GET_SEARCH_BOOK_SUCCESS,
-  SET_SEARCH_INITIAL_STATE
+  SET_SEARCH_INITIAL_STATE,
 } from "../types/bookTypes";
 
 const initialState = {
   selectedBook: {},
   favorites: [],
-  searchResultBooks: []
+  searchResultBooks: [],
 };
 
 const bookReducer = (state = initialState, { type, payload }) => {
@@ -20,40 +21,49 @@ const bookReducer = (state = initialState, { type, payload }) => {
     case GET_FAVORITED_BOOKS_SUCCESS:
       return {
         ...state,
-        ...payload
+        ...payload,
       };
     case GET_SAVE_FAVORITED_BOOK_SUCCESS:
       return {
         ...state,
-        favorites: [...state.favorites, payload.favoritedBook]
+        favorites: [...state.favorites, payload.favoritedBook],
       };
     case GET_REMOVE_FAVORITED_BOOK_SUCCESS:
       return {
         ...state,
         favorites: [
           ...state.favorites.filter(
-            book => book.googleBooksId !== payload.favoritedBook.googleBooksId
-          )
-        ]
+            (book) => book.googleBooksId !== payload.favoritedBook.googleBooksId
+          ),
+        ],
       };
     case GET_SELECT_BOOK:
     case GET_SEARCH_BOOK_BY_ID_SUCCESS:
       return {
         ...state,
-        ...payload
+        ...payload,
       };
     case SET_SORTED_FAVORITES: {
       return {
         ...state,
-        ...payload
+        favorites: [...payload.sortedItems],
+      };
+    }
+    case SET_SORTED_SEARCH_RESULTS: {
+      return {
+        ...state,
+        searchResultBooks: [...payload.sortedItems],
       };
     }
     case SET_SEARCH_INITIAL_STATE:
-      return initialState;
+      return {
+        ...state,
+        searchResultBooks: [],
+      };
     case GET_SEARCH_BOOK_SUCCESS:
       return {
         ...state,
-        ...payload
+        ...payload,
       };
     default:
       return state;
