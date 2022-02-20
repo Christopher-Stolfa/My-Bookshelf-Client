@@ -40,7 +40,7 @@ const BookResultPage = ({
   favorites,
   selectedBook,
   user: { loggedIn },
-  searchResults: { bookSearchData },
+  searchResults,
 }) => {
   const navigate = useNavigate();
   const { bookId } = useParams();
@@ -87,7 +87,7 @@ const BookResultPage = ({
 
   useEffect(() => {
     const asyncEffect = async () => {
-      if (isEmpty(bookSearchData)) {
+      if (isEmpty(searchResults)) {
         console.log("No search data, manually fetch for book data");
         const inputData = { data: JSON.stringify({ googleBooksId: bookId }) };
         await searchBookById(inputData);
@@ -95,7 +95,7 @@ const BookResultPage = ({
         console.log(
           "There is search data, try to find the book by ID in search data."
         );
-        const book = bookSearchData.find(
+        const book = searchResults.find(
           (book) => book.googleBooksId === bookId
         );
         setSelectedBook({
@@ -242,23 +242,25 @@ BookResultPage.propTypes = {
   favorites: PropTypes.arrayOf(
     PropTypes.shape({ googleBooksId: PropTypes.string })
   ),
-  searchResults: PropTypes.shape({
-    bookSearchData: PropTypes.array.isRequired,
-    selectedBook: PropTypes.shape({
+  selectedBook: PropTypes.shape({
+    googleBooksId: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    authors: PropTypes.arrayOf(PropTypes.string),
+    publisher: PropTypes.string,
+    publishedDate: PropTypes.string,
+    pageCount: PropTypes.number,
+    averageRating: PropTypes.number,
+    ratingsCount: PropTypes.number,
+    imageLink: PropTypes.string,
+    language: PropTypes.string,
+    categories: PropTypes.arrayOf(PropTypes.string),
+  }),
+  searchResults: PropTypes.arrayOf(
+    PropTypes.shape({
       googleBooksId: PropTypes.string,
-      title: PropTypes.string,
-      description: PropTypes.string,
-      authors: PropTypes.arrayOf(PropTypes.string),
-      publisher: PropTypes.string,
-      publishedDate: PropTypes.string,
-      pageCount: PropTypes.number,
-      averageRating: PropTypes.number,
-      ratingsCount: PropTypes.number,
-      imageLink: PropTypes.string,
-      language: PropTypes.string,
-      categories: PropTypes.arrayOf(PropTypes.string),
-    }),
-  }).isRequired,
+    })
+  ).isRequired,
 };
 
 const mapStateToProps = (state) => ({
