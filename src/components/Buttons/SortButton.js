@@ -29,10 +29,10 @@ const SortButton = ({ items, type, setSortedItems }) => {
   }, [open]);
 
   const handleToggle = () => {
-    setOpen(prevOpen => !prevOpen);
+    setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = event => {
+  const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -40,7 +40,7 @@ const SortButton = ({ items, type, setSortedItems }) => {
     setOpen(false);
   };
 
-  const handleListKeyDown = event => {
+  const handleListKeyDown = (event) => {
     if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
@@ -49,9 +49,19 @@ const SortButton = ({ items, type, setSortedItems }) => {
     }
   };
 
-  const handleSortDateAddedNewest = () => {};
+  const handleSortDateAddedNewest = (e) => {
+    if (anchorRef.current && anchorRef.current.contains(e.target)) {
+      return;
+    }
+    setOpen(false);
+    const sortedItems = items.sort(
+      (a, b) => new Date(b.publishedDate) - new Date(a.publishedDate)
+    );
+    const inputData = { sortedItems };
+    setSortedItems(inputData, type);
+  };
 
-  const handleSortDateAddedOldest = e => {
+  const handleSortDateAddedOldest = (e) => {
     if (anchorRef.current && anchorRef.current.contains(e.target)) {
       return;
     }
@@ -59,13 +69,36 @@ const SortButton = ({ items, type, setSortedItems }) => {
     const sortedItems = items.sort(
       (a, b) => new Date(a.publishedDate) - new Date(b.publishedDate)
     );
-    console.log(type);
-    console.log(sortedItems);
-    const inputData = { favorites: sortedItems };
+    const inputData = { sortedItems };
     setSortedItems(inputData, type);
   };
 
-  const handleSortMostPopular = () => {};
+  const handleSortMostPopular = (e) => {
+    if (anchorRef.current && anchorRef.current.contains(e.target)) {
+      return;
+    }
+    setOpen(false);
+    const sortedItems = items.sort(
+      (a, b) => new Date(b.ratingsCount) - new Date(a.ratingsCount)
+    );
+    const inputData = { sortedItems };
+    setSortedItems(inputData, type);
+  };
+
+  const handleSortByRating = (e) => {
+    if (anchorRef.current && anchorRef.current.contains(e.target)) {
+      return;
+    }
+    setOpen(false);
+    if (items[0].averageRating < items[items.length - 1].averageRating) {
+    } else {
+    }
+    const sortedItems = items.sort(
+      (a, b) => new Date(b.averageRating) - new Date(a.averageRating)
+    );
+    const inputData = { sortedItems };
+    setSortedItems(inputData, type);
+  };
 
   return (
     <Stack direction="row" spacing={2}>
@@ -97,7 +130,7 @@ const SortButton = ({ items, type, setSortedItems }) => {
               {...TransitionProps}
               style={{
                 transformOrigin:
-                  placement === "bottom-start" ? "left top" : "left bottom"
+                  placement === "bottom-start" ? "left top" : "left bottom",
               }}
             >
               <Paper>
@@ -108,8 +141,15 @@ const SortButton = ({ items, type, setSortedItems }) => {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={handleClose}>Most popular</MenuItem>
-                    <MenuItem>Date published (newest)</MenuItem>
+                    <MenuItem onClick={handleSortMostPopular}>
+                      Most popular
+                    </MenuItem>
+                    <MenuItem onClick={handleSortByRating}>
+                      Highest rating
+                    </MenuItem>
+                    <MenuItem onClick={handleSortDateAddedNewest}>
+                      Date published (newest)
+                    </MenuItem>
                     <MenuItem onClick={handleSortDateAddedOldest}>
                       Date published (oldest)
                     </MenuItem>
@@ -127,13 +167,13 @@ const SortButton = ({ items, type, setSortedItems }) => {
 SortButton.propTypes = {
   items: PropTypes.array.isRequired,
   type: PropTypes.string.isRequired,
-  setSortedItems: PropTypes.func.isRequired
+  setSortedItems: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 const actionCreators = {
-  setSortedItems: bookActions.setSortedItems
+  setSortedItems: bookActions.setSortedItems,
 };
 
 export default connect(mapStateToProps, actionCreators)(SortButton);
