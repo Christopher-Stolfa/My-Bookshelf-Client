@@ -13,7 +13,11 @@ import {
 import LoadingCard from "../../components/Loaders/LoadingCard";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import { BookCard } from "../../components/Cards/";
-import { GET_SEARCH_BOOK_FETCH } from "../../types/bookTypes";
+import {
+  GET_SEARCH_BOOK_FETCH,
+  SET_SORTED_SEARCH_RESULTS,
+} from "../../types/bookTypes";
+import SortButton from "../../components/Buttons/SortButton";
 
 const Results = ({ isLoading, totalItems, searchResults }) => {
   const { pageNum, bookId } = useParams();
@@ -53,6 +57,10 @@ const Results = ({ isLoading, totalItems, searchResults }) => {
         ) : (
           <>
             <Typography variant="h4">Search Results:</Typography>
+            <SortButton
+              items={searchResults}
+              type={SET_SORTED_SEARCH_RESULTS}
+            />
             <Stack spacing={2}>
               {searchResults
                 .slice(getStartIndex(), getEndIndex())
