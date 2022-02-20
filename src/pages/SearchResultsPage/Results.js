@@ -64,8 +64,8 @@ const Results = ({ isLoading, totalItems, searchResults }) => {
             <Stack spacing={2}>
               {searchResults
                 .slice(getStartIndex(), getEndIndex())
-                .map((book) => (
-                  <div key={`${book.googleBooksId}-search-result-div`}>
+                .map((book, i) => (
+                  <div key={`${book.googleBooksId}-search-result-div-${i}`}>
                     <BookCard
                       key={`${book.googleBooksId}-search-result-card`}
                       book={book}
