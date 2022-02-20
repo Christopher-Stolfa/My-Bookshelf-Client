@@ -32,6 +32,7 @@ const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
     return (
       <Box>
         <Typography variant="h4">Loading...</Typography>
+        <Box sx={{ height: "40px" }} />
         <Stack spacing={2}>
           {Array.from(
             { length: 10 },
