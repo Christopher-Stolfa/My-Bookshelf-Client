@@ -23,9 +23,6 @@ const SUBJECT = "subject:";
 const AUTHOR = "inauthor:";
 const PUBLISHER = "inpublisher:";
 
-const RELEVANCE = "relevance";
-const NEWEST = "newest";
-
 const FormContainer = styled("div")(({ theme }) => ({
   display: "inline-flex",
   position: "relative",
@@ -36,7 +33,6 @@ const FormContainer = styled("div")(({ theme }) => ({
 const SearchBar = ({ setInitialSearchState, searchBook, isLoading }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchBy, setSearchBy] = useState("");
-  const [orderBy, setOrderBy] = useState(RELEVANCE);
   const navigate = useNavigate();
 
   const handleOnQueryChange = ({ target: { value } }) => {
@@ -47,16 +43,12 @@ const SearchBar = ({ setInitialSearchState, searchBook, isLoading }) => {
     setSearchBy(value);
   };
 
-  const handleOnSortChange = ({ target: { value } }) => {
-    setOrderBy(value);
-  };
-
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const inputData = {
       data: JSON.stringify({
         searchQuery,
-        filters: { orderBy: orderBy, searchBy: searchBy },
+        filters: { searchBy: searchBy },
       }),
     };
     setInitialSearchState();
@@ -107,25 +99,6 @@ const SearchBar = ({ setInitialSearchState, searchBook, isLoading }) => {
               value={PUBLISHER}
               control={<Radio />}
               label="Publisher"
-            />
-          </RadioGroup>
-          <Divider sx={{ height: 45, marginRight: 1 }} orientation="vertical" />
-          <FormLabel>Sort by</FormLabel>
-          <RadioGroup
-            onChange={handleOnSortChange}
-            sx={{ padding: 1 }}
-            defaultValue="relevance"
-            row
-          >
-            <FormControlLabel
-              value={RELEVANCE}
-              control={<Radio />}
-              label="Relevance"
-            />
-            <FormControlLabel
-              value={NEWEST}
-              control={<Radio />}
-              label="Newest"
             />
           </RadioGroup>
         </FormContainer>
