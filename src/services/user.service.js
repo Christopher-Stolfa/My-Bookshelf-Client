@@ -31,29 +31,6 @@ const getSession = async () => {
   );
 };
 
-const getFavoritedBooks = async () => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.getFavoritedBooks}`
-  );
-};
-
-const saveFavoritedBook = async (inputData) => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.post(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.saveFavoritedBook}`,
-    inputData
-  );
-};
-
-const removeFavoritedBook = async (inputData) => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.delete(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.removeFavoritedBook}`,
-    inputData
-  );
-};
-
 const sendPasswordReset = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
@@ -83,9 +60,6 @@ export const userService = {
   signUp,
   signIn,
   getSession,
-  saveFavoritedBook,
-  removeFavoritedBook,
-  getFavoritedBooks,
   sendPasswordReset,
   checkResetToken,
   updatePasswordWithToken,

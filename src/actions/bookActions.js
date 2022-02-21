@@ -14,7 +14,6 @@ import {
 } from "../types/bookTypes";
 import { snackbarActions } from "./snackbarActions";
 import { startAction, stopAction } from "./uiActions";
-import { userService } from "../services/user.service";
 import { bookService } from "../services/books.service";
 
 const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
@@ -22,7 +21,7 @@ const { setSnackbarError, setSnackbarSuccess } = snackbarActions;
 const saveFavoritedBook = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(GET_SAVE_FAVORITED_BOOK_FETCH));
-    const { data } = await userService.saveFavoritedBook(inputData);
+    const { data } = await bookService.saveFavoritedBook(inputData);
     dispatch({
       type: GET_SAVE_FAVORITED_BOOK_SUCCESS,
       payload: data,
@@ -38,7 +37,7 @@ const saveFavoritedBook = (inputData) => async (dispatch) => {
 const removeFavoritedBook = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(GET_REMOVE_FAVORITED_BOOK_FETCH));
-    const { data } = await userService.removeFavoritedBook(inputData);
+    const { data } = await bookService.removeFavoritedBook(inputData);
     dispatch({
       type: GET_REMOVE_FAVORITED_BOOK_SUCCESS,
       payload: data,
@@ -54,7 +53,7 @@ const removeFavoritedBook = (inputData) => async (dispatch) => {
 const getFavoritedBooks = () => async (dispatch) => {
   try {
     dispatch(startAction(GET_FAVORITED_BOOKS_FETCH));
-    const { data } = await userService.getFavoritedBooks();
+    const { data } = await bookService.getFavoritedBooks();
     dispatch({ type: GET_FAVORITED_BOOKS_SUCCESS, payload: data });
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
