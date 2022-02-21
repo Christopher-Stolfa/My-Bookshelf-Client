@@ -9,8 +9,6 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import CssBaseline from "@mui/material/CssBaseline";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import IconButton from "@mui/material/IconButton";
@@ -24,6 +22,7 @@ import {
   getFavoritesSelector,
   getSelectedBookSelector,
 } from "../../selectors/bookSelector";
+import FavoriteBookActivity from "./FavoriteBookActivity";
 
 const BookResultPage = ({
   saveFavoritedBook,
@@ -184,6 +183,7 @@ const BookResultPage = ({
             >
               {selectedBook.description}
             </Typography>
+            <FavoriteBookActivity />
           </Box>
         </Box>
       )}
