@@ -68,7 +68,7 @@ const getNotes = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.get(
     `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.getNotes}`,
-    inputData
+    { params: inputData }
   );
 };
 
