@@ -42,3 +42,36 @@ export const GET_SEARCH_BOOK_SUCCESS = "GET_SEARCH_BOOK_SUCCESS";
 
 // Sets search results to its initial state
 export const SET_SEARCH_INITIAL_STATE = "SET_SEARCH_INITIAL_STATE";
+
+// Saves a note associated with a users favorited book
+export const SAVE_NOTE_FETCH = "SAVE_NOTE_FETCH";
+
+// Edits the text of an already existing note
+export const EDIT_NOTE_FETCH = "EDIT_NOTE_FETCH";
+
+// Deletes a note associated with a users favorited book
+export const DELETE_NOTE_FETCH = "DELETE_NOTE_FETCH";
+
+// Gets all notes associated with a users favorited book
+export const GET_NOTES_FETCH = "GET_NOTES_FETCH";
+
+export const bookTypes = {
+  GET_SAVE_FAVORITED_BOOK_FETCH,
+  GET_SAVE_FAVORITED_BOOK_SUCCESS,
+  GET_REMOVE_FAVORITED_BOOK_SUCCESS,
+  GET_REMOVE_FAVORITED_BOOK_FETCH,
+  GET_FAVORITED_BOOKS_FETCH,
+  GET_FAVORITED_BOOKS_SUCCESS,
+  GET_SELECT_BOOK,
+  GET_SEARCH_BOOK_BY_ID_FETCH,
+  GET_SEARCH_BOOK_BY_ID_SUCCESS,
+  GET_SEARCH_BOOK_SUCCESS,
+  GET_SEARCH_BOOK_FETCH,
+  SET_SEARCH_INITIAL_STATE,
+  SAVE_NOTE_FETCH,
+  EDIT_NOTE_FETCH,
+  DELETE_NOTE_FETCH,
+  GET_NOTES_FETCH,
+  SET_SORTED_FAVORITES,
+  SET_SORTED_SEARCH_RESULTS,
+};
