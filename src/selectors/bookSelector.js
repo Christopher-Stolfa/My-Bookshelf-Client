@@ -6,6 +6,7 @@ const getTotalFavoriteBooks = (state) => state.bookState.favorites.length;
 const getSearchResultBooks = (state) => state.bookState.searchResultBooks;
 const getTotalSearchResultBooks = (state) =>
   state.bookState.searchResultBooks.length;
+const getNotes = (state) => state.bookState.notes;
 
 export const getSelectedBookSelector = createSelector(
   [getSelectedBook],
@@ -31,3 +32,5 @@ export const getTotalSearchResultsSelector = createSelector(
   [getTotalSearchResultBooks],
   (totalSearchResults) => totalSearchResults
 );
+
+export const getNotesSelector = createSelector([getNotes], (notes) => notes);
