@@ -8,10 +8,7 @@ import {
   getFavoritesSelector,
   getTotalFavoritesSelector,
 } from "../../selectors/bookSelector";
-import {
-  GET_FAVORITED_BOOKS_FETCH,
-  SET_SORTED_FAVORITES,
-} from "../../types/bookTypes";
+import { bookTypes } from "../../types/bookTypes";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -59,7 +56,10 @@ const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
         ) : (
           <>
             <Typography variant="h4">Favorites:</Typography>
-            <SortButton items={favorites} type={SET_SORTED_FAVORITES} />
+            <SortButton
+              items={favorites}
+              type={bookTypes.SET_SORTED_FAVORITES}
+            />
             <Stack spacing={2}>
               {favorites.slice(getStartIndex(), getEndIndex()).map((book) => (
                 <div key={`${book.googleBooksId}-favorite-book-div`}>
@@ -91,7 +91,10 @@ FavoriteBooks.propTypes = {
 const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   totalItems: getTotalFavoritesSelector(state),
-  isFavoritesLoading: checkIfLoading(state, GET_FAVORITED_BOOKS_FETCH),
+  isFavoritesLoading: checkIfLoading(
+    state,
+    bookTypes.GET_FAVORITED_BOOKS_FETCH
+  ),
 });
 
 const actionCreators = {};

@@ -19,10 +19,7 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import IconButton from "@mui/material/IconButton";
 import { bookActions } from "../../actions/bookActions";
-import {
-  GET_SAVE_FAVORITED_BOOK_FETCH,
-  GET_REMOVE_FAVORITED_BOOK_FETCH,
-} from "../../types/bookTypes";
+import { bookTypes } from "../../types/bookTypes";
 import getUserSelector from "../../selectors/userSelectors";
 import {
   getFavoritesSelector,
@@ -268,9 +265,15 @@ const mapStateToProps = (state) => ({
   user: getUserSelector(state),
   searchResults: getSearchResultsSelector(state),
   selectedBook: getSelectedBookSelector(state),
-  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_BY_ID_FETCH),
-  isAddFavLoading: checkIfLoading(state, GET_SAVE_FAVORITED_BOOK_FETCH),
-  isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH),
+  isLoading: checkIfLoading(state, bookTypes.GET_SEARCH_BOOK_BY_ID_FETCH),
+  isAddFavLoading: checkIfLoading(
+    state,
+    bookTypes.GET_SAVE_FAVORITED_BOOK_FETCH
+  ),
+  isDelFavLoading: checkIfLoading(
+    state,
+    bookTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
+  ),
 });
 
 const actionCreators = {

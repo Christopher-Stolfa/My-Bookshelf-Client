@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { routes } from "../../config";
 import { connect } from "react-redux";
-import { GET_SEARCH_BOOK_BY_ID_FETCH } from "../../types/bookTypes";
 import { useParams, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -17,10 +16,7 @@ import PercentIcon from "@mui/icons-material/Percent";
 import IconButton from "@mui/material/IconButton";
 import { bookActions } from "../../actions/bookActions";
 import TextField from "@mui/material/TextField";
-import {
-  GET_SAVE_FAVORITED_BOOK_FETCH,
-  GET_REMOVE_FAVORITED_BOOK_FETCH,
-} from "../../types/bookTypes";
+import { bookTypes } from "../../types/bookTypes";
 import getUserSelector from "../../selectors/userSelectors";
 import {
   getFavoritesSelector,
@@ -239,9 +235,15 @@ const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
   selectedBook: getSelectedBookSelector(state),
-  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_BY_ID_FETCH),
-  isAddFavLoading: checkIfLoading(state, GET_SAVE_FAVORITED_BOOK_FETCH),
-  isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH),
+  isLoading: checkIfLoading(state, bookTypes.GET_SEARCH_BOOK_BY_ID_FETCH),
+  isAddFavLoading: checkIfLoading(
+    state,
+    bookTypes.GET_SAVE_FAVORITED_BOOK_FETCH
+  ),
+  isDelFavLoading: checkIfLoading(
+    state,
+    bookTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
+  ),
 });
 
 const actionCreators = {
