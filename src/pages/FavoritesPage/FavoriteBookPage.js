@@ -10,9 +10,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
+import CircleIcon from "@mui/icons-material/Circle";
+import PercentIcon from "@mui/icons-material/Percent";
 import IconButton from "@mui/material/IconButton";
 import { bookActions } from "../../actions/bookActions";
+import TextField from "@mui/material/TextField";
 import {
   GET_SAVE_FAVORITED_BOOK_FETCH,
   GET_REMOVE_FAVORITED_BOOK_FETCH,
@@ -22,7 +26,7 @@ import {
   getFavoritesSelector,
   getSelectedBookSelector,
 } from "../../selectors/bookSelector";
-import FavoriteBookActivity from "./FavoriteBookActivity";
+import FavoriteBookNotes from "./FavoriteBookNotes";
 
 const BookResultPage = ({
   saveFavoritedBook,
@@ -183,7 +187,35 @@ const BookResultPage = ({
             >
               {selectedBook.description}
             </Typography>
-            <FavoriteBookActivity />
+            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+              <CircleIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                component="div"
+              >
+                Status: Not Reading/Reading
+              </Typography>
+              <Button>toggle</Button>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+              <PercentIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+              <TextField
+                style={{ width: "30px" }}
+                id="input-with-sx"
+                variant="standard"
+              />
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                component="div"
+                style={{ lineHeight: 2 }}
+              >
+                of the book completed
+              </Typography>
+              <Button>save</Button>
+            </Box>
+            <FavoriteBookNotes />
           </Box>
         </Box>
       )}
