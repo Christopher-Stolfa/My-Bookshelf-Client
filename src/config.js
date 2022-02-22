@@ -15,7 +15,7 @@ export const endPoints = {
   signOut: "sign-out",
   checkSession: "check-session",
   searchBook: "search-book",
-  searchBookById: "/search-book-by-id",
+  searchBookById: "search-book-by-id",
   saveFavoritedBook: "save-favorited-book",
   removeFavoritedBook: "remove-favorited-book",
   getFavoritedBooks: "get-favorited-books",
@@ -23,6 +23,10 @@ export const endPoints = {
   forgotPassword: "forgot-password",
   checkResetToken: "check-reset-token",
   updatePasswordWithToken: "update-password-with-token",
+  saveNote: "save-note",
+  editNote: "edit-note",
+  deleteNote: "delete-note",
+  getNotes: "get-notes",
 };
 
 // Routes
