@@ -10,7 +10,10 @@ import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { bookActions } from "../../actions/bookActions";
-import { getSelectedBookSelector } from "../../selectors/bookSelector";
+import {
+  getSelectedBookSelector,
+  getNotesSelector,
+} from "../../selectors/bookSelector";
 
 const FormContainer = styled("form")(({ theme }) => ({
   marginTop: 20,
@@ -26,20 +29,34 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const FavoriteBookNotes = ({ saveNote, selectedBook: { googleBooksId } }) => {
+const FavoriteBookNotes = ({
+  notes,
+  setInitialState,
+  getNotes,
+  saveNote,
+  selectedBook: { googleBooksId },
+}) => {
+  useEffect(() => {
+    const inputData = { data: JSON.stringify({ googleBooksId }) };
+
+    getNotes(inputData);
+    return () => {
+      setInitialState();
+    };
+  }, []);
+
   const handleSaveNote = (e) => {
     e.preventDefault();
-    debugger;
 
     const formData = new FormData(e.currentTarget);
     const inputData = {
       data: JSON.stringify({
         googleBooksId,
-        note: formData.get("create-note-text"),
+        noteText: formData.get("create-note-text"),
       }),
     };
     saveNote(inputData);
-    formData.delete("create-note-text");
+    e.currentTarget.reset();
   };
 
   return (
@@ -65,26 +82,16 @@ const FavoriteBookNotes = ({ saveNote, selectedBook: { googleBooksId } }) => {
       </FormContainer>
 
       <Stack spacing={2}>
-        {Array.from(
-          { length: 10 },
-          () => new Date().getTime() + Math.random()
-        ).map((key, i) => (
-          <Box key={`${key}-${i}`}>
+        {notes.map((note, i) => (
+          <Box key={`${note.noteId}-${i}`}>
             <Item>
               <Box sx={{ display: "flex", width: "100%" }}>
-                <Typography>Page: 0</Typography>
                 <Box sx={{ float: "right" }}>
                   <Button>Edit</Button>
                   <Button>Delete</Button>
                 </Box>
               </Box>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <Typography>{note.text}</Typography>
             </Item>
           </Box>
         ))}
@@ -94,7 +101,17 @@ const FavoriteBookNotes = ({ saveNote, selectedBook: { googleBooksId } }) => {
 };
 
 FavoriteBookNotes.propTypes = {
+  setInitialState: PropTypes.func.isRequired,
+  getNotes: PropTypes.func.isRequired,
   saveNote: PropTypes.func.isRequired,
+  notes: PropTypes.arrayOf(
+    PropTypes.shape({
+      noteId: PropTypes.number,
+      text: PropTypes.string,
+      createdAt: PropTypes.any,
+      updatedAt: PropTypes.any,
+    })
+  ).isRequired,
   selectedBook: PropTypes.shape({
     googleBooksId: PropTypes.string.isRequired,
   }).isRequired,
@@ -102,10 +119,13 @@ FavoriteBookNotes.propTypes = {
 
 const mapStateToProps = (state) => ({
   selectedBook: getSelectedBookSelector(state),
+  notes: getNotesSelector(state),
 });
 
 const actionCreators = {
+  getNotes: bookActions.getNotes,
   saveNote: bookActions.saveNote,
+  setInitialState: bookActions.setInitialNotesState,
 };
 
 export default connect(mapStateToProps, actionCreators)(FavoriteBookNotes);
