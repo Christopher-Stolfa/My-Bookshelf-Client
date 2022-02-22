@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import { bookActions } from "../../actions/bookActions";
+import { getSelectedBookSelector } from "../../selectors/bookSelector";
 
-const FormContainer = styled("div")(({ theme }) => ({
+const FormContainer = styled("form")(({ theme }) => ({
   marginTop: 20,
   marginBottom: 20,
+  width: "100%",
 }));
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -20,19 +26,27 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const FavoriteBookNotes = (props) => {
-  const [note, setNote] = useState("");
+const FavoriteBookNotes = ({ saveNote, selectedBook: { googleBooksId } }) => {
+  const handleSaveNote = (e) => {
+    e.preventDefault();
+    debugger;
 
-  const handleChange = ({ target: { value } }) => {
-    setNote(value);
+    const formData = new FormData(e.currentTarget);
+    const inputData = {
+      data: JSON.stringify({
+        googleBooksId,
+        note: formData.get("create-note-text"),
+      }),
+    };
+    saveNote(inputData);
+    formData.delete("create-note-text");
   };
 
   return (
     <Box>
-      <FormContainer>
+      <FormContainer onSubmit={handleSaveNote} noValidate>
         <TextField
           style={{
-            width: "100%",
             border: "none",
             outline: "none",
             backgroundColor: "#fff",
@@ -40,13 +54,16 @@ const FavoriteBookNotes = (props) => {
             fontSize: "18px",
             fontWeight: 400,
           }}
+          id="create-note-text"
+          name="create-note-text"
+          label="Write a note..."
           multiline
-          maxRows={4}
-          value={note}
-          onChange={handleChange}
+          rows="4"
+          fullWidth
         />
-        <Button>Submit</Button>
+        <Button type="submit">Submit</Button>
       </FormContainer>
+
       <Stack spacing={2}>
         {Array.from(
           { length: 10 },
@@ -76,4 +93,19 @@ const FavoriteBookNotes = (props) => {
   );
 };
 
-export default FavoriteBookNotes;
+FavoriteBookNotes.propTypes = {
+  saveNote: PropTypes.func.isRequired,
+  selectedBook: PropTypes.shape({
+    googleBooksId: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  selectedBook: getSelectedBookSelector(state),
+});
+
+const actionCreators = {
+  saveNote: bookActions.saveNote,
+};
+
+export default connect(mapStateToProps, actionCreators)(FavoriteBookNotes);
