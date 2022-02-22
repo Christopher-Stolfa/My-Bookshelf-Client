@@ -14,10 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Rating from "@mui/material/Rating";
 import { bookActions } from "../../../actions/bookActions";
 import { getUserSelector } from "../../../selectors/userSelectors";
-import {
-  GET_SAVE_FAVORITED_BOOK_FETCH,
-  GET_REMOVE_FAVORITED_BOOK_FETCH,
-} from "../../../types/bookTypes";
+import { bookTypes } from "../../../types/bookTypes";
 import { checkIfLoading } from "../../../selectors/uiSelectors";
 import { getFavoritesSelector } from "../../../selectors/bookSelector";
 
@@ -236,8 +233,14 @@ BookCard.propTypes = {
 const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
-  isAddFavLoading: checkIfLoading(state, GET_SAVE_FAVORITED_BOOK_FETCH),
-  isDelFavLoading: checkIfLoading(state, GET_REMOVE_FAVORITED_BOOK_FETCH),
+  isAddFavLoading: checkIfLoading(
+    state,
+    bookTypes.GET_SAVE_FAVORITED_BOOK_FETCH
+  ),
+  isDelFavLoading: checkIfLoading(
+    state,
+    bookTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
+  ),
 });
 
 const actionCreators = {
