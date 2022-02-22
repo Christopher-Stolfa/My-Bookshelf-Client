@@ -1,59 +1,75 @@
+// General book types
 // User selects a book
-export const GET_SELECT_BOOK = "GET_SELECT_BOOK";
+const GET_SELECT_BOOK = "GET_SELECT_BOOK";
 
 // Fetch a specific book by ID
-export const GET_SEARCH_BOOK_BY_ID_FETCH = "GET_SEARCH_BOOK_BY_ID_FETCH";
+const GET_SEARCH_BOOK_BY_ID_FETCH = "GET_SEARCH_BOOK_BY_ID_FETCH";
 
 // Book search by ID receives data successfully
-export const GET_SEARCH_BOOK_BY_ID_SUCCESS = "GET_SEARCH_BOOK_BY_ID_SUCCESS";
+const GET_SEARCH_BOOK_BY_ID_SUCCESS = "GET_SEARCH_BOOK_BY_ID_SUCCESS";
 
+// Favorite book types
 // Get favorited books fetch
-export const GET_FAVORITED_BOOKS_FETCH = "GET_FAVORITED_BOOKS_FETCH";
+const GET_FAVORITED_BOOKS_FETCH = "GET_FAVORITED_BOOKS_FETCH";
 
 // Get favorited books success
-export const GET_FAVORITED_BOOKS_SUCCESS = "GET_FAVORITED_BOOKS_SUCCESS";
+const GET_FAVORITED_BOOKS_SUCCESS = "GET_FAVORITED_BOOKS_SUCCESS";
 
 // Save favorited book fetch
-export const GET_SAVE_FAVORITED_BOOK_FETCH = "GET_SAVE_FAVORITED_BOOK_FETCH";
+const GET_SAVE_FAVORITED_BOOK_FETCH = "GET_SAVE_FAVORITED_BOOK_FETCH";
 
 // Save favorited book success
-export const GET_SAVE_FAVORITED_BOOK_SUCCESS =
-  "GET_SAVE_FAVORITED_BOOK_SUCCESS";
+const GET_SAVE_FAVORITED_BOOK_SUCCESS = "GET_SAVE_FAVORITED_BOOK_SUCCESS";
 
 // Remove favorited book fetch
-export const GET_REMOVE_FAVORITED_BOOK_FETCH =
-  "GET_REMOVE_FAVORITED_BOOK_FETCH";
+const GET_REMOVE_FAVORITED_BOOK_FETCH = "GET_REMOVE_FAVORITED_BOOK_FETCH";
 
 // Remove favorited book success
-export const GET_REMOVE_FAVORITED_BOOK_SUCCESS =
-  "GET_REMOVE_FAVORITED_BOOK_SUCCESS";
+const GET_REMOVE_FAVORITED_BOOK_SUCCESS = "GET_REMOVE_FAVORITED_BOOK_SUCCESS";
 
 // Set sorted favorites to state
-export const SET_SORTED_FAVORITES = "SET_SORTED_FAVORITES";
+const SET_SORTED_FAVORITES = "SET_SORTED_FAVORITES";
 
+// Search results types
 // Set sorted search results to state
-export const SET_SORTED_SEARCH_RESULTS = "SET_SORTED_SEARCH_RESULTS";
+const SET_SORTED_SEARCH_RESULTS = "SET_SORTED_SEARCH_RESULTS";
 
 // Fetch book from search bar term
-export const GET_SEARCH_BOOK_FETCH = "GET_SEARCH_BOOK_FETCH";
+const GET_SEARCH_BOOK_FETCH = "GET_SEARCH_BOOK_FETCH";
 
 // Book search receives data successfully
-export const GET_SEARCH_BOOK_SUCCESS = "GET_SEARCH_BOOK_SUCCESS";
+const GET_SEARCH_BOOK_SUCCESS = "GET_SEARCH_BOOK_SUCCESS";
 
 // Sets search results to its initial state
-export const SET_SEARCH_INITIAL_STATE = "SET_SEARCH_INITIAL_STATE";
+const SET_SEARCH_INITIAL_STATE = "SET_SEARCH_INITIAL_STATE";
 
+// Book note types
 // Saves a note associated with a users favorited book
-export const SAVE_NOTE_FETCH = "SAVE_NOTE_FETCH";
+const SAVE_NOTE_FETCH = "SAVE_NOTE_FETCH";
+
+// Successfully saved a note associated with the favorited book
+const SAVE_NOTE_SUCCESS = "SAVE_NOTE_SUCCESS";
 
 // Edits the text of an already existing note
-export const EDIT_NOTE_FETCH = "EDIT_NOTE_FETCH";
+const EDIT_NOTE_FETCH = "EDIT_NOTE_FETCH";
+
+// Successfully edited the text of an already existing note
+const EDIT_NOTE_SUCCESS = "EDIT_NOTE_SUCCESS";
 
 // Deletes a note associated with a users favorited book
-export const DELETE_NOTE_FETCH = "DELETE_NOTE_FETCH";
+const DELETE_NOTE_FETCH = "DELETE_NOTE_FETCH";
+
+// Successfully deleted a note associated with a users favorited book
+const DELETE_NOTE_SUCCESS = "DELETE_NOTE_SUCCESS";
 
 // Gets all notes associated with a users favorited book
-export const GET_NOTES_FETCH = "GET_NOTES_FETCH";
+const GET_NOTES_FETCH = "GET_NOTES_FETCH";
+
+// Successfully fetched all notes associated with a users favorited book
+const GET_NOTES_SUCCESS = "GET_NOTES_SUCCESS";
+
+// Sets notes to its initial state
+const SET_NOTES_INITIAL_STATE = "SET_NOTES_INITIAL_STATE";
 
 export const bookTypes = {
   GET_SAVE_FAVORITED_BOOK_FETCH,
@@ -69,9 +85,14 @@ export const bookTypes = {
   GET_SEARCH_BOOK_FETCH,
   SET_SEARCH_INITIAL_STATE,
   SAVE_NOTE_FETCH,
+  SAVE_NOTE_SUCCESS,
   EDIT_NOTE_FETCH,
+  EDIT_NOTE_SUCCESS,
   DELETE_NOTE_FETCH,
+  DELETE_NOTE_SUCCESS,
   GET_NOTES_FETCH,
   SET_SORTED_FAVORITES,
   SET_SORTED_SEARCH_RESULTS,
+  GET_NOTES_SUCCESS,
+  SET_NOTES_INITIAL_STATE,
 };
