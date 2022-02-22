@@ -13,10 +13,7 @@ import {
 import LoadingCard from "../../components/Loaders/LoadingCard";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import { BookCard } from "../../components/Cards/";
-import {
-  GET_SEARCH_BOOK_FETCH,
-  SET_SORTED_SEARCH_RESULTS,
-} from "../../types/bookTypes";
+import { bookTypes } from "../../types/bookTypes";
 import SortButton from "../../components/Buttons/SortButton";
 
 const Results = ({ isLoading, totalItems, searchResults }) => {
@@ -60,7 +57,7 @@ const Results = ({ isLoading, totalItems, searchResults }) => {
             <Typography variant="h4">Search Results:</Typography>
             <SortButton
               items={searchResults}
-              type={SET_SORTED_SEARCH_RESULTS}
+              type={bookTypes.SET_SORTED_SEARCH_RESULTS}
             />
             <Stack spacing={2}>
               {searchResults
@@ -94,7 +91,7 @@ Results.propTypes = {
 const mapStateToProps = (state) => ({
   totalItems: getTotalSearchResultsSelector(state),
   searchResults: getSearchResultsSelector(state),
-  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_FETCH),
+  isLoading: checkIfLoading(state, bookTypes.GET_SEARCH_BOOK_FETCH),
 });
 
 const actionCreators = {};
