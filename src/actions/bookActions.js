@@ -102,7 +102,10 @@ const saveNote = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(bookTypes.SAVE_NOTE_FETCH));
     const { data } = await bookService.saveNote(inputData);
-    console.log(data);
+    dispatch({
+      type: bookTypes.SAVE_NOTE_SUCCESS,
+      payload: data,
+    });
   } catch (error) {
     setSnackbarError(error.response.data, dispatch);
   } finally {
@@ -114,11 +117,29 @@ const editNote = (inputData) => async (dispatch) => {};
 
 const deleteNote = (inputData) => async (dispatch) => {};
 
-const getNotes = (inputData) => async (dispatch) => {};
-
-const setInitialSearchState = () => (dispatch) => {
-  dispatch({ type: bookTypes.SET_SEARCH_INITIAL_STATE, payload: {} });
+const getNotes = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(bookTypes.GET_NOTES_FETCH));
+    const { data } = await bookService.getNotes(inputData);
+    dispatch({
+      type: bookTypes.GET_NOTES_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    setSnackbarError(error.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(bookTypes.GET_NOTES_FETCH));
+  }
 };
+
+const setInitialNotesState = () => (dispatch) =>
+  dispatch({
+    type: bookTypes.SET_NOTES_INITIAL_STATE,
+    payload: {},
+  });
+
+const setInitialSearchState = () => (dispatch) =>
+  dispatch({ type: bookTypes.SET_SEARCH_INITIAL_STATE, payload: {} });
 
 export const bookActions = {
   saveFavoritedBook,
@@ -130,4 +151,8 @@ export const bookActions = {
   searchBook,
   setInitialSearchState,
   saveNote,
+  editNote,
+  deleteNote,
+  getNotes,
+  setInitialNotesState,
 };

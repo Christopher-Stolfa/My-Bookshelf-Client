@@ -2,6 +2,7 @@ import { bookTypes } from "../types/bookTypes";
 
 const initialState = {
   selectedBook: {},
+  notes: [],
   favorites: [],
   searchResultBooks: [],
 };
@@ -54,6 +55,21 @@ const bookReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         ...payload,
+      };
+    case bookTypes.SAVE_NOTE_SUCCESS:
+      return {
+        ...state,
+        notes: [...state.notes, payload.noteData],
+      };
+    case bookTypes.GET_NOTES_SUCCESS:
+      return {
+        ...state,
+        notes: [...payload.notes],
+      };
+    case bookTypes.SET_NOTES_INITIAL_STATE:
+      return {
+        ...state,
+        notes: [],
       };
     default:
       return state;
