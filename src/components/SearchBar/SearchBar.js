@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../config";
 import { bookActions } from "../../actions/bookActions";
 import { checkIfLoading } from "../../selectors/uiSelectors";
-import { GET_SEARCH_BOOK_FETCH } from "../../types/bookTypes";
+import { bookTypes } from "../../types/bookTypes";
 
 const SUBJECT = "subject:";
 const AUTHOR = "inauthor:";
@@ -110,7 +110,7 @@ SearchBar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isLoading: checkIfLoading(state, GET_SEARCH_BOOK_FETCH),
+  isLoading: checkIfLoading(state, bookTypes.GET_SEARCH_BOOK_FETCH),
 });
 
 const actionCreators = {
