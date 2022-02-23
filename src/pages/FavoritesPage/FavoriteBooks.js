@@ -24,8 +24,9 @@ const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
   const getStartIndex = () => (pageNum - 1) * pageSize;
 
   const getEndIndex = () => Math.min(getStartIndex() + pageSize, totalItems);
-
-  if (isFavoritesLoading) {
+  if (bookId) {
+    return <Outlet />;
+  } else if (isFavoritesLoading) {
     return (
       <Box>
         <Typography variant="h4">Loading...</Typography>
@@ -46,8 +47,6 @@ const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
         </Stack>
       </Box>
     );
-  } else if (bookId) {
-    return <Outlet />;
   } else {
     return (
       <Box>
