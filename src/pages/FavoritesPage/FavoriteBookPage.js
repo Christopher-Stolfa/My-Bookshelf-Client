@@ -27,6 +27,7 @@ import {
 import FavoriteBookNotes from "./FavoriteBookNotes";
 
 const FavoriteBookPage = ({
+  setInitialState,
   getFavoritedBook,
   saveFavoritedBook,
   removeFavoritedBook,
@@ -40,7 +41,7 @@ const FavoriteBookPage = ({
 }) => {
   const navigate = useNavigate();
   const { bookId } = useParams();
-  const [isFavorited, setIsFavorited] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(true);
 
   useEffect(() => {
     setIsFavorited(
@@ -54,32 +55,20 @@ const FavoriteBookPage = ({
 
   // When a user exits this page or backs out of it, reset SearchResultsPage selectedBook state back to its initial state.
   useEffect(() => {
-    debugger;
     const setFavoriteBook = async () => {
       const book = favorites.find((book) => book.googleBooksId === bookId);
       if (book) {
-        setIsFavorited(true);
         setSelectedBook({ message: "Book selected", selectedBook: book });
       } else {
         const inputData = {
           data: { bookId },
         };
-        await getFavoritedBook(inputData);
-        if (!isEmpty(selectedBook)) {
-          debugger;
-          setIsFavorited(true);
-        } else {
-          debugger;
-          navigate("error-404", { replace: true });
-        }
+        getFavoritedBook(inputData);
       }
     };
     setFavoriteBook();
     return () => {
-      setSelectedBook({
-        message: "Removed selected book",
-        selectedBook: {},
-      });
+      setInitialState();
     };
   }, []);
 
@@ -238,6 +227,7 @@ const FavoriteBookPage = ({
 };
 
 FavoriteBookPage.propTypes = {
+  setInitialState: PropTypes.func.isRequired,
   getFavoritedBook: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setSelectedBook: PropTypes.func.isRequired,
@@ -270,6 +260,7 @@ const actionCreators = {
   setSelectedBook: bookActions.setSelectedBook,
   saveFavoritedBook: bookActions.saveFavoritedBook,
   removeFavoritedBook: bookActions.removeFavoritedBook,
+  setInitialState: bookActions.setInitialSelectedBookState,
 };
 
 export default connect(mapStateToProps, actionCreators)(FavoriteBookPage);
