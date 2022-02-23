@@ -106,6 +106,7 @@ const saveNote = (inputData) => async (dispatch) => {
       type: bookTypes.SAVE_NOTE_SUCCESS,
       payload: data,
     });
+    setSnackbarSuccess(data, dispatch);
   } catch (error) {
     setSnackbarError(error.response.data, dispatch);
   } finally {
@@ -115,7 +116,21 @@ const saveNote = (inputData) => async (dispatch) => {
 
 const editNote = (inputData) => async (dispatch) => {};
 
-const deleteNote = (inputData) => async (dispatch) => {};
+const deleteNote = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(bookTypes.DELETE_NOTE_FETCH));
+    const { data } = await bookService.deleteNote(inputData);
+    dispatch({
+      type: bookTypes.DELETE_NOTE_SUCCESS,
+      payload: data,
+    });
+    setSnackbarSuccess(data, dispatch);
+  } catch (error) {
+    setSnackbarError(error.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(bookTypes.DELETE_NOTE_FETCH));
+  }
+};
 
 const getNotes = (inputData) => async (dispatch) => {
   try {
