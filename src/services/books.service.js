@@ -24,6 +24,14 @@ const getFavoritedBooks = async () => {
   );
 };
 
+const getFavoritedBook = async () => {
+  Axios.defaults.withCredentials = true;
+  return await Axios.get(
+    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.getFavoritedBook}`,
+    { params: inputData }
+  );
+};
+
 const saveFavoritedBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
@@ -78,6 +86,7 @@ export const bookService = {
   saveFavoritedBook,
   removeFavoritedBook,
   getFavoritedBooks,
+  getFavoritedBook,
   saveNote,
   editNote,
   deleteNote,
