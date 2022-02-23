@@ -52,7 +52,7 @@ const getFavoritedBooks = () => async (dispatch) => {
 const getFavoritedBook = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(bookTypes.GET_FAVORITED_BOOKS_FETCH));
-    const { data } = await bookService.getFavoritedBooks(inputData);
+    const { data } = await bookService.getFavoritedBook(inputData);
     dispatch({ type: bookTypes.GET_FAVORITED_BOOKS_SUCCESS, payload: data });
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
