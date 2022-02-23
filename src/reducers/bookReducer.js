@@ -14,6 +14,11 @@ const bookReducer = (state = initialState, { type, payload }) => {
         ...state,
         ...payload,
       };
+    case bookTypes.GET_FAVORITED_BOOK_SUCCESS:
+      return {
+        ...state,
+        selectedBook: payload.book,
+      };
     case bookTypes.GET_SAVE_FAVORITED_BOOK_SUCCESS:
       return {
         ...state,
@@ -28,6 +33,8 @@ const bookReducer = (state = initialState, { type, payload }) => {
           ),
         ],
       };
+    case bookTypes.SET_SELECTED_BOOK_INITIAL_STATE:
+      return { ...state, selectedBook: {} };
     case bookTypes.GET_SELECT_BOOK:
     case bookTypes.GET_SEARCH_BOOK_BY_ID_SUCCESS:
       return {
