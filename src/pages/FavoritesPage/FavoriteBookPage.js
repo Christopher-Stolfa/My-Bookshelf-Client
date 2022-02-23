@@ -14,6 +14,8 @@ import Rating from "@mui/material/Rating";
 import CircleIcon from "@mui/icons-material/Circle";
 import PercentIcon from "@mui/icons-material/Percent";
 import IconButton from "@mui/material/IconButton";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { bookActions } from "../../actions/bookActions";
 import TextField from "@mui/material/TextField";
 import { bookTypes } from "../../types/bookTypes";
@@ -24,7 +26,8 @@ import {
 } from "../../selectors/bookSelector";
 import FavoriteBookNotes from "./FavoriteBookNotes";
 
-const BookResultPage = ({
+const FavoriteBookPage = ({
+  getFavoritedBook,
   saveFavoritedBook,
   removeFavoritedBook,
   isDelFavLoading,
@@ -49,22 +52,36 @@ const BookResultPage = ({
     );
   }, [favorites]);
 
-  // When a user exists this page or backs out of it, reset SearchResultsPage selectedBook state back to its initial state.
+  // When a user exits this page or backs out of it, reset SearchResultsPage selectedBook state back to its initial state.
   useEffect(() => {
-    const book = favorites.find((book) => book.googleBooksId === bookId);
-    if (book) {
-      setIsFavorited(true);
-      setSelectedBook({ message: "Book selected", selectedBook: book || {} });
-    } else {
-      navigate("error-404", { replace: true });
-    }
+    debugger;
+    const setFavoriteBook = async () => {
+      const book = favorites.find((book) => book.googleBooksId === bookId);
+      if (book) {
+        setIsFavorited(true);
+        setSelectedBook({ message: "Book selected", selectedBook: book });
+      } else {
+        const inputData = {
+          data: { bookId },
+        };
+        await getFavoritedBook(inputData);
+        if (!isEmpty(selectedBook)) {
+          debugger;
+          setIsFavorited(true);
+        } else {
+          debugger;
+          navigate("error-404", { replace: true });
+        }
+      }
+    };
+    setFavoriteBook();
     return () => {
       setSelectedBook({
         message: "Removed selected book",
         selectedBook: {},
       });
     };
-  }, [bookId]);
+  }, []);
 
   const handleOnClickFavorite = () => {
     if (!loggedIn) {
@@ -101,12 +118,13 @@ const BookResultPage = ({
   return (
     <Box>
       <CssBaseline />
-      {isLoading && isEmpty(selectedBook) && (
-        <Typography component="div" variant="h5">
-          Loading...
-        </Typography>
-      )}
-      {!isLoading && !isEmpty(selectedBook) && (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      {!isEmpty(selectedBook) && (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
             <Box>
@@ -219,7 +237,8 @@ const BookResultPage = ({
   );
 };
 
-BookResultPage.propTypes = {
+FavoriteBookPage.propTypes = {
+  getFavoritedBook: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setSelectedBook: PropTypes.func.isRequired,
   saveFavoritedBook: PropTypes.func.isRequired,
@@ -235,7 +254,7 @@ const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
   selectedBook: getSelectedBookSelector(state),
-  isLoading: checkIfLoading(state, bookTypes.GET_SEARCH_BOOK_BY_ID_FETCH),
+  isLoading: checkIfLoading(state, bookTypes.GET_FAVORITED_BOOK_FETCH),
   isAddFavLoading: checkIfLoading(
     state,
     bookTypes.GET_SAVE_FAVORITED_BOOK_FETCH
@@ -247,9 +266,10 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
+  getFavoritedBook: bookActions.getFavoritedBook,
   setSelectedBook: bookActions.setSelectedBook,
   saveFavoritedBook: bookActions.saveFavoritedBook,
   removeFavoritedBook: bookActions.removeFavoritedBook,
 };
 
-export default connect(mapStateToProps, actionCreators)(BookResultPage);
+export default connect(mapStateToProps, actionCreators)(FavoriteBookPage);
