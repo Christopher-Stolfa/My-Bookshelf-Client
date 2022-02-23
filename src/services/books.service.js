@@ -24,7 +24,7 @@ const getFavoritedBooks = async () => {
   );
 };
 
-const getFavoritedBook = async () => {
+const getFavoritedBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.get(
     `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.getFavoritedBook}`,
