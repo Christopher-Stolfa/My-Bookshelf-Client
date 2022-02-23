@@ -61,6 +61,13 @@ const bookReducer = (state = initialState, { type, payload }) => {
         ...state,
         notes: [...state.notes, payload.noteData],
       };
+    case bookTypes.DELETE_NOTE_SUCCESS:
+      return {
+        ...state,
+        notes: [
+          ...state.notes.filter((note) => note.noteId !== payload.noteId),
+        ],
+      };
     case bookTypes.GET_NOTES_SUCCESS:
       return {
         ...state,
