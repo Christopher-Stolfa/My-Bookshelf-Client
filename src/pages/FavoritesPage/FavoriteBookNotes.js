@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import { bookActions } from "../../actions/bookActions";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   getSelectedBookSelector,
   getNotesSelector,
 } from "../../selectors/bookSelector";
+import { checkIfLoading } from "../../selectors/uiSelectors";
+import { bookTypes } from "../../types/bookTypes";
+import BookNote from "./BookNote";
 
 const FormContainer = styled("form")(({ theme }) => ({
   marginTop: 20,
@@ -21,15 +23,8 @@ const FormContainer = styled("form")(({ theme }) => ({
   width: "100%",
 }));
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "left",
-  color: theme.palette.text.secondary,
-}));
-
 const FavoriteBookNotes = ({
+  isLoading,
   notes,
   setInitialState,
   getNotes,
@@ -46,21 +41,28 @@ const FavoriteBookNotes = ({
   }, []);
 
   const handleSaveNote = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const inputData = {
-      data: JSON.stringify({
-        googleBooksId,
-        noteText: formData.get("create-note-text"),
-      }),
-    };
-    saveNote(inputData);
-    e.currentTarget.reset();
+    if (!isLoading) {
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const inputData = {
+        data: JSON.stringify({
+          googleBooksId,
+          noteText: formData.get("create-note-text"),
+        }),
+      };
+      saveNote(inputData);
+      e.currentTarget.reset();
+    }
   };
 
   return (
     <Box>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <FormContainer onSubmit={handleSaveNote} noValidate>
         <TextField
           style={{
@@ -83,17 +85,7 @@ const FavoriteBookNotes = ({
 
       <Stack spacing={2}>
         {notes.map((note, i) => (
-          <Box key={`${note.noteId}-${i}`}>
-            <Item>
-              <Box sx={{ display: "flex", width: "100%" }}>
-                <Box sx={{ float: "right" }}>
-                  <Button>Edit</Button>
-                  <Button>Delete</Button>
-                </Box>
-              </Box>
-              <Typography>{note.text}</Typography>
-            </Item>
-          </Box>
+          <BookNote note={note} key={`${note.noteId}-${i}`} />
         ))}
       </Stack>
     </Box>
@@ -101,6 +93,7 @@ const FavoriteBookNotes = ({
 };
 
 FavoriteBookNotes.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   setInitialState: PropTypes.func.isRequired,
   getNotes: PropTypes.func.isRequired,
   saveNote: PropTypes.func.isRequired,
@@ -108,8 +101,8 @@ FavoriteBookNotes.propTypes = {
     PropTypes.shape({
       noteId: PropTypes.number,
       text: PropTypes.string,
-      createdAt: PropTypes.any,
-      updatedAt: PropTypes.any,
+      createdAt: PropTypes.string,
+      updatedAt: PropTypes.string,
     })
   ).isRequired,
   selectedBook: PropTypes.shape({
@@ -120,6 +113,11 @@ FavoriteBookNotes.propTypes = {
 const mapStateToProps = (state) => ({
   selectedBook: getSelectedBookSelector(state),
   notes: getNotesSelector(state),
+  isLoading:
+    checkIfLoading(state, bookTypes.GET_NOTES_FETCH) ||
+    checkIfLoading(state, bookTypes.DELETE_NOTE_FETCH) ||
+    checkIfLoading(state, bookTypes.SAVE_NOTE_FETCH) ||
+    checkIfLoading(state, bookTypes.EDIT_NOTE_FETCH),
 });
 
 const actionCreators = {
