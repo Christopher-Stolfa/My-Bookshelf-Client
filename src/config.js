@@ -19,6 +19,7 @@ export const endPoints = {
   saveFavoritedBook: "save-favorited-book",
   removeFavoritedBook: "remove-favorited-book",
   getFavoritedBooks: "get-favorited-books",
+  getFavoritedBook: "get-favorited-book",
   getRandomQuote: "get-random-quote",
   forgotPassword: "forgot-password",
   checkResetToken: "check-reset-token",
