@@ -53,7 +53,7 @@ const getFavoritedBook = (inputData) => async (dispatch) => {
   try {
     dispatch(startAction(bookTypes.GET_FAVORITED_BOOKS_FETCH));
     const { data } = await bookService.getFavoritedBook(inputData);
-    dispatch({ type: bookTypes.GET_FAVORITED_BOOKS_SUCCESS, payload: data });
+    dispatch({ type: bookTypes.GET_FAVORITED_BOOK_SUCCESS, payload: data });
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
   } finally {
@@ -168,10 +168,14 @@ const setInitialNotesState = () => (dispatch) =>
 const setInitialSearchState = () => (dispatch) =>
   dispatch({ type: bookTypes.SET_SEARCH_INITIAL_STATE, payload: {} });
 
+const setInitialSelectedBookState = () => (dispatch) =>
+  dispatch({ type: bookTypes.SET_SELECTED_BOOK_INITIAL_STATE, payload: {} });
+
 export const bookActions = {
   saveFavoritedBook,
   removeFavoritedBook,
   getFavoritedBooks,
+  getFavoritedBook,
   setSelectedBook,
   searchBookById,
   setSortedItems,
@@ -182,4 +186,5 @@ export const bookActions = {
   deleteNote,
   getNotes,
   setInitialNotesState,
+  setInitialSelectedBookState,
 };
