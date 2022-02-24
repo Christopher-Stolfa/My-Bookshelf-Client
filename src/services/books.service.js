@@ -56,6 +56,14 @@ const toggleReadingBook = async (inputData) => {
   );
 };
 
+const setBookProgress = async (inputData) => {
+  Axios.defaults.withCredentials = true;
+  return await Axios.put(
+    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.setBookProgress}`,
+    inputData
+  );
+};
+
 const saveNote = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
@@ -96,6 +104,7 @@ export const bookService = {
   getFavoritedBooks,
   getFavoritedBook,
   toggleReadingBook,
+  setBookProgress,
   saveNote,
   editNote,
   deleteNote,
