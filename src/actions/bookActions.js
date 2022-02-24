@@ -126,7 +126,21 @@ const saveNote = (inputData) => async (dispatch) => {
   }
 };
 
-const editNote = (inputData) => async (dispatch) => {};
+const editNote = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(bookTypes.EDIT_NOTE_FETCH));
+    const { data } = await bookService.editNote(inputData);
+    dispatch({
+      type: bookTypes.EDIT_NOTE_SUCCESS,
+      payload: data,
+    });
+    setSnackbarSuccess(data, dispatch);
+  } catch (error) {
+    setSnackbarError(error.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(bookTypes.EDIT_NOTE_FETCH));
+  }
+};
 
 const deleteNote = (inputData) => async (dispatch) => {
   try {
