@@ -42,6 +42,12 @@ const TOGGLE_READING_BOOK_FETCH = "TOGGLE_READING_BOOK_FETCH";
 // Successfully toggled if you are currently reading a book or not
 const TOGGLE_READING_BOOK_SUCCESS = "TOGGLE_READING_BOOK_SUCCESS";
 
+// Send a fetch to set a number for the book progress
+const SET_BOOK_PROGRESS_FETCH = "SET_BOOK_PROGRESS_FETCH";
+
+// Successfully set a number for the book progress
+const SET_BOOK_PROGRESS_SUCCESS = "SET_BOOK_PROGRESS_SUCCESS";
+
 // Set sorted favorites to state
 const SET_SORTED_FAVORITES = "SET_SORTED_FAVORITES";
 
@@ -97,6 +103,8 @@ export const bookTypes = {
   GET_FAVORITED_BOOK_SUCCESS,
   TOGGLE_READING_BOOK_FETCH,
   TOGGLE_READING_BOOK_SUCCESS,
+  SET_BOOK_PROGRESS_FETCH,
+  SET_BOOK_PROGRESS_SUCCESS,
   GET_SELECT_BOOK,
   GET_SEARCH_BOOK_BY_ID_FETCH,
   GET_SEARCH_BOOK_BY_ID_SUCCESS,
