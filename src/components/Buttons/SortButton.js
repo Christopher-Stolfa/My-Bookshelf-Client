@@ -11,7 +11,6 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 
 // To make this component reusable, the parent component will pass its items as the prop "items"
 // The type of items of the parent are also passed down
