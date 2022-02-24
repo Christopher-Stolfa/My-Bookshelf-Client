@@ -31,7 +31,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const BookNote = ({ note, editNote, deleteNote, isLoading }) => {
   const [toggleEdit, setToggleEdit] = useState(false);
-  const [noteText, setNoteText] = useState(note.text);
+  const [noteText, setNoteText] = useState(note.text || "");
 
   const handleOnChange = ({ target: { value } }) => setNoteText(value);
 
@@ -46,13 +46,27 @@ const BookNote = ({ note, editNote, deleteNote, isLoading }) => {
     }
   };
 
+  const handleSaveNote = async (e) => {
+    e.preventDefault();
+    if (!isLoading) {
+      setToggleEdit(false);
+      const inputData = {
+        data: JSON.stringify({
+          noteId: note.noteId,
+          noteText,
+        }),
+      };
+      await editNote(inputData);
+    }
+  };
+
   return (
     <Box>
       <DeleteItemDialog deleteItem={handleDeleteNote} />
       <Fab
         size="small"
         sx={{ float: "right", ml: 1 }}
-        color="primary"
+        color={toggleEdit ? "secondary" : "primary"}
         aria-label="edit"
         onClick={handleToggleEdit}
       >
@@ -63,7 +77,7 @@ const BookNote = ({ note, editNote, deleteNote, isLoading }) => {
           Created at: {new Date(note.createdAt).toString()}
         </Typography>
         {toggleEdit ? (
-          <FormContainer noValidate>
+          <FormContainer onSubmit={handleSaveNote} noValidate>
             <TextField
               style={{
                 border: "none",
@@ -85,11 +99,7 @@ const BookNote = ({ note, editNote, deleteNote, isLoading }) => {
             <Button type="submit">Save</Button>
           </FormContainer>
         ) : (
-          <Typography
-            variant="subtitle2"
-            color="text.secondary"
-            component="div"
-          >
+          <Typography variant="subtitle2" color="text.primary" component="div">
             {noteText}
           </Typography>
         )}
@@ -99,6 +109,7 @@ const BookNote = ({ note, editNote, deleteNote, isLoading }) => {
 };
 
 BookNote.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   editNote: PropTypes.func.isRequired,
   deleteNote: PropTypes.func.isRequired,
   note: PropTypes.shape({
@@ -110,7 +121,9 @@ BookNote.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isLoading: checkIfLoading(state, bookTypes.DELETE_NOTE_FETCH),
+  isLoading:
+    checkIfLoading(state, bookTypes.DELETE_NOTE_FETCH) ||
+    checkIfLoading(state, bookTypes.EDIT_NOTE_FETCH),
 });
 
 const actionCreators = {
