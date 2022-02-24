@@ -66,7 +66,18 @@ const bookReducer = (state = initialState, { type, payload }) => {
     case bookTypes.SAVE_NOTE_SUCCESS:
       return {
         ...state,
-        notes: [...state.notes, payload.noteData],
+        notes: [payload.noteData, ...state.notes],
+      };
+    case bookTypes.EDIT_NOTE_SUCCESS:
+      return {
+        ...state,
+        notes: [
+          ...state.notes
+            .map((note) =>
+              note.noteId === payload.noteData.noteId ? payload.noteData : note
+            )
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+        ],
       };
     case bookTypes.DELETE_NOTE_SUCCESS:
       return {
@@ -78,7 +89,11 @@ const bookReducer = (state = initialState, { type, payload }) => {
     case bookTypes.GET_NOTES_SUCCESS:
       return {
         ...state,
-        notes: [...payload.notes],
+        notes: [
+          ...payload.notes.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          ),
+        ],
       };
     case bookTypes.SET_NOTES_INITIAL_STATE:
       return {
