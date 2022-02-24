@@ -41,8 +41,8 @@ const FavoriteBookNotes = ({
   }, []);
 
   const handleSaveNote = (e) => {
+    e.preventDefault();
     if (!isLoading) {
-      e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const inputData = {
         data: JSON.stringify({
