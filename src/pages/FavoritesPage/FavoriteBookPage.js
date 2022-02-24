@@ -52,6 +52,7 @@ const FavoriteBookPage = ({
   removeFavoritedBook,
   toggleReadingBook,
   isLoading,
+  isLoadingNoSpinner,
   setSelectedBook,
   favorites,
   selectedBook,
@@ -83,7 +84,7 @@ const FavoriteBookPage = ({
   const handleOnClickFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
-    } else if (isLoading) {
+    } else if (isLoadingNoSpinner) {
       return;
     } else {
       const inputData = { data: JSON.stringify(selectedBook) };
@@ -95,7 +96,7 @@ const FavoriteBookPage = ({
   const handleOnClickRemoveFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
-    } else if (isLoading) {
+    } else if (isLoadingNoSpinner) {
       return;
     } else {
       const inputData = {
@@ -107,11 +108,9 @@ const FavoriteBookPage = ({
   };
 
   const handleStatusSwitch = (e, checked) => {
-    console.log("I'm triggered");
-    console.log(checked);
     if (!loggedIn) {
       navigate(routes.signIn);
-    } else if (isLoading) {
+    } else if (isLoadingNoSpinner) {
       return;
     } else {
       const inputData = {
@@ -222,8 +221,9 @@ const FavoriteBookPage = ({
               <FormControl component="fieldset">
                 <FormGroup aria-label="position" row>
                   <FormControlLabel
-                    checked={selectedBook.isReading}
-                    control={<GreenSwitch onChange={handleStatusSwitch} />}
+                    checked={isFavorited ? selectedBook.isReading : false}
+                    onChange={handleStatusSwitch}
+                    control={<GreenSwitch />}
                     label={selectedBook.isReading ? "Reading" : "Not Reading"}
                     labelPlacement="end"
                   />
@@ -260,6 +260,7 @@ FavoriteBookPage.propTypes = {
   setInitialState: PropTypes.func.isRequired,
   getFavoritedBook: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isLoadingNoSpinner: PropTypes.bool.isRequired,
   setSelectedBook: PropTypes.func.isRequired,
   saveFavoritedBook: PropTypes.func.isRequired,
   removeFavoritedBook: PropTypes.func.isRequired,
@@ -290,7 +291,8 @@ const mapStateToProps = (state) => ({
   selectedBook: getSelectedBookSelector(state),
   isLoading:
     checkIfLoading(state, bookTypes.GET_FAVORITED_BOOKS_FETCH) ||
-    checkIfLoading(state, bookTypes.GET_FAVORITED_BOOK_FETCH) ||
+    checkIfLoading(state, bookTypes.GET_FAVORITED_BOOK_FETCH),
+  isLoadingNoSpinner:
     checkIfLoading(state, bookTypes.GET_SAVE_FAVORITED_BOOK_FETCH) ||
     checkIfLoading(state, bookTypes.GET_REMOVE_FAVORITED_BOOK_FETCH),
 });
