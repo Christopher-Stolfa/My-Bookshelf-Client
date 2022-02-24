@@ -77,9 +77,7 @@ const SortButton = ({ items, type, setSortedItems }) => {
       return;
     }
     setOpen(false);
-    const sortedItems = items.sort(
-      (a, b) => new Date(b.ratingsCount) - new Date(a.ratingsCount)
-    );
+    const sortedItems = items.sort((a, b) => b.ratingsCount - a.ratingsCount);
     const inputData = { sortedItems };
     setSortedItems(inputData, type);
   };
@@ -89,12 +87,7 @@ const SortButton = ({ items, type, setSortedItems }) => {
       return;
     }
     setOpen(false);
-    if (items[0].averageRating < items[items.length - 1].averageRating) {
-    } else {
-    }
-    const sortedItems = items.sort(
-      (a, b) => new Date(b.averageRating) - new Date(a.averageRating)
-    );
+    const sortedItems = items.sort((a, b) => b.averageRating - a.averageRating);
     const inputData = { sortedItems };
     setSortedItems(inputData, type);
   };
