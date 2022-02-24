@@ -20,6 +20,7 @@ export const endPoints = {
   removeFavoritedBook: "remove-favorited-book",
   getFavoritedBooks: "get-favorited-books",
   getFavoritedBook: "get-favorited-book",
+  toggleReadingBook: "toggle-reading-book",
   getRandomQuote: "get-random-quote",
   forgotPassword: "forgot-password",
   checkResetToken: "check-reset-token",
