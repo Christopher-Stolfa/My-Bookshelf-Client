@@ -22,7 +22,9 @@ const bookReducer = (state = initialState, { type, payload }) => {
     case bookTypes.GET_SAVE_FAVORITED_BOOK_SUCCESS:
       return {
         ...state,
-        favorites: [...state.favorites, payload.favoritedBook],
+        favorites: [...state.favorites, payload.favoritedBook].sort(
+          (a, b) => b.ratingsCount - a.ratingsCount
+        ),
       };
     case bookTypes.TOGGLE_READING_BOOK_SUCCESS:
       const updatedBook = { ...state.selectedBook, ...payload.bookData };
@@ -30,9 +32,9 @@ const bookReducer = (state = initialState, { type, payload }) => {
         ...state,
         favorites: [
           updatedBook,
-          ...state.favorites.filter(
-            (book) => book.googleBooksId !== updatedBook.googleBooksId
-          ),
+          ...state.favorites
+            .filter((book) => book.googleBooksId !== updatedBook.googleBooksId)
+            .sort((a, b) => b.ratingsCount - a.ratingsCount),
         ],
         selectedBook: updatedBook,
       };
