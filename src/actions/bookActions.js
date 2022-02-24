@@ -51,13 +51,25 @@ const getFavoritedBooks = () => async (dispatch) => {
 
 const getFavoritedBook = (inputData) => async (dispatch) => {
   try {
-    dispatch(startAction(bookTypes.GET_FAVORITED_BOOKS_FETCH));
+    dispatch(startAction(bookTypes.GET_FAVORITED_BOOK_FETCH));
     const { data } = await bookService.getFavoritedBook(inputData);
     dispatch({ type: bookTypes.GET_FAVORITED_BOOK_SUCCESS, payload: data });
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
   } finally {
-    dispatch(stopAction(bookTypes.GET_FAVORITED_BOOKS_FETCH));
+    dispatch(stopAction(bookTypes.GET_FAVORITED_BOOK_FETCH));
+  }
+};
+
+const toggleReadingBook = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(bookTypes.TOGGLE_READING_BOOK_FETCH));
+    const { data } = await bookService.toggleReadingBook(inputData);
+    dispatch({ type: bookTypes.TOGGLE_READING_BOOK_SUCCESS, payload: data });
+  } catch (err) {
+    setSnackbarError(err.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(bookTypes.TOGGLE_READING_BOOK_FETCH));
   }
 };
 
@@ -190,6 +202,7 @@ export const bookActions = {
   removeFavoritedBook,
   getFavoritedBooks,
   getFavoritedBook,
+  toggleReadingBook,
   setSelectedBook,
   searchBookById,
   setSortedItems,
