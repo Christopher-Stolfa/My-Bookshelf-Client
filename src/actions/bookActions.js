@@ -73,6 +73,18 @@ const toggleReadingBook = (inputData) => async (dispatch) => {
   }
 };
 
+const setBookProgress = (inputData) => async (dispatch) => {
+  try {
+    dispatch(startAction(bookTypes.SET_BOOK_PROGRESS_FETCH));
+    const { data } = await bookService.setBookProgress(inputData);
+    dispatch({ type: bookTypes.SET_BOOK_PROGRESS_SUCCESS, payload: data });
+  } catch (err) {
+    setSnackbarError(err.response.data, dispatch);
+  } finally {
+    dispatch(stopAction(bookTypes.SET_BOOK_PROGRESS_FETCH));
+  }
+};
+
 const setSelectedBook = (inputData) => (dispatch) => {
   try {
     dispatch(startAction(bookTypes.GET_SELECT_BOOK));
@@ -203,6 +215,7 @@ export const bookActions = {
   getFavoritedBooks,
   getFavoritedBook,
   toggleReadingBook,
+  setBookProgress,
   setSelectedBook,
   searchBookById,
   setSortedItems,
