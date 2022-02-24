@@ -24,6 +24,18 @@ const bookReducer = (state = initialState, { type, payload }) => {
         ...state,
         favorites: [...state.favorites, payload.favoritedBook],
       };
+    case bookTypes.TOGGLE_READING_BOOK_SUCCESS:
+      const updatedBook = { ...state.selectedBook, ...payload.bookData };
+      return {
+        ...state,
+        favorites: [
+          updatedBook,
+          ...state.favorites.filter(
+            (book) => book.googleBooksId !== updatedBook.googleBooksId
+          ),
+        ],
+        selectedBook: updatedBook,
+      };
     case bookTypes.GET_REMOVE_FAVORITED_BOOK_SUCCESS:
       return {
         ...state,
