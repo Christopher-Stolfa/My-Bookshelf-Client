@@ -185,7 +185,7 @@ const FavoriteBookPage = ({
             ))}
             <Typography
               variant="subtitle2"
-              color="text.secondary"
+              color="text.primary"
               component="div"
             >
               {selectedBook.description}
