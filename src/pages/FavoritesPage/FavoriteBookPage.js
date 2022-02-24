@@ -13,6 +13,13 @@ import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import CircleIcon from "@mui/icons-material/Circle";
 import PercentIcon from "@mui/icons-material/Percent";
+import Switch from "@mui/material/Switch";
+import { alpha, styled } from "@mui/material/styles";
+import { green } from "@mui/material/colors";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import IconButton from "@mui/material/IconButton";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -26,13 +33,24 @@ import {
 } from "../../selectors/bookSelector";
 import FavoriteBookNotes from "./FavoriteBookNotes";
 
+const GreenSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: green[600],
+    "&:hover": {
+      backgroundColor: alpha(green[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+    backgroundColor: green[600],
+  },
+}));
+
 const FavoriteBookPage = ({
   setInitialState,
   getFavoritedBook,
   saveFavoritedBook,
   removeFavoritedBook,
-  isDelFavLoading,
-  isAddFavLoading,
+  toggleReadingBook,
   isLoading,
   setSelectedBook,
   favorites,
@@ -42,16 +60,6 @@ const FavoriteBookPage = ({
   const navigate = useNavigate();
   const { bookId } = useParams();
   const [isFavorited, setIsFavorited] = useState(true);
-
-  useEffect(() => {
-    setIsFavorited(
-      favorites &&
-        favorites.some(
-          (favoritedBook) =>
-            favoritedBook.googleBooksId === selectedBook.googleBooksId
-        )
-    );
-  }, [favorites]);
 
   // When a user exits this page or backs out of it, reset SearchResultsPage selectedBook state back to its initial state.
   useEffect(() => {
@@ -75,10 +83,11 @@ const FavoriteBookPage = ({
   const handleOnClickFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
-    } else if (isAddFavLoading || isDelFavLoading) {
+    } else if (isLoading) {
       return;
     } else {
       const inputData = { data: JSON.stringify(selectedBook) };
+      setIsFavorited(true);
       saveFavoritedBook(inputData);
     }
   };
@@ -86,13 +95,32 @@ const FavoriteBookPage = ({
   const handleOnClickRemoveFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
-    } else if (isAddFavLoading || isDelFavLoading) {
+    } else if (isLoading) {
       return;
     } else {
       const inputData = {
         data: { bookData: JSON.stringify(selectedBook) },
       };
+      setIsFavorited(false);
       removeFavoritedBook(inputData);
+    }
+  };
+
+  const handleStatusSwitch = (e, checked) => {
+    console.log("I'm triggered");
+    console.log(checked);
+    if (!loggedIn) {
+      navigate(routes.signIn);
+    } else if (isLoading) {
+      return;
+    } else {
+      const inputData = {
+        data: JSON.stringify({
+          googleBooksId: selectedBook.googleBooksId,
+          isReading: checked,
+        }),
+      };
+      toggleReadingBook(inputData);
     }
   };
 
@@ -191,15 +219,16 @@ const FavoriteBookPage = ({
               {selectedBook.description}
             </Typography>
             <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-              <CircleIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-              >
-                Status: Not Reading/Reading
-              </Typography>
-              <Button>toggle</Button>
+              <FormControl component="fieldset">
+                <FormGroup aria-label="position" row>
+                  <FormControlLabel
+                    checked={selectedBook.isReading}
+                    control={<GreenSwitch onChange={handleStatusSwitch} />}
+                    label={selectedBook.isReading ? "Reading" : "Not Reading"}
+                    labelPlacement="end"
+                  />
+                </FormGroup>
+              </FormControl>
             </Box>
             <Box sx={{ display: "flex", alignItems: "flex-end" }}>
               <PercentIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
@@ -227,32 +256,43 @@ const FavoriteBookPage = ({
 };
 
 FavoriteBookPage.propTypes = {
+  toggleReadingBook: PropTypes.func.isRequired,
   setInitialState: PropTypes.func.isRequired,
   getFavoritedBook: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setSelectedBook: PropTypes.func.isRequired,
   saveFavoritedBook: PropTypes.func.isRequired,
   removeFavoritedBook: PropTypes.func.isRequired,
-  isAddFavLoading: PropTypes.bool.isRequired,
-  isDelFavLoading: PropTypes.bool.isRequired,
   favorites: PropTypes.arrayOf(
     PropTypes.shape({ googleBooksId: PropTypes.string })
   ).isRequired,
+  selectedBook: PropTypes.shape({
+    googleBooksId: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    authors: PropTypes.arrayOf(PropTypes.string),
+    publisher: PropTypes.string,
+    publishedDate: PropTypes.string,
+    pageCount: PropTypes.number,
+    averageRating: PropTypes.number,
+    ratingsCount: PropTypes.number,
+    imageLink: PropTypes.string,
+    language: PropTypes.string,
+    categories: PropTypes.arrayOf(PropTypes.string),
+    isReading: PropTypes.bool,
+    progress: PropTypes.number,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   favorites: getFavoritesSelector(state),
   user: getUserSelector(state),
   selectedBook: getSelectedBookSelector(state),
-  isLoading: checkIfLoading(state, bookTypes.GET_FAVORITED_BOOK_FETCH),
-  isAddFavLoading: checkIfLoading(
-    state,
-    bookTypes.GET_SAVE_FAVORITED_BOOK_FETCH
-  ),
-  isDelFavLoading: checkIfLoading(
-    state,
-    bookTypes.GET_REMOVE_FAVORITED_BOOK_FETCH
-  ),
+  isLoading:
+    checkIfLoading(state, bookTypes.GET_FAVORITED_BOOKS_FETCH) ||
+    checkIfLoading(state, bookTypes.GET_FAVORITED_BOOK_FETCH) ||
+    checkIfLoading(state, bookTypes.GET_SAVE_FAVORITED_BOOK_FETCH) ||
+    checkIfLoading(state, bookTypes.GET_REMOVE_FAVORITED_BOOK_FETCH),
 });
 
 const actionCreators = {
@@ -261,6 +301,7 @@ const actionCreators = {
   saveFavoritedBook: bookActions.saveFavoritedBook,
   removeFavoritedBook: bookActions.removeFavoritedBook,
   setInitialState: bookActions.setInitialSelectedBookState,
+  toggleReadingBook: bookActions.toggleReadingBook,
 };
 
 export default connect(mapStateToProps, actionCreators)(FavoriteBookPage);
