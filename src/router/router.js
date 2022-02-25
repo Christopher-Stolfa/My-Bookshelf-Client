@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { userActions } from "../actions/userActions";
 import { checkIfLoading } from "../selectors/uiSelectors";
 import { getUserSelector } from "../selectors/userSelectors";
-import { getFavoritedBooks, bookActions } from "../actions/bookActions";
+import { bookActions } from "../actions/bookActions";
 import { userTypes } from "../types/userTypes";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import SignInPage from "../pages/SignInPage/SignInPage";
@@ -27,6 +27,7 @@ import FavoriteBooks from "../pages/FavoritesPage/FavoriteBooks";
 import FavoriteBookPage from "../pages/FavoritesPage/FavoriteBookPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
+import AccountPage from "../pages/AccountPage/AccountPage";
 
 const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
   const [firstRender, setFirstRender] = useState(true);
@@ -53,6 +54,7 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
             <Route path={routes.home} element={<HomePage />} />
             <Route path={routes.signIn} element={<SignInPage />} />
             <Route path={routes.signUp} element={<SignUpPage />} />
+            <Route path={routes.account} element={<AccountPage />} />
             <Route
               path={routes.forgotPassword}
               element={<ForgotPasswordPage />}
