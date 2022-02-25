@@ -27,6 +27,7 @@ const bookReducer = (state = initialState, { type, payload }) => {
         ),
       };
     case bookTypes.TOGGLE_READING_BOOK_SUCCESS:
+    case bookTypes.SET_BOOK_PROGRESS_SUCCESS:
       const updatedBook = { ...state.selectedBook, ...payload.bookData };
       return {
         ...state,
