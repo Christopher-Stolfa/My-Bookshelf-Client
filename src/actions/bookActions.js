@@ -66,6 +66,7 @@ const toggleReadingBook = (inputData) => async (dispatch) => {
     dispatch(startAction(bookTypes.TOGGLE_READING_BOOK_FETCH));
     const { data } = await bookService.toggleReadingBook(inputData);
     dispatch({ type: bookTypes.TOGGLE_READING_BOOK_SUCCESS, payload: data });
+    setSnackbarSuccess(data, dispatch);
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
   } finally {
@@ -78,6 +79,7 @@ const setBookProgress = (inputData) => async (dispatch) => {
     dispatch(startAction(bookTypes.SET_BOOK_PROGRESS_FETCH));
     const { data } = await bookService.setBookProgress(inputData);
     dispatch({ type: bookTypes.SET_BOOK_PROGRESS_SUCCESS, payload: data });
+    setSnackbarSuccess(data, dispatch);
   } catch (err) {
     setSnackbarError(err.response.data, dispatch);
   } finally {
