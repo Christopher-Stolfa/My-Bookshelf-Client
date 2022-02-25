@@ -54,6 +54,7 @@ const FavoriteBookPage = ({
   isLoading,
   isLoadingNoSpinner,
   setSelectedBook,
+  setBookProgress,
   favorites,
   selectedBook,
   user: { loggedIn },
@@ -61,8 +62,25 @@ const FavoriteBookPage = ({
   const navigate = useNavigate();
   const { bookId } = useParams();
   const [isFavorited, setIsFavorited] = useState(true);
+  const [progress, setProgress] = useState(selectedBook.progress || 0);
+  const [notValid, setNotValid] = useState(false);
 
-  // When a user exits this page or backs out of it, reset SearchResultsPage selectedBook state back to its initial state.
+  useEffect(() => {
+    setProgress(selectedBook.progress);
+  }, [selectedBook.progress]);
+
+  useEffect(() => {
+    if (isNaN(progress) || progress < 0 || progress > 100) {
+      setNotValid(true);
+    } else {
+      setNotValid(false);
+    }
+  }, [progress]);
+
+  useEffect(() => {
+    !selectedBook.isReading && setProgress(0);
+  }, [selectedBook.isReading]);
+
   useEffect(() => {
     const setFavoriteBook = async () => {
       const book = favorites.find((book) => book.googleBooksId === bookId);
@@ -81,12 +99,29 @@ const FavoriteBookPage = ({
     };
   }, []);
 
+  const handleBookProgress = ({ target: { value } }) => {
+    if (!loggedIn) {
+      navigate(routes.signIn);
+    } else if (!isLoadingNoSpinner) {
+      setProgress(value);
+    }
+  };
+
+  const handleBookProgressSave = (e) => {
+    e.preventDefault();
+    const inputData = {
+      data: JSON.stringify({
+        googleBooksId: selectedBook.googleBooksId,
+        progress,
+      }),
+    };
+    setBookProgress(inputData);
+  };
+
   const handleOnClickFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
-    } else if (isLoadingNoSpinner) {
-      return;
-    } else {
+    } else if (!isLoadingNoSpinner) {
       const inputData = { data: JSON.stringify(selectedBook) };
       setIsFavorited(true);
       saveFavoritedBook(inputData);
@@ -96,9 +131,7 @@ const FavoriteBookPage = ({
   const handleOnClickRemoveFavorite = () => {
     if (!loggedIn) {
       navigate(routes.signIn);
-    } else if (isLoadingNoSpinner) {
-      return;
-    } else {
+    } else if (!isLoadingNoSpinner) {
       const inputData = {
         data: { bookData: JSON.stringify(selectedBook) },
       };
@@ -110,13 +143,12 @@ const FavoriteBookPage = ({
   const handleStatusSwitch = (e, checked) => {
     if (!loggedIn) {
       navigate(routes.signIn);
-    } else if (isLoadingNoSpinner) {
-      return;
-    } else {
+    } else if (!isLoadingNoSpinner) {
       const inputData = {
         data: JSON.stringify({
           googleBooksId: selectedBook.googleBooksId,
           isReading: checked,
+          progress: checked ? progress : 0,
         }),
       };
       toggleReadingBook(inputData);
@@ -236,6 +268,10 @@ const FavoriteBookPage = ({
                 style={{ width: "30px" }}
                 id="input-with-sx"
                 variant="standard"
+                disabled={selectedBook.isReading ? false : true}
+                onChange={handleBookProgress}
+                value={progress}
+                error={notValid}
               />
               <Typography
                 variant="subtitle1"
@@ -245,7 +281,7 @@ const FavoriteBookPage = ({
               >
                 of the book completed
               </Typography>
-              <Button>save</Button>
+              <Button onClick={handleBookProgressSave}>save</Button>
             </Box>
             <FavoriteBookNotes />
           </Box>
@@ -256,6 +292,7 @@ const FavoriteBookPage = ({
 };
 
 FavoriteBookPage.propTypes = {
+  setBookProgress: PropTypes.func.isRequired,
   toggleReadingBook: PropTypes.func.isRequired,
   setInitialState: PropTypes.func.isRequired,
   getFavoritedBook: PropTypes.func.isRequired,
@@ -304,6 +341,7 @@ const actionCreators = {
   removeFavoritedBook: bookActions.removeFavoritedBook,
   setInitialState: bookActions.setInitialSelectedBookState,
   toggleReadingBook: bookActions.toggleReadingBook,
+  setBookProgress: bookActions.setBookProgress,
 };
 
 export default connect(mapStateToProps, actionCreators)(FavoriteBookPage);
