@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -10,6 +9,7 @@ import { quoteActions } from "../../actions/quoteActions";
 import { getSelectedQuoteSelector } from "../../selectors/quoteSelector";
 import { GET_RANDOM_QUOTE_SUCCESS } from "../../types/quoteTypes";
 import { checkIfLoading } from "../../selectors/uiSelectors";
+import getUserSelector from "../../selectors/userSelectors";
 
 const HomeContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -30,7 +30,7 @@ const LibaryImage = styled("img")(({ theme }) => ({
   width: "100%",
 }));
 
-const HomePage = ({ getRandomQuote, selectedQuote, isLoading }) => {
+const HomePage = ({ getRandomQuote, selectedQuote, isLoading, user }) => {
   useEffect(() => {
     console.log("Component Mounted");
     getRandomQuote();
@@ -41,6 +41,11 @@ const HomePage = ({ getRandomQuote, selectedQuote, isLoading }) => {
 
   return (
     <HomeContainer>
+      {user.userData && (
+        <Typography fontWeight="bold" variant="h4" gutterBottom>
+          Welcome, {user.userData.displayName}
+        </Typography>
+      )}
       <Typography fontWeight="bold" variant="h4" gutterBottom>
         Discover and save books you love!
       </Typography>
@@ -73,11 +78,17 @@ HomePage.propTypes = {
     text: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
   }).isRequired,
+  user: PropTypes.shape({
+    userData: PropTypes.shape({
+      displayName: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isLoading: checkIfLoading(state, GET_RANDOM_QUOTE_SUCCESS),
   selectedQuote: getSelectedQuoteSelector(state),
+  user: getUserSelector(state),
 });
 
 const actionCreators = {
