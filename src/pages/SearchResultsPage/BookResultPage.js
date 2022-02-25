@@ -147,8 +147,20 @@ const BookResultPage = ({
         </Typography>
       )}
       {!isLoading && !isEmpty(selectedBook) && (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: {
+              xs: "column",
+              sm: "row",
+              md: "row",
+              lg: "row",
+              xl: "row",
+            },
+          }}
+        >
+          <Box sx={{ p: 1, textAlign: "center" }}>
             <Box>
               <Box
                 component="img"
