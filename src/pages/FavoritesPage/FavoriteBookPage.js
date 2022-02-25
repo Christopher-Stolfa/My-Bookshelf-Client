@@ -11,7 +11,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
-import CircleIcon from "@mui/icons-material/Circle";
 import PercentIcon from "@mui/icons-material/Percent";
 import Switch from "@mui/material/Switch";
 import { alpha, styled } from "@mui/material/styles";
@@ -19,7 +18,6 @@ import { green } from "@mui/material/colors";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import IconButton from "@mui/material/IconButton";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -173,8 +171,20 @@ const FavoriteBookPage = ({
         <CircularProgress color="inherit" />
       </Backdrop>
       {!isEmpty(selectedBook) && (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: {
+              xs: "column",
+              sm: "row",
+              md: "row",
+              lg: "row",
+              xl: "row",
+            },
+          }}
+        >
+          <Box sx={{ textAlign: "center", p: 1 }}>
             <Box>
               <Box
                 component="img"
@@ -226,9 +236,39 @@ const FavoriteBookPage = ({
                     `Ratings: ${selectedBook.ratingsCount}`}
                 </Typography>
               </Box>
+              <FormControl component="fieldset">
+                <FormGroup aria-label="position" row>
+                  <FormControlLabel
+                    checked={isFavorited ? selectedBook.isReading : false}
+                    onChange={handleStatusSwitch}
+                    control={<GreenSwitch />}
+                    label={selectedBook.isReading ? "Reading" : "Not Reading"}
+                    labelPlacement="end"
+                  />
+                </FormGroup>
+              </FormControl>
+              <TextField
+                style={{ width: "30px" }}
+                id="input-with-sx"
+                variant="standard"
+                disabled={selectedBook.isReading ? false : true}
+                onChange={handleBookProgress}
+                value={progress}
+                error={notValid}
+              />
+              <PercentIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                component="div"
+                style={{ lineHeight: 2 }}
+              >
+                completed
+              </Typography>
+              <Button onClick={handleBookProgressSave}>save</Button>
             </Box>
           </Box>
-          <Box sx={{ p: 1, display: "inline-block", verticalAlign: "middle" }}>
+          <Box sx={{ p: 1, textAlign: "start" }}>
             <Typography component="div" variant="h5">
               {selectedBook.title}
             </Typography>
@@ -249,40 +289,8 @@ const FavoriteBookPage = ({
             >
               {selectedBook.description}
             </Typography>
-            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-              <FormControl component="fieldset">
-                <FormGroup aria-label="position" row>
-                  <FormControlLabel
-                    checked={isFavorited ? selectedBook.isReading : false}
-                    onChange={handleStatusSwitch}
-                    control={<GreenSwitch />}
-                    label={selectedBook.isReading ? "Reading" : "Not Reading"}
-                    labelPlacement="end"
-                  />
-                </FormGroup>
-              </FormControl>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-              <PercentIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
-              <TextField
-                style={{ width: "30px" }}
-                id="input-with-sx"
-                variant="standard"
-                disabled={selectedBook.isReading ? false : true}
-                onChange={handleBookProgress}
-                value={progress}
-                error={notValid}
-              />
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                component="div"
-                style={{ lineHeight: 2 }}
-              >
-                of the book completed
-              </Typography>
-              <Button onClick={handleBookProgressSave}>save</Button>
-            </Box>
+            <Box sx={{ display: "flex", alignItems: "flex-end" }}></Box>
+            <Box sx={{ display: "flex", alignItems: "flex-end" }}></Box>
             <FavoriteBookNotes />
           </Box>
         </Box>
