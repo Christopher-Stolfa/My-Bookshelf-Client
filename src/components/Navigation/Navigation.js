@@ -44,6 +44,13 @@ const Navigation = (props) => {
               Favorites
             </Button>
             <Button
+              onClick={handleOnClick}
+              name={routes.account}
+              color="inherit"
+            >
+              Account
+            </Button>
+            <Button
               onClick={handleSignout}
               name={routes.signOut}
               color="inherit"
