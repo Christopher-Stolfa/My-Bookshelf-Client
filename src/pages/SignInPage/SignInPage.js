@@ -17,17 +17,6 @@ import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import { routes } from "../../config";
 
-const Copyright = (props) => (
-  <Typography variant="body2" color="text.secondary" align="center" {...props}>
-    {"Copyright © "}
-    <Link color="inherit" to={routes.home}>
-      My Bookshelf
-    </Link>{" "}
-    {new Date().getFullYear()}
-    {"."}
-  </Typography>
-);
-
 const SignInPage = ({ user: { loggedIn }, signIn }) => {
   const navigate = useNavigate();
 
@@ -113,7 +102,6 @@ const SignInPage = ({ user: { loggedIn }, signIn }) => {
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   );
 };
