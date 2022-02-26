@@ -5,47 +5,53 @@ import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import { routes } from "../../config";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import {
+  IconButton,
+  InputAdornment,
+  Container,
+  Typography,
+  Box,
+  CircularProgress,
+  Backdrop,
+  Grid,
+  TextField,
+  CssBaseline,
+  Button,
+  Avatar,
+} from "@mui/material";
 import { userTypes } from "../../types/userTypes";
 import { checkIfLoading } from "../../selectors/uiSelectors";
-
-const validate = pass =>
-  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/.test(pass);
-
-const helperText =
-  "Please enter a password between 8 and 16 characters with at least one uppercase character, number and special character.";
+import {
+  Visibility,
+  VisibilityOff,
+  AccountCircle,
+  LockOutlined,
+} from "@mui/icons-material";
+import {
+  validatePassword,
+  validatePasswordText,
+} from "../../helpers/validaters";
 
 const ResetPasswordPage = ({
   user: { loggedIn },
   isLoading,
   checkResetToken,
-  updatePasswordWithToken
+  updatePasswordWithToken,
 }) => {
   const navigate = useNavigate();
   const { token } = useParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
   const [notValid, setNotValid] = useState(false);
-  const [notValid2, setNotValid2] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     loggedIn && navigate(routes.home, { replace: true });
     const checkTokenGetEmail = async () => {
       const inputData = {
         params: {
-          resetPasswordToken: token
-        }
+          resetPasswordToken: token,
+        },
       };
       const data = await checkResetToken(inputData);
       if (data) {
@@ -58,44 +64,32 @@ const ResetPasswordPage = ({
   }, []);
 
   useEffect(() => {
-    validate(password) || password === ""
+    validatePassword(password) || password === ""
       ? setNotValid(false)
       : setNotValid(true);
   }, [password]);
 
-  useEffect(() => {
-    password2 === "" || (password2 === password && validate(password2))
-      ? setNotValid2(false)
-      : setNotValid2(true);
-  }, [password2]);
+  const handleShowPassword = () => setShowPassword((prevState) => !prevState);
 
   const handlePassword = ({ target: { value } }) => setPassword(value);
 
-  const handlePassword2 = ({ target: { value } }) => setPassword2(value);
-
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== password2) {
-      setNotValid(true);
-      setNotValid2(true);
-    } else {
-      const inputData = {
-        data: JSON.stringify({
-          token,
-          email,
-          password
-        })
-      };
-      await updatePasswordWithToken(inputData);
-      setPassword("");
-      setPassword2("");
-    }
+    const inputData = {
+      data: JSON.stringify({
+        token,
+        email,
+        password,
+      }),
+    };
+    await updatePasswordWithToken(inputData);
+    setPassword("");
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <Backdrop
-        sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
       >
         <CircularProgress color="inherit" />
@@ -106,11 +100,11 @@ const ResetPasswordPage = ({
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
+          <LockOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           Reset Password
@@ -120,29 +114,27 @@ const ResetPasswordPage = ({
             required
             fullWidth
             margin="normal"
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
+            name="new-password"
+            label="New Password"
+            type={showPassword ? "text" : "password"}
+            id="new-password"
             value={password}
             autoComplete="new-password"
-            helperText={notValid && helperText}
+            helperText={notValid && validatePasswordText}
             onChange={handlePassword}
             error={notValid}
-          />
-          <TextField
-            required
-            fullWidth
-            margin="normal"
-            name="password2"
-            label="Confirm Password"
-            type="password"
-            id="password2"
-            value={password2}
-            autoComplete="new-password"
-            helperText={notValid && helperText}
-            onChange={handlePassword2}
-            error={notValid2}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleShowPassword}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Button
             type="submit"
@@ -170,20 +162,20 @@ ResetPasswordPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   updatePasswordWithToken: PropTypes.func.isRequired,
   user: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired
-  }).isRequired
+    loggedIn: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: getUserSelector(state),
   isLoading:
     checkIfLoading(state, userTypes.GET_CHECK_RESET_TOKEN_FETCH) ||
-    checkIfLoading(state, userTypes.GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH)
+    checkIfLoading(state, userTypes.GET_UPDATE_PASSWORD_WITH_TOKEN_FETCH),
 });
 
 const actionCreators = {
   checkResetToken: userActions.checkResetToken,
-  updatePasswordWithToken: userActions.updatePasswordWithToken
+  updatePasswordWithToken: userActions.updatePasswordWithToken,
 };
 
 export default connect(mapStateToProps, actionCreators)(ResetPasswordPage);
