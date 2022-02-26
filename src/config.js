@@ -13,6 +13,7 @@ export const endPoints = {
   signIn: "sign-in",
   signUp: "sign-up",
   signOut: "sign-out",
+  updatePassword: "update-password",
   checkSession: "check-session",
   searchBook: "search-book",
   searchBookById: "search-book-by-id",
