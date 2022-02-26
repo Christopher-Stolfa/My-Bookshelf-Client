@@ -55,6 +55,14 @@ const updatePasswordWithToken = async (inputData) => {
   );
 };
 
+const updatePassword = async (inputData) => {
+  Axios.defaults.withCredentials = true;
+  return await Axios.put(
+    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.updatePassword}`,
+    inputData
+  );
+};
+
 export const userService = {
   signOut,
   signUp,
@@ -63,4 +71,5 @@ export const userService = {
   sendPasswordReset,
   checkResetToken,
   updatePasswordWithToken,
+  updatePassword,
 };
