@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Link,
   Navigate,
 } from "react-router-dom";
 import { routes, routeIds } from "../config";
@@ -13,6 +14,7 @@ import { checkIfLoading } from "../selectors/uiSelectors";
 import { getUserSelector } from "../selectors/userSelectors";
 import { bookActions } from "../actions/bookActions";
 import { userTypes } from "../types/userTypes";
+import Typography from "@mui/material/Typography";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import SignInPage from "../pages/SignInPage/SignInPage";
 import ElevateAppBar from "../components/ElevateAppBar/ElevateAppBar";
@@ -78,6 +80,19 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
             </Route>
             <Route path="*" element={<Error404Page />} />
           </Routes>
+          <Typography
+            sx={{ mt: 8, mb: 4 }}
+            variant="body2"
+            color="text.secondary"
+            align="center"
+          >
+            {"Copyright © "}
+            <Link color="inherit" to={routes.home}>
+              My Bookshelf
+            </Link>{" "}
+            {new Date().getFullYear()}
+            {"."}
+          </Typography>
         </ElevateAppBar>
       )}
     </Router>
