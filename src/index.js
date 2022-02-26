@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@mui/material";
 import libraryTheme from "./themes/libraryTheme";
-import "./index.css";
 import RouterComponent from "./router/router";
 import { Provider } from "react-redux";
 import SnackbarNotifier from "./components/SnackbarNotifier/SnackbarNotifier";
