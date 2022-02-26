@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LoadingCard from "../../components/Loaders/LoadingCard";
 import { BookCard } from "../../components/Cards/";
-import SortButton from "../../components/Buttons/SortButton";
+import { SortButton } from "../../components/Buttons";
 
 const FavoriteBooks = ({ isFavoritesLoading, favorites, totalItems }) => {
   const { pageNum, bookId } = useParams();

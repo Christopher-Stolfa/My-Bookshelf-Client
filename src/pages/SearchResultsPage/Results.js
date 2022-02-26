@@ -14,7 +14,7 @@ import LoadingCard from "../../components/Loaders/LoadingCard";
 import { checkIfLoading } from "../../selectors/uiSelectors";
 import { BookCard } from "../../components/Cards/";
 import { bookTypes } from "../../types/bookTypes";
-import SortButton from "../../components/Buttons/SortButton";
+import { SortButton } from "../../components/Buttons";
 
 const Results = ({ isLoading, totalItems, searchResults }) => {
   const { pageNum, bookId } = useParams();
