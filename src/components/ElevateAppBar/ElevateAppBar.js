@@ -29,7 +29,7 @@ const ElevateAppBar = ({ children }) => {
 };
 
 ElevateAppBar.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
 };
 
 export default ElevateAppBar;
