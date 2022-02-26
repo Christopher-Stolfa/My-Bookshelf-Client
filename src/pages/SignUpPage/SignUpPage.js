@@ -1,46 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
+import { Visibility, VisibilityOff, LockOutlined } from "@mui/icons-material";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import { connect } from "react-redux";
 import { routes } from "../../config";
-
-const Copyright = (props) => (
-  <Typography variant="body2" color="text.secondary" align="center" {...props}>
-    {"Copyright © "}
-    <Link color="inherit" to={routes.home}>
-      My Bookshelf
-    </Link>{" "}
-    {new Date().getFullYear()}
-    {"."}
-  </Typography>
-);
+import {
+  validatePassword,
+  validatePasswordText,
+} from "../../helpers/validaters";
 
 const SignUpPage = ({ user: { loggedIn }, signUp }) => {
   const navigate = useNavigate();
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [notValid, setNotValid] = useState(false);
+
+  useEffect(() => {
+    password === "" || validatePassword(password)
+      ? setNotValid(false)
+      : setNotValid(true);
+  }, [password]);
 
   useEffect(() => {
     if (loggedIn) navigate(routes.home);
     return () => {};
   }, [loggedIn]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+  const handlePassword = ({ target: { value } }) => setPassword(value);
+
+  const handleShowPassword = () => setShowPassword((prevState) => !prevState);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     const inputData = {
       data: JSON.stringify({
         email: formData.get("email"),
-        password: formData.get("password"),
+        password,
         firstName: formData.get("firstName"),
         lastName: formData.get("lastName"),
         displayName: formData.get("displayName"),
@@ -61,7 +71,7 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
+          <LockOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
@@ -92,7 +102,6 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
               <TextField
                 autoComplete="given-name"
                 name="firstName"
-                required
                 fullWidth
                 id="firstName"
                 label="First Name"
@@ -101,7 +110,6 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                required
                 fullWidth
                 id="lastName"
                 label="Last Name"
@@ -115,9 +123,25 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
-                id="password"
+                type={showPassword ? "text" : "password"}
+                id="new-password"
+                value={password}
+                onChange={handlePassword}
                 autoComplete="new-password"
+                error={notValid}
+                helperText={notValid && validatePasswordText}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleShowPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
           </Grid>
@@ -138,7 +162,6 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 5 }} />
     </Container>
   );
 };
