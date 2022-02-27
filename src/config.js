@@ -44,6 +44,7 @@ export const routes = {
   forgotPassword: "/forgot-password",
   reset: "/reset",
   account: "/account",
+  about: "/about",
 };
 
 // Nested routes

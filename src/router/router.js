@@ -30,6 +30,7 @@ import FavoriteBookPage from "../pages/FavoritesPage/FavoriteBookPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 import AccountPage from "../pages/AccountPage/AccountPage";
+import AboutPage from "../pages/AboutPage/AboutPage";
 
 const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
   const [firstRender, setFirstRender] = useState(true);
@@ -57,6 +58,7 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
             <Route path={routes.signIn} element={<SignInPage />} />
             <Route path={routes.signUp} element={<SignUpPage />} />
             <Route path={routes.account} element={<AccountPage />} />
+            <Route path={routes.about} element={<AboutPage />} />
             <Route
               path={routes.forgotPassword}
               element={<ForgotPasswordPage />}
