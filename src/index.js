@@ -6,7 +6,7 @@ import libraryTheme from "./themes/libraryTheme";
 import RouterComponent from "./router/router";
 import { Provider } from "react-redux";
 import SnackbarNotifier from "./components/SnackbarNotifier/SnackbarNotifier";
-import store from "./store";
+import { store } from "./store";
 
 document.body.style = "background-color: #FDF4E7";
 
