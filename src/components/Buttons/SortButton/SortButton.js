@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bookActions } from "../../../actions/bookActions";
 import SortIcon from "@mui/icons-material/Sort";
-import Button from "@mui/material/Button";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
+import {
+  Button,
+  ClickAwayListener,
+  Grow,
+  Paper,
+  Popper,
+  MenuItem,
+  MenuList,
+  Stack,
+} from "@mui/material";
 
 // To make this component reusable, the parent component will pass its items as the prop "items"
 // The type of items of the parent are also passed down
@@ -100,8 +102,8 @@ const SortButton = ({ items, type, setSortedItems }) => {
           variant="text"
           startIcon={<SortIcon />}
           ref={anchorRef}
-          id="composition-button"
-          aria-controls={open ? "composition-menu" : undefined}
+          id="sort-button"
+          aria-controls={open ? "sort-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
@@ -129,8 +131,8 @@ const SortButton = ({ items, type, setSortedItems }) => {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
                     autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
+                    id="sort-menu"
+                    aria-labelledby="sort-button"
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem onClick={handleSortMostPopular}>
