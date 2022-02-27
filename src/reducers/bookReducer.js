@@ -12,7 +12,7 @@ const bookReducer = (state = initialState, { type, payload }) => {
     case bookTypes.GET_FAVORITED_BOOKS_SUCCESS:
       return {
         ...state,
-        ...payload,
+        favorites: [...payload.favorites],
       };
     case bookTypes.GET_FAVORITED_BOOK_SUCCESS:
       return {
