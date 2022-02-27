@@ -5,6 +5,9 @@ import {
 import { startAction, stopAction } from "./uiActions";
 import { quoteService } from "../services/quotes.service";
 
+/**
+ * This action is triggered when a user reaches the HomePage component.
+ */
 const getRandomQuote = () => async (dispatch) => {
   try {
     dispatch(startAction(GET_RANDOM_QUOTE_FETCH));
