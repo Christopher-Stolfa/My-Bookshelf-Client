@@ -46,7 +46,6 @@ const BookResultPage = ({
 
   useEffect(() => {
     return () => {
-      console.log("Unmounting");
       setSelectedBook({
         message: "Removed selected book",
         selectedBook: {},
@@ -56,20 +55,13 @@ const BookResultPage = ({
 
   useEffect(() => {
     if (!firstRender) {
-      console.log(
-        "Either a book was selected or there is no book data anywhere"
-      );
       if (isEmpty(selectedBook)) {
-        console.log(`No book with id: ${bookId}`);
         navigate("error-404", { replace: true });
       } else {
-        console.log("Book exists, now we check if its in the favorites");
-
         favorites.find((book) => book.googleBooksId === bookId) &&
           setIsFavorited(true);
       }
     } else {
-      console.log("First render, so skip until next call");
     }
   }, [firstRender]);
 
@@ -85,13 +77,9 @@ const BookResultPage = ({
   useEffect(() => {
     const asyncEffect = async () => {
       if (isEmpty(searchResults)) {
-        console.log("No search data, manually fetch for book data");
         const inputData = { data: JSON.stringify({ googleBooksId: bookId }) };
         await searchBookById(inputData);
       } else {
-        console.log(
-          "There is search data, try to find the book by ID in search data."
-        );
         const book = searchResults.find(
           (book) => book.googleBooksId === bookId
         );

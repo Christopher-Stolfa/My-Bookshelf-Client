@@ -32,11 +32,8 @@ const LibaryImage = styled("img")(({ theme }) => ({
 
 const HomePage = ({ getRandomQuote, selectedQuote, isLoading, user }) => {
   useEffect(() => {
-    console.log("Component Mounted");
     getRandomQuote();
-    return () => {
-      console.log("Component unmounted");
-    };
+    return () => {};
   }, []);
 
   return (
