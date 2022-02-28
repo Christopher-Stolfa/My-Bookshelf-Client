@@ -4,7 +4,7 @@ import { endPoints, controllers } from "../config";
 const searchBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.searchBook}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.searchBook}`,
     { params: inputData }
   );
 };
@@ -12,7 +12,7 @@ const searchBook = async (inputData) => {
 const searchBookById = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.searchBookById}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.searchBookById}`,
     { params: inputData }
   );
 };
@@ -20,14 +20,14 @@ const searchBookById = async (inputData) => {
 const getFavoritedBooks = async () => {
   Axios.defaults.withCredentials = true;
   return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.getFavoritedBooks}`
+    `${process.env.API_URI}/${controllers.books}/${endPoints.getFavoritedBooks}`
   );
 };
 
 const getFavoritedBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.getFavoritedBook}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.getFavoritedBook}`,
     { params: inputData }
   );
 };
@@ -35,7 +35,7 @@ const getFavoritedBook = async (inputData) => {
 const saveFavoritedBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.saveFavoritedBook}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.saveFavoritedBook}`,
     inputData
   );
 };
@@ -43,7 +43,7 @@ const saveFavoritedBook = async (inputData) => {
 const removeFavoritedBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.delete(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.removeFavoritedBook}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.removeFavoritedBook}`,
     inputData
   );
 };
@@ -51,7 +51,7 @@ const removeFavoritedBook = async (inputData) => {
 const toggleReadingBook = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.put(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.toggleReadingBook}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.toggleReadingBook}`,
     inputData
   );
 };
@@ -59,7 +59,7 @@ const toggleReadingBook = async (inputData) => {
 const setBookProgress = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.put(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.setBookProgress}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.setBookProgress}`,
     inputData
   );
 };
@@ -67,7 +67,7 @@ const setBookProgress = async (inputData) => {
 const saveNote = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.post(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.saveNote}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.saveNote}`,
     inputData
   );
 };
@@ -75,7 +75,7 @@ const saveNote = async (inputData) => {
 const editNote = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.put(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.editNote}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.editNote}`,
     inputData
   );
 };
@@ -83,7 +83,7 @@ const editNote = async (inputData) => {
 const deleteNote = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.delete(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.deleteNote}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.deleteNote}`,
     inputData
   );
 };
@@ -91,7 +91,7 @@ const deleteNote = async (inputData) => {
 const getNotes = async (inputData) => {
   Axios.defaults.withCredentials = true;
   return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.books}/${endPoints.getNotes}`,
+    `${process.env.API_URI}/${controllers.books}/${endPoints.getNotes}`,
     { params: inputData }
   );
 };
