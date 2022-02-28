@@ -13,6 +13,7 @@ import {
   MenuList,
   MenuItem,
   useMediaQuery,
+  Icon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +21,14 @@ import { connect } from "react-redux";
 import { getUserSelector } from "../../selectors/userSelectors";
 import { userActions } from "../../actions/userActions";
 import { routes } from "../../config";
+
+const LogoSrc = `${process.env.PUBLIC_URL}/logo.svg`;
+
+const LogoIcon = () => (
+  <Icon sx={{ mr: "10px" }}>
+    <img src={LogoSrc} height="25px" width="25px" />
+  </Icon>
+);
 
 const Navigation = ({ user: { loggedIn }, signOut }) => {
   const navigate = useNavigate();
@@ -75,6 +84,7 @@ const Navigation = ({ user: { loggedIn }, signOut }) => {
   return (
     <AppBar>
       <Toolbar sx={{ display: "flex" }}>
+        <LogoIcon />
         {isMobile ? (
           <Stack direction="row" spacing={2}>
             <Button
