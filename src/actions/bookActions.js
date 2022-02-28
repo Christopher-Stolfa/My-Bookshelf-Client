@@ -286,13 +286,19 @@ const setInitialNotesState = () => (dispatch) =>
  * Sets the state of searchResults to an empty array.
  */
 const setInitialSearchState = () => (dispatch) =>
-  dispatch({ type: bookTypes.SET_SEARCH_INITIAL_STATE, payload: {} });
+  dispatch({ type: bookTypes.SET_SEARCH_INITIAL_STATE });
 
 /**
  * Sets the state of selectedBook to an empty object.
  */
 const setInitialSelectedBookState = () => (dispatch) =>
-  dispatch({ type: bookTypes.SET_SELECTED_BOOK_INITIAL_STATE, payload: {} });
+  dispatch({ type: bookTypes.SET_SELECTED_BOOK_INITIAL_STATE });
+
+/**
+ * Sets the state of favorites to an empty array.
+ */
+const setInitialFavoritesState = () => (dispatch) =>
+  dispatch({ type: bookTypes.SET_FAVORITES_INITIAL_STATE });
 
 export const bookActions = {
   saveFavoritedBook,
@@ -312,4 +318,5 @@ export const bookActions = {
   getNotes,
   setInitialNotesState,
   setInitialSelectedBookState,
+  setInitialFavoritesState,
 };
