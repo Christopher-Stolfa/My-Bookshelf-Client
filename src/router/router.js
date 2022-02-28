@@ -32,7 +32,12 @@ import ResetPasswordPage from "../pages/ResetPasswordPage/ResetPasswordPage";
 import AccountPage from "../pages/AccountPage/AccountPage";
 import AboutPage from "../pages/AboutPage/AboutPage";
 
-const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
+const RouterComponent = ({
+  setInitialFavoritesState,
+  getUserSession,
+  getFavorites,
+  user,
+}) => {
   const [firstRender, setFirstRender] = useState(true);
 
   useEffect(() => {
@@ -45,7 +50,11 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
   }, [getUserSession]);
 
   useEffect(() => {
-    user.loggedIn && getFavorites();
+    if (user.loggedIn) {
+      getFavorites();
+    } else {
+      setInitialFavoritesState();
+    }
   }, [user]);
 
   return (
@@ -103,20 +112,21 @@ const RouterComponent = ({ getUserSession, getFavorites, isLoading, user }) => {
 
 RouterComponent.propTypes = {
   getUserSession: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  getFavorites: PropTypes.func.isRequired,
+  setInitialFavoritesState: PropTypes.func.isRequired,
   user: PropTypes.shape({
     loggedIn: PropTypes.bool,
   }),
 };
 
 const mapStateToProps = (state) => ({
-  isLoading: checkIfLoading(state, userTypes.GET_SESSION_FETCH),
   user: getUserSelector(state),
 });
 
 const actionCreators = {
   getUserSession: userActions.getUserSession,
   getFavorites: bookActions.getFavoritedBooks,
+  setInitialFavoritesState: bookActions.setInitialFavoritesState,
 };
 
 export default connect(mapStateToProps, actionCreators)(RouterComponent);
