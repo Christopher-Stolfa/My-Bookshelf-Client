@@ -85,7 +85,6 @@ const AboutPage = (props) => {
         </Box>
         <Box
           sx={{
-            marginTop: 4,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
