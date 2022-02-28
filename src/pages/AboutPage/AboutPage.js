@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Typography, Box, Link, styled } from "@mui/material";
+const headerImageSrc = `${process.env.PUBLIC_URL}/keyboard-cat.jpg`;
 
 const HeaderImage = styled("img")(({ theme }) => ({
   minHeight: "200px",
@@ -23,7 +24,7 @@ const AboutPage = (props) => {
           alignItems: "center",
         }}
       >
-        <HeaderImage src={`${process.env.PUBLIC_URL}/keyboard-cat.jpg`} />
+        <HeaderImage src={headerImageSrc} />
         <Typography
           align="left"
           variant="caption"
