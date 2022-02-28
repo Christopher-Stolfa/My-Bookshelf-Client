@@ -51,6 +51,9 @@ const SET_BOOK_PROGRESS_SUCCESS = "SET_BOOK_PROGRESS_SUCCESS";
 // Set sorted favorites to state
 const SET_SORTED_FAVORITES = "SET_SORTED_FAVORITES";
 
+// Set favorites list to its default initial state
+const SET_FAVORITES_INITIAL_STATE = "SET_FAVORITES_INITIAL_STATE";
+
 // Search results types
 // Set sorted search results to state
 const SET_SORTED_SEARCH_RESULTS = "SET_SORTED_SEARCH_RESULTS";
@@ -123,4 +126,5 @@ export const bookTypes = {
   GET_NOTES_SUCCESS,
   SET_NOTES_INITIAL_STATE,
   SET_SELECTED_BOOK_INITIAL_STATE,
+  SET_FAVORITES_INITIAL_STATE,
 };
