@@ -4,7 +4,7 @@ import { endPoints, controllers } from "../config";
 const fetchRandomQuote = async () => {
   Axios.defaults.withCredentials = true;
   return await Axios.get(
-    `${process.env.API_URI}/${controllers.quotes}/${endPoints.getRandomQuote}`
+    `${process.env.REACT_APP_API_URI}/${controllers.quotes}/${endPoints.getRandomQuote}`
   );
 };
 
