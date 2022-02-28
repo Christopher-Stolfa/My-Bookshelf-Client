@@ -9,6 +9,11 @@ const initialState = {
 
 const bookReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case bookTypes.SET_FAVORITES_INITIAL_STATE:
+      return {
+        ...state,
+        favorites: [],
+      };
     case bookTypes.GET_FAVORITED_BOOKS_SUCCESS:
       return {
         ...state,
