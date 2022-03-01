@@ -1,12 +1,10 @@
-import Axios from "axios";
+import axios from "../helpers/axiosConfig";
 import { endPoints, controllers } from "../config";
 
-const fetchRandomQuote = async () => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.quotes}/${endPoints.getRandomQuote}`
+const fetchRandomQuote = async () => axios.get(
+    `${controllers.quotes}/${endPoints.getRandomQuote}`
   );
-};
+
 
 export const quoteService = {
   fetchRandomQuote,

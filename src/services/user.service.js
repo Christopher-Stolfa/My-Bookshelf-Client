@@ -1,67 +1,51 @@
-import Axios from "axios";
+import axios from "../helpers/axiosConfig";
 import { endPoints, controllers } from "../config";
 
-const signIn = async (inputData) => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.post(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signIn}`,
+const signIn = async (inputData) => axios.post(
+    `${controllers.users}/${endPoints.signIn}`,
     inputData
   );
-};
 
-const signUp = async (inputData) => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.post(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signUp}`,
+
+const signUp = async (inputData) => axios.post(
+    `${controllers.users}/${endPoints.signUp}`,
     inputData
   );
-};
 
-const signOut = async () => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.post(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.signOut}`
+
+const signOut = async () => axios.post(
+    `${controllers.users}/${endPoints.signOut}`
   );
-};
 
-const getSession = async () => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.checkSession}`
+
+const getSession = async () => axios.get(
+    `${controllers.users}/${endPoints.checkSession}`
   );
-};
 
-const sendPasswordReset = async (inputData) => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.post(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.forgotPassword}`,
+
+const sendPasswordReset = async (inputData) => axios.post(
+    `${controllers.users}/${endPoints.forgotPassword}`,
     inputData
   );
-};
 
-const checkResetToken = async (inputData) => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.get(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.checkResetToken}`,
+
+const checkResetToken = async (inputData) => axios.get(
+    `${controllers.users}/${endPoints.checkResetToken}`,
     inputData
   );
-};
 
-const updatePasswordWithToken = async (inputData) => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.put(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.updatePasswordWithToken}`,
+
+const updatePasswordWithToken = async (inputData) => axios.put(
+    `${controllers.users}/${endPoints.updatePasswordWithToken}`,
     inputData
   );
-};
 
-const updatePassword = async (inputData) => {
-  Axios.defaults.withCredentials = true;
-  return await Axios.put(
-    `${process.env.REACT_APP_API_URI}/${controllers.users}/${endPoints.updatePassword}`,
+
+const updatePassword = async (inputData) => axios.put(
+    `${controllers.users}/${endPoints.updatePassword}`,
     inputData
   );
-};
+
 
 export const userService = {
   signOut,
