@@ -32,7 +32,7 @@
     "build": "react-scripts --max_old_space_size=1024 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "move-build": "cp -r build/* /var/www/netflix/client",
+    "move-build": "cp -r build/* /var/www/my-bookshelf/client",
     "madge": "madge  --image ./madge-graph.svg --extensions js,jsx,ts,tsx --circular ."
   },
   "devServer": {
