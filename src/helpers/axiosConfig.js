@@ -4,6 +4,7 @@ import Axios from "axios";
 const axios = Axios.create({
   // .. where we make our configurations
   baseURL: process.env.REACT_APP_API_URL,
+  withCredentials: true,
 });
 
 Axios.defaults.withCredentials = true;
