@@ -28,13 +28,7 @@ const SignInPage = ({ user: { loggedIn }, signIn }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const inputData = {
-      data: JSON.stringify({
-        email: formData.get("email"),
-        password: formData.get("password"),
-      }),
-    };
-    signIn(inputData);
+    signIn(formData);
   };
 
   return (
