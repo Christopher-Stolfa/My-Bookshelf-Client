@@ -58,7 +58,7 @@ const RouterComponent = ({
   }, [user]);
 
   return (
-    <Router basename={process.env.REACT_APP_BASENAME || null}>
+    <Router>
       {!firstRender && (
         <ElevateAppBar>
           <Routes>
