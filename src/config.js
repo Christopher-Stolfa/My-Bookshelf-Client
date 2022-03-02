@@ -3,9 +3,9 @@ export const LOCAL_STORAGE_KEY = "user-data";
 
 // API controller names
 export const controllers = {
-  users: "api/users",
-  books: "api/books",
-  quotes: "api/quotes",
+  users: "/users",
+  books: "/books",
+  quotes: "/quotes",
 };
 
 // API endpoints
