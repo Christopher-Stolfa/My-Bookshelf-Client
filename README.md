@@ -3,7 +3,6 @@
 [![Issues][issues-shield]][issues-url]
 [![GNU-V3 License][license-shield]][license-url]
 
-<<<<<<< HEAD
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -83,6 +82,3 @@ This section should list any major frameworks/libraries used to bootstrap your p
 [license-shield]: https://img.shields.io/github/license/Christopher-Stolfa/My-Bookshelf-Client
 [home-screenshot]: images/home-screenshot.png
 [signin-screenshot]: images/signin-screenshot.png
-=======
-This project is a social platform for searching and sharing information on books.
->>>>>>> f97411adabebf5760ede1e936ff34fc9a080469c
