@@ -75,7 +75,7 @@ const AboutPage = (props) => {
             gutterBottom
             sx={{ textIndent: "1em" }}
           >
-            Inspired by websites such as goodreads.com, I decided to build
+            Inspired by websites such as goodreads.com, I decided to build 
             <strong>My Bookshelf</strong> as a tool to keep track of all the
             books that I'm currently reading, and to sharpen my skills as a
             developer and showcase them.
