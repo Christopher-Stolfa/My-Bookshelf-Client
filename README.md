@@ -80,5 +80,5 @@ This section should list any major frameworks/libraries used to bootstrap your p
 [issues-shield]: https://img.shields.io/github/issues/Christopher-Stolfa/My-Bookshelf-Client
 [license-url]: https://github.com/Christopher-Stolfa/My-Bookshelf-Client/blob/main/LICENSE
 [license-shield]: https://img.shields.io/github/license/Christopher-Stolfa/My-Bookshelf-Client
-[home-screenshot]: images/screenshot.svg
+[home-screenshot]: images/home-screenshot.png
 [signin-screenshot]: images/signin-screenshot.png
