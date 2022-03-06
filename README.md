@@ -55,20 +55,16 @@
 
 [![Home Page Screen Shot][home-screenshot]](https://my-bookshelf-app.site)
 
-Features:
-* ---
-* ---
-* ---
+My Bookshelf is an application that lets you search for books by title, category, author, or publisher. You can create an account and save books you're interested in or currently reading to a list of favorites. Once a book is saved to your favorites, you can toggle whether or not you are currently reading the book, track your progress, and save notes on the page of your favorited book.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
 * [React.js](https://reactjs.org/)
 * [Redux.js](https://redux.js.org/)
 * [Material](https://mui.com/)
+* [Express](https://expressjs.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
