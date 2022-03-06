@@ -5,15 +5,15 @@ const headerImageSrc = `${process.env.PUBLIC_URL}/keyboard-cat.jpg`;
 const HeaderImage = styled("img")(({ theme }) => ({
   minHeight: "200px",
   width: "200px",
-  borderRadius: "5px"
+  borderRadius: "5px",
 }));
 
 const Icon = styled("img")(({ theme }) => ({
   height: "25px",
-  width: "25px"
+  width: "25px",
 }));
 
-const AboutPage = props => {
+const AboutPage = (props) => {
   return (
     <Container maxWidth="sm">
       <Box
@@ -21,7 +21,7 @@ const AboutPage = props => {
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <HeaderImage src={headerImageSrc} />
@@ -38,7 +38,7 @@ const AboutPage = props => {
             marginTop: 4,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Typography
@@ -75,19 +75,17 @@ const AboutPage = props => {
             gutterBottom
             sx={{ textIndent: "1em" }}
           >
-            I am an avid reader and enjoy all kinds of material ranging from
-            fantasy novels, new york times best sellers, and especially books
-            that teach me new skills. Inspired by websites such as
-            goodreads.com, I decided to build <strong>My Bookshelf</strong> as a
-            tool to keep track of all the books that I'm currently reading, and
-            to sharpen my skills as a developer.
+            Inspired by websites such as goodreads.com, I decided to build
+            <strong>My Bookshelf</strong> as a tool to keep track of all the
+            books that I'm currently reading, and to sharpen my skills as a
+            developer and showcase them.
           </Typography>
         </Box>
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Box>
