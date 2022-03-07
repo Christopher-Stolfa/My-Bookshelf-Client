@@ -131,7 +131,6 @@ Distributed under the GNU-V3 License. See `LICENSE.txt` for more information.
 
 LinkedIn - [@Chris Stolfa](https://www.linkedin.com/in/christopher-stolfa-49a4a0178/) - xcstolfax@gmail.com
 
-Frontend - [https://github.com/Christopher-Stolfa/My-Bookshelf-Client](https://github.com/Christopher-Stolfa/My-Bookshelf-Client)
 Backend - [https://github.com/Christopher-Stolfa/My-Bookshelf-Api](https://github.com/Christopher-Stolfa/My-Bookshelf-Api)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
