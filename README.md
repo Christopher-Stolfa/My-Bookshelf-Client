@@ -91,8 +91,6 @@ From the results page, you can scroll through a list of books relating to your s
 
 ### Favorites
 
-![Favorites Page Screen Shots][results-screenshot]
-
 From the results page, you can scroll through a list of books relating to your search term. If you are signed in, you can press the heart icon to add or remove a book to or from your favorites list.
 
 ![Favorite Page Screen Shot][editnotes-screenshot]
