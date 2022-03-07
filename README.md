@@ -75,7 +75,7 @@ Here is a list of features including screenshots.
 
 ### Home
 
-[Home Page Screen Shot][home-screenshot]
+![Home Page Screen Shot][home-screenshot]
 
 From the home page, you can use the search bar to search for a book. Every time a user visits the home page, a random inspirational quote is rendered.
 
@@ -83,7 +83,7 @@ From the home page, you can use the search bar to search for a book. Every time 
 
 ### Results
 
-[![Results Page Screen Shot][results-screenshot]]
+![Results Page Screen Shot][results-screenshot]
 
 From the results page, you can scroll through a list of books relating to your search term. If you have an account and are logged in, you can press the heart icon to add or a remove the book to or from your favorites list.
 
@@ -91,11 +91,11 @@ From the results page, you can scroll through a list of books relating to your s
 
 ### Favorites
 
-[![Favorites Page Screen Shots][results-screenshot]]
+![Favorites Page Screen Shots][results-screenshot]
 
 From the results page, you can scroll through a list of books relating to your search term. If you are signed in, you can press the heart icon to add or remove a book to or from your favorites list.
 
-[![Favorite Page Screen Shot][editnotes-screenshot]]
+![Favorite Page Screen Shot][editnotes-screenshot]
 
 Selecting a book from your favorites list will bring you to a page where you can set its reading status and progress. You can also write, edit, and delete notes that are associated with the book, which are sorted in descending order by date.
 
