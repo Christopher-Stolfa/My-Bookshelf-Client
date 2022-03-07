@@ -75,7 +75,7 @@ Here is a list of features including screenshots.
 
 ### Home
 
-[![Home Page Screen Shot][home-screenshot]]
+[Home Page Screen Shot][home-screenshot]
 
 From the home page, you can use the search bar to search for a book. Every time a user visits the home page, a random inspirational quote is rendered.
 
