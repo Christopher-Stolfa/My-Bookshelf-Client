@@ -47,16 +47,7 @@ const SignUpPage = ({ user: { loggedIn }, signUp }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const inputData = {
-      data: JSON.stringify({
-        email: formData.get("email"),
-        password,
-        firstName: formData.get("firstName"),
-        lastName: formData.get("lastName"),
-        displayName: formData.get("displayName"),
-      }),
-    };
-    signUp(inputData);
+    signUp(formData);
   };
 
   return (
